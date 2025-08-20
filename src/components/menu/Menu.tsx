@@ -13,7 +13,8 @@ export type MenuVars = {
   menuSelectedColor?: string;
   menuRadius?: string;
   menuItemPadding?: string; // e.g. '8px 12px'
-  menuGap?: string;          // horizontal gap
+  menuGap?: string;          // horizontal gap between items
+  menuLabelGap?: string;     // gap between icon and text inside a menu item
 };
 
 export type MenuProps = {
@@ -48,6 +49,8 @@ function ensureBaseStyle(prefix: string) {
   .${prefix}-menu{list-style:none;margin:0;padding:0;color:var(--menu-color, #cfe1ff);}
   .${prefix}-menu-horizontal{display:flex;align-items:center;gap:var(--menu-gap,12px);}
   .${prefix}-menu > li > div{padding:var(--menu-item-padding,8px 12px);border-radius:var(--menu-radius,10px);}
+  .${prefix}-menu > li > div > span{display:inline-flex;align-items:center;gap:var(--menu-label-gap,8px);}
+  .${prefix}-menu .nav{display:inline-flex;align-items:center;gap:var(--menu-label-gap,8px);}
   .${prefix}-menu > li:hover > div{background:var(--menu-hover-bg, rgba(90,162,255,.10));}
   .${prefix}-menu .${prefix}-menu-item-selected > div{background:var(--menu-selected-bg, linear-gradient(180deg, rgba(39,224,255,.10), rgba(90,162,255,.08)));}
   .${prefix}-menu .${prefix}-menu-item-selected > div{box-shadow:0 0 0 1px rgba(39,224,255,.16), 0 6px 20px rgba(25,34,83,.35);}
@@ -86,6 +89,7 @@ export function Menu({ items, mode='vertical', trigger='click', selectedKeys=[],
     ...(vars?.menuHoverBg ? ({ ['--menu-hover-bg' as any]: vars.menuHoverBg } as any) : {}),
     ...(vars?.menuSelectedBg ? ({ ['--menu-selected-bg' as any]: vars.menuSelectedBg } as any) : {}),
     ...(vars?.menuSelectedColor ? ({ ['--menu-selected-color' as any]: vars.menuSelectedColor } as any) : {}),
+    ...(vars?.menuLabelGap ? ({ ['--menu-label-gap' as any]: vars.menuLabelGap } as any) : {}),
     ...style,
   };
 

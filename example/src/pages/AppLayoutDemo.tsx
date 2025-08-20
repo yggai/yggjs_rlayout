@@ -95,7 +95,7 @@ export default function AppLayoutDemo(){
             </div>
 
             <div style={{ flex:1, minWidth:0 }}>
-              <Menu mode="horizontal" items={topItems} selectedKeys={[selectedTop]} vars={{ menuItemPadding:'6px 10px', menuGap:'14px', menuRadius:'8px' }} />
+              <Menu mode="horizontal" items={topItems} selectedKeys={[selectedTop]} vars={{ menuItemPadding:'6px 10px', menuGap:'14px', menuRadius:'8px', menuLabelGap:'8px' }} />
             </div>
 
             <div className="tech-actions" style={{ marginLeft:'auto' }}>
@@ -112,7 +112,7 @@ export default function AppLayoutDemo(){
       {/* Fixed Sidebar */}
       <Sidebar fixed width={sideW} className={`tech-sidebar ${collapsed ? 'collapsed' : ''}`} style={{ background:'linear-gradient(180deg, rgba(39,224,255,.06), rgba(90,162,255,.04))', top:56 }}>
         <div style={{ padding:8 }}>
-          <Menu items={sideItems} selectedKeys={[selectedSide]} />
+          <Menu items={sideItems} selectedKeys={[selectedSide]} vars={{ menuLabelGap:'10px' }} />
         </div>
       </Sidebar>
 
