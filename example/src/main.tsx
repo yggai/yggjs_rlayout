@@ -9,6 +9,9 @@ import FlexDemo from './pages/FlexDemo';
 import CssGridDemo from './pages/CssGridDemo';
 import ContainerDemo from './pages/ContainerDemo';
 import MenuDemo from './pages/MenuDemo';
+import HeaderDemo from './pages/HeaderDemo';
+import SidebarDemo from './pages/SidebarDemo';
+import AppLayoutDemo from './pages/AppLayoutDemo';
 import './styles.css';
 
 const root = createRoot(document.getElementById('root')!);
@@ -24,6 +27,9 @@ root.render(
         <Route path="/css-grid" element={<CssGridDemo />} />
         <Route path="/container" element={<ContainerDemo />} />
         <Route path="/menu" element={<MenuDemo />} />
+        <Route path="/header" element={<HeaderDemo />} />
+        <Route path="/sidebar" element={<SidebarDemo />} />
+        <Route path="/app-layout" element={<AppLayoutDemo />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

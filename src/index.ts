@@ -6,4 +6,6 @@ export { Grid } from './components/cssgrid';
 export { Container } from './components/container';
 export { Menu } from './components/menu';
 export type { MenuItem, MenuMode, MenuProps } from './components/menu';
+export { Header } from './components/header';
+export { Sidebar } from './components/sidebar';
 

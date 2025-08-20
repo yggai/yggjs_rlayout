@@ -3,6 +3,19 @@ import React from 'react';
 export type MenuMode = 'horizontal' | 'vertical' | 'inline';
 export type MenuItem = { key: string; label: React.ReactNode; disabled?: boolean; children?: MenuItem[] };
 
+export type MenuBaseStyle = 'none' | 'soft';
+export type MenuVars = {
+  menuBg?: string;
+  menuColor?: string;
+  menuMuted?: string;
+  menuHoverBg?: string;
+  menuSelectedBg?: string;
+  menuSelectedColor?: string;
+  menuRadius?: string;
+  menuItemPadding?: string; // e.g. '8px 12px'
+  menuGap?: string;          // horizontal gap
+};
+
 export type MenuProps = {
   items: MenuItem[];
   mode?: MenuMode;
@@ -13,16 +26,39 @@ export type MenuProps = {
   onOpenChange?: (keys: string[]) => void;
   onSelect?: (info: { key: string }) => void;
   prefixCls?: string;
+  baseStyle?: MenuBaseStyle; // inject minimal default CSS
+  vars?: MenuVars;           // CSS variables overrides applied on root
   className?: string;
   style?: React.CSSProperties;
   'data-testid'?: string;
 };
 
-export function Menu({ items, mode='vertical', trigger='click', selectedKeys=[], openKeys, defaultOpenKeys=[], onOpenChange, onSelect, prefixCls='ygg', className, style, 'data-testid': dataTestId }: MenuProps) {
+function ensureBaseStyle(prefix: string) {
+  if (typeof document === 'undefined') return;
+  const id = `${prefix}-menu-base-style`;
+  if (document.getElementById(id)) return;
+  const css = `
+  .${prefix}-menu{list-style:none;margin:0;padding:0;color:var(--menu-color, #cfe1ff);}
+  .${prefix}-menu-horizontal{display:flex;align-items:center;gap:var(--menu-gap,12px);}
+  .${prefix}-menu > li > div{padding:var(--menu-item-padding,8px 12px);border-radius:var(--menu-radius,10px);}
+  .${prefix}-menu > li:hover > div{background:var(--menu-hover-bg, rgba(90,162,255,.10));}
+  .${prefix}-menu .${prefix}-menu-item-selected > div{background:var(--menu-selected-bg, linear-gradient(180deg, rgba(39,224,255,.10), rgba(90,162,255,.08)));}
+  .${prefix}-menu .${prefix}-menu-item-selected > div{box-shadow:0 0 0 1px rgba(39,224,255,.16), 0 6px 20px rgba(25,34,83,.35);}
+  .${prefix}-menu .${prefix}-menu-item-disabled > div{opacity:.5;cursor:not-allowed;}
+  .${prefix}-submenu > ul{list-style:none;margin:6px 0 0;padding-left:16px;}
+  `;
+  const style = document.createElement('style');
+  style.id = id;
+  style.textContent = css;
+  document.head.appendChild(style);
+}
+
+export function Menu({ items, mode='vertical', trigger='click', selectedKeys=[], openKeys, defaultOpenKeys=[], onOpenChange, onSelect, prefixCls='ygg', baseStyle='soft', vars, className, style, 'data-testid': dataTestId }: MenuProps) {
   const isHorizontal = mode === 'horizontal';
   const isInline = mode === 'inline';
   const [innerOpen, setInnerOpen] = React.useState<string[]>(defaultOpenKeys);
   const mergedOpen = openKeys ?? innerOpen;
+  if (baseStyle !== 'none') ensureBaseStyle(prefixCls);
 
   const setOpen = (keys: string[]) => {
     if (onOpenChange) onOpenChange(keys);
@@ -35,6 +71,14 @@ export function Menu({ items, mode='vertical', trigger='click', selectedKeys=[],
     listStyle: 'none',
     margin: 0,
     padding: 0,
+    background: vars?.menuBg,
+    color: vars?.menuColor,
+    ...(vars?.menuGap ? ({ ['--menu-gap' as any]: vars.menuGap } as any) : {}),
+    ...(vars?.menuItemPadding ? ({ ['--menu-item-padding' as any]: vars.menuItemPadding } as any) : {}),
+    ...(vars?.menuRadius ? ({ ['--menu-radius' as any]: vars.menuRadius } as any) : {}),
+    ...(vars?.menuHoverBg ? ({ ['--menu-hover-bg' as any]: vars.menuHoverBg } as any) : {}),
+    ...(vars?.menuSelectedBg ? ({ ['--menu-selected-bg' as any]: vars.menuSelectedBg } as any) : {}),
+    ...(vars?.menuSelectedColor ? ({ ['--menu-selected-color' as any]: vars.menuSelectedColor } as any) : {}),
     ...style,
   };
 
