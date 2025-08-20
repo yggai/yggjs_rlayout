@@ -162,6 +162,7 @@ export default function SearchDemo() {
                 size="large"
                 variant="outlined"
                 showSearchIcon={true}
+                searchButton={false}
                 allowClear={true}
                 loading={isSearching}
                 style={{ width: '100%' }}
@@ -191,13 +192,17 @@ export default function SearchDemo() {
                   size="medium"
                   variant="ghost"
                   showSearchIcon={true}
+                  searchButton={false}
                   allowClear={true}
                   style={{
                     width: '100%',
                     background: 'rgba(255, 255, 255, 0.1)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
-                    color: '#f9fafb'
-                  }}
+                    color: '#f9fafb',
+                    '--search-icon-color': '#f9fafb',
+                    '--search-icon-hover-color': '#60a5fa',
+                    '--search-icon-hover-bg': 'rgba(96, 165, 250, 0.2)'
+                  } as React.CSSProperties}
                   inputStyle={{ color: '#f9fafb' }}
                   onSearch={(value) => alert(`深色主题搜索: ${value}`)}
                 />
@@ -211,6 +216,7 @@ export default function SearchDemo() {
                 size="medium"
                 variant="filled"
                 showSearchIcon={true}
+                searchButton={false}
                 allowClear={true}
                 prefix={<Icon d={paths.user} size={16} />}
                 style={{ width: '100%' }}
@@ -224,6 +230,7 @@ export default function SearchDemo() {
                 size="small"
                 variant="outlined"
                 showSearchIcon={true}
+                searchButton={false}
                 allowClear={true}
                 style={{ width: '300px' }}
                 onSearch={(value) => alert(`快速搜索: ${value}`)}

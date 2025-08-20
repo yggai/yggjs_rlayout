@@ -226,26 +226,27 @@ export function Search({
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        color: #6b7280;
+        color: var(--search-icon-color, #6b7280);
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         padding: 6px;
         border-radius: 8px;
-        opacity: 0.8;
+        opacity: 0.9;
         user-select: none;
         position: relative;
+        flex-shrink: 0;
       }
 
       .${prefixCls}-search-icon:hover {
-        color: #3b82f6;
-        background: rgba(59, 130, 246, 0.12);
+        color: var(--search-icon-hover-color, #3b82f6);
+        background: var(--search-icon-hover-bg, rgba(59, 130, 246, 0.12));
         opacity: 1;
-        transform: scale(1.1);
-        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        transform: scale(1.05);
+        box-shadow: 0 2px 8px var(--search-icon-hover-color, rgba(59, 130, 246, 0.2));
       }
 
       .${prefixCls}-search-icon:active {
         transform: scale(0.95);
-        background: rgba(59, 130, 246, 0.2);
+        background: var(--search-icon-active-bg, rgba(59, 130, 246, 0.2));
       }
 
       .${prefixCls}-search-icon:disabled {

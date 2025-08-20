@@ -103,13 +103,18 @@ export default function AppLayoutDemo(){
                 size="medium"
                 variant="ghost"
                 showSearchIcon={true}
+                searchButton={false}
                 allowClear={true}
                 style={{
                   background: 'rgba(11, 20, 48, 0.8)',
                   border: '1px solid var(--border)',
                   color: '#cfe1ff',
-                  width: '280px'
-                }}
+                  width: '280px',
+                  '--search-icon-color': '#cfe1ff',
+                  '--search-icon-hover-color': '#27e0ff',
+                  '--search-icon-hover-bg': 'rgba(39, 224, 255, 0.15)',
+                  '--search-icon-active-bg': 'rgba(39, 224, 255, 0.25)'
+                } as React.CSSProperties}
                 inputStyle={{ color: '#cfe1ff' }}
                 onSearch={(value: string) => {
                   console.log('Search:', value);
