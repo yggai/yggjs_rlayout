@@ -17,7 +17,7 @@ import './styles.css';
 const root = createRoot(document.getElementById('root')!);
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/layout" element={<LayoutDemo />} />

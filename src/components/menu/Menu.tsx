@@ -38,6 +38,13 @@ function ensureBaseStyle(prefix: string) {
   const id = `${prefix}-menu-base-style`;
   if (document.getElementById(id)) return;
   const css = `
+  /* Scoped CSS reset for Menu */
+  .${prefix}-menu, .${prefix}-menu ul, .${prefix}-menu li, .${prefix}-menu a,
+  .${prefix}-menu div, .${prefix}-menu span, .${prefix}-menu svg{
+    margin:0; padding:0; border:0; background:none; list-style:none; box-sizing:border-box;
+  }
+  .${prefix}-menu a{ color:inherit; text-decoration:none; }
+
   .${prefix}-menu{list-style:none;margin:0;padding:0;color:var(--menu-color, #cfe1ff);}
   .${prefix}-menu-horizontal{display:flex;align-items:center;gap:var(--menu-gap,12px);}
   .${prefix}-menu > li > div{padding:var(--menu-item-padding,8px 12px);border-radius:var(--menu-radius,10px);}

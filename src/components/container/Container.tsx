@@ -24,6 +24,7 @@ export function Container({ variant='fixed', breakpoint='md', maxWidth=1200, pad
   const isFixed = variant === 'fixed' || (variant === 'responsive' && isAtOrAbove(bp, breakpoint));
 
   const styles: React.CSSProperties = {
+    boxSizing: 'border-box',
     width: '100%',
     maxWidth: isFixed ? (typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth) : undefined,
     marginLeft: isFixed ? 'auto' : undefined,

@@ -17,9 +17,12 @@ export function Header({ as='header', sticky=false, fixed=false, top=0, height, 
   const styles: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
+    boxSizing: 'border-box',
     width: fixed ? '100%' : undefined,
     position: sticky ? 'sticky' : fixed ? 'fixed' : undefined,
     top: sticky || fixed ? `${top}px` : undefined,
+    left: fixed ? 0 : undefined,
+    right: fixed ? 0 : undefined,
     height: height !== undefined ? `${height}px` : undefined,
     ...style,
   };
