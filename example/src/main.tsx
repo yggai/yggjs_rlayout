@@ -8,6 +8,7 @@ import GridConfigDemo from './pages/GridConfigDemo';
 import FlexDemo from './pages/FlexDemo';
 import CssGridDemo from './pages/CssGridDemo';
 import ContainerDemo from './pages/ContainerDemo';
+import MenuDemo from './pages/MenuDemo';
 import './styles.css';
 
 const root = createRoot(document.getElementById('root')!);
@@ -22,6 +23,7 @@ root.render(
         <Route path="/flex" element={<FlexDemo />} />
         <Route path="/css-grid" element={<CssGridDemo />} />
         <Route path="/container" element={<ContainerDemo />} />
+        <Route path="/menu" element={<MenuDemo />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
