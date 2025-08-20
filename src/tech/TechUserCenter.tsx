@@ -211,12 +211,12 @@ export function TechUserCenter({
           background: var(--tech-panel);
           border: 1px solid var(--tech-border);
           border-radius: 12px;
-          box-shadow: 
+          box-shadow:
             0 10px 25px rgba(0, 0, 0, 0.3),
             0 0 0 1px rgba(255, 255, 255, 0.05),
             inset 0 1px 0 rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
-          z-index: 1000;
+          z-index: 10000;
           opacity: 0;
           transform: translateY(-10px) scale(0.95);
           transition: all 0.2s ease;

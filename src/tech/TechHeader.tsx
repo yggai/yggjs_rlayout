@@ -41,6 +41,7 @@ export function TechHeader({
           backdrop-filter: var(--tech-backdrop);
           border-bottom: 1px solid var(--tech-border);
           background: rgba(13, 18, 40, 0.8);
+          z-index: 1000;
         }
         
         .tech-header .tech-brand {
