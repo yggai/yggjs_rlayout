@@ -34,38 +34,24 @@ export function TechSidebar({
           height: calc(100vh - ${headerHeight}px);
           border-right: 1px solid var(--tech-border);
           box-shadow: inset -1px 0 0 var(--tech-border);
-          overflow: auto;
+          overflow-y: auto;
+          overflow-x: hidden;
           background: linear-gradient(180deg, rgba(39,224,255,.06), rgba(90,162,255,.04));
+          position: fixed;
+          top: ${headerHeight}px;
+          left: 0;
+          z-index: 100;
         }
         
         .tech-sidebar .ygg-menu {
           padding: 8px;
         }
-        
-        .tech-sidebar::-webkit-scrollbar {
-          width: 4px;
-        }
-        
-        .tech-sidebar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        
-        .tech-sidebar::-webkit-scrollbar-thumb {
-          background: var(--tech-border);
-          border-radius: 2px;
-        }
-        
-        .tech-sidebar::-webkit-scrollbar-thumb:hover {
-          background: var(--tech-muted);
-        }
       `}</style>
       
-      <Sidebar
-        fixed
-        width={sidebarWidth}
-        className={`tech-sidebar ${collapsed ? 'collapsed' : ''} ${className}`}
+      <div
+        className={`tech-sidebar tech-scrollbar-thin ${collapsed ? 'collapsed' : ''} ${className}`}
         style={{
-          top: headerHeight,
+          width: sidebarWidth,
           ...style
         }}
       >
@@ -77,7 +63,7 @@ export function TechSidebar({
             collapsed={collapsed}
           />
         </div>
-      </Sidebar>
+      </div>
     </>
   );
 }

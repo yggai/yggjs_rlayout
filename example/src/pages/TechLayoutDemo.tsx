@@ -47,6 +47,43 @@ export default function TechLayoutDemo() {
     console.log('Sidebar menu selected:', key);
   };
 
+  // Footer配置
+  const footerSections = [
+    {
+      title: 'Product',
+      links: [
+        { label: 'Features', href: '#features' },
+        { label: 'Pricing', href: '#pricing' },
+        { label: 'Documentation', href: '#docs', icon: 'book' as const },
+        { label: 'API Reference', href: '#api', icon: 'api' as const },
+      ]
+    },
+    {
+      title: 'Company',
+      links: [
+        { label: 'About Us', href: '#about' },
+        { label: 'Contact', href: '#contact' },
+        { label: 'Careers', href: '#careers' },
+        { label: 'Blog', href: '#blog' },
+      ]
+    },
+    {
+      title: 'Support',
+      links: [
+        { label: 'Help Center', href: '#help' },
+        { label: 'Community', href: '#community' },
+        { label: 'Status', href: '#status' },
+        { label: 'Feedback', href: '#feedback' },
+      ]
+    }
+  ];
+
+  const socialLinks = [
+    { label: 'GitHub', href: '#github', icon: 'api' as const },
+    { label: 'Twitter', href: '#twitter', icon: 'info' as const },
+    { label: 'Discord', href: '#discord', icon: 'guide' as const },
+  ];
+
   return (
     <TechLayout
       // Header配置
@@ -56,12 +93,20 @@ export default function TechLayoutDemo() {
       onHeaderMenuSelect={handleMenuSelect}
       onSearch={handleSearch}
       version="v0.1.0"
-      
+
       // Sidebar配置
       sidebarItems={sidebarItems}
       selectedSidebarKey={selectedSidebarKey}
       onSidebarSelect={handleSidebarSelect}
-      
+
+      // Footer配置
+      footerProps={{
+        description: "YGG Admin 是一个现代化的科技风管理后台框架，提供完整的布局解决方案和组件库。",
+        sections: footerSections,
+        socialLinks: socialLinks,
+        copyright: "© 2024 YGG Admin. All rights reserved."
+      }}
+
       // 页面头部
       breadcrumb="Home / Dashboard"
       title="科技风应用布局"
@@ -154,6 +199,48 @@ export default function TechLayoutDemo() {
             提供流畅的用户体验。
           </p>
         </div>
+      </div>
+
+      {/* 添加更多内容来演示滚动功能 */}
+      <div style={{ marginTop: '48px' }}>
+        <h2 style={{ color: 'var(--tech-text)', marginBottom: '24px' }}>
+          滚动演示区域
+        </h2>
+
+        {/* 生成多个卡片来演示垂直滚动 */}
+        {Array.from({ length: 12 }, (_, i) => (
+          <div key={i} style={{
+            background: 'rgba(255,255,255,.02)',
+            border: '1px solid var(--tech-border)',
+            borderRadius: '8px',
+            padding: '20px',
+            marginBottom: '16px'
+          }}>
+            <h4 style={{ color: 'var(--tech-accent)', margin: '0 0 12px 0' }}>
+              演示卡片 #{i + 1}
+            </h4>
+            <p style={{ color: 'var(--tech-text-muted)', margin: 0, lineHeight: 1.5 }}>
+              这是第 {i + 1} 个演示卡片。当内容超过视口高度时，页面会自动显示滚动条。
+              滚动条采用了科技风样式设计，与整体主题保持一致。
+              水平方向的内容不会溢出，确保良好的用户体验。
+            </p>
+
+            {/* 演示水平不溢出 */}
+            <div style={{
+              marginTop: '12px',
+              padding: '12px',
+              background: 'rgba(39, 224, 255, 0.1)',
+              borderRadius: '6px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}>
+              <span style={{ color: 'var(--tech-accent)', fontSize: '12px' }}>
+                超长文本演示：这是一段很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长的文本，用来演示水平方向不会溢出的效果
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
     </TechLayout>
   );

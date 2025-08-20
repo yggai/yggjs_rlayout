@@ -145,6 +145,87 @@ function App() {
 }
 ```
 
+## 新增功能
+
+### 🎨 全局样式重置
+- 自动应用现代CSS重置规则
+- 优化字体渲染和文本选择样式
+- 统一的focus样式
+
+### 📜 科技风滚动条
+- 渐变色滚动条设计
+- 悬停和激活状态动画
+- 支持细滚动条和隐藏滚动条变体
+- 跨浏览器兼容
+
+### 🦶 Footer组件
+- 多栏链接布局
+- 社交媒体链接
+- 版本信息显示
+- 回到顶部功能
+- 响应式设计
+
+### 📱 改进的布局系统
+- 垂直滚动支持，内容超出时自动显示滚动条
+- 水平方向防溢出，确保不会出现横向滚动
+- 更好的响应式布局
+- 固定头部和侧边栏
+
+## 滚动条样式类
+
+- `.tech-scrollbar-thin` - 细滚动条（4px宽）
+- `.tech-scrollbar-hidden` - 隐藏滚动条
+
+## 工具类
+
+- `.tech-glow-pulse` - 发光脉冲动画
+- `.tech-slide-in` - 滑入动画
+- `.tech-fade-in` - 淡入动画
+- `.tech-hide-mobile` - 移动端隐藏
+- `.tech-show-mobile` - 移动端显示
+- `.tech-text-gradient` - 渐变文字
+- `.tech-text-glow` - 发光文字
+
 ## 图标
 
 支持的图标名称：`menu`, `dashboard`, `book`, `info`, `home`, `guide`, `api`, `search`, `user`, `settings`, `logout`, `chevron-left`, `chevron-right`, `plus`, `deploy`
+
+## 完整示例
+
+```tsx
+import { TechLayout } from 'yggjs_rlayout';
+
+function App() {
+  return (
+    <TechLayout
+      brand="My App"
+      sidebarItems={[
+        { key: 'home', label: 'Home', icon: 'home' }
+      ]}
+      footerProps={{
+        description: "现代化的科技风管理后台框架",
+        sections: [
+          {
+            title: 'Product',
+            links: [
+              { label: 'Features', href: '#features' },
+              { label: 'Documentation', href: '#docs', icon: 'book' }
+            ]
+          }
+        ],
+        socialLinks: [
+          { label: 'GitHub', href: '#github', icon: 'api' }
+        ]
+      }}
+      onSearch={(value) => console.log('搜索:', value)}
+    >
+      <div className="tech-cards">
+        <div className="tech-card">
+          <h3>卡片标题</h3>
+          <p>卡片内容</p>
+        </div>
+      </div>
+    </TechLayout>
+  );
+}
+```

@@ -1,7 +1,9 @@
 // 科技风主题组件库
 export { TechThemeProvider } from './TechThemeProvider';
+export { TechGlobalStyles } from './TechGlobalStyles';
 export { TechHeader } from './TechHeader';
 export { TechSidebar } from './TechSidebar';
+export { TechFooter } from './TechFooter';
 export { TechSearch } from './TechSearch';
 export { TechMenu } from './TechMenu';
 export { TechButton } from './TechButton';
@@ -10,3 +12,5 @@ export { TechLayout } from './TechLayout';
 
 // 类型导出
 export type { TechTheme, TechIconName } from './types';
+export type { TechFooterProps, TechFooterLink, TechFooterSection } from './TechFooter';
+export type { TechGlobalStylesProps } from './TechGlobalStyles';
