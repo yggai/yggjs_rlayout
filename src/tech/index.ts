@@ -18,3 +18,4 @@ export type { TechFooterProps, TechFooterLink, TechFooterSection } from './TechF
 export type { TechGlobalStylesProps } from './TechGlobalStyles';
 export type { TechCardProps } from './TechCard';
 export type { TechBreadcrumbProps, TechBreadcrumbItem } from './TechBreadcrumb';
+export type { TechMenuItem, TechMenuProps } from './TechMenu';

@@ -8,7 +8,7 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "yggjs_rlayout": ["../dist/index.js"],
+      "yggjs_rlayout": ["../dist/index.d.ts"],
       "@ygg/*": ["./src/*"]
     }
   },
