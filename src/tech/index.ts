@@ -11,6 +11,7 @@ export { TechCard } from './TechCard';
 export { TechBreadcrumb, TechBreadcrumbBuilder, createBreadcrumb } from './TechBreadcrumb';
 export { TechIcon } from './TechIcon';
 export { TechLayout } from './TechLayout';
+export { TechUserCenter } from './TechUserCenter';
 
 // 类型导出
 export type { TechTheme, TechIconName } from './types';
@@ -19,3 +20,4 @@ export type { TechGlobalStylesProps } from './TechGlobalStyles';
 export type { TechCardProps } from './TechCard';
 export type { TechBreadcrumbProps, TechBreadcrumbItem } from './TechBreadcrumb';
 export type { TechMenuItem, TechMenuProps } from './TechMenu';
+export type { TechUserCenterProps, TechUserCenterItem } from './TechUserCenter';

@@ -15,8 +15,11 @@ const iconPaths: Record<TechIconName, string> = {
   logout: "M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9",
   'chevron-left': "M15 18l-6-6 6-6",
   'chevron-right': "M9 18l6-6-6-6",
+  'chevron-down': "M6 9l6 6 6-6",
   plus: "M12 5v14M5 12h14",
-  deploy: "M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16zM3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"
+  deploy: "M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16zM3.27 6.96L12 12.01l8.73-5.05M12 22.08V12",
+  profile: "M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z",
+  help: "M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"
 };
 
 export function TechIcon({ 

@@ -4,8 +4,10 @@ import {
   TechLayout,
   TechButton,
   TechCard,
+  TechUserCenter,
   createBreadcrumb,
-  type TechMenuItem
+  type TechMenuItem,
+  type TechUserCenterItem
 } from 'yggjs_rlayout';
 
 export default function TechLayoutDemo() {
@@ -16,6 +18,39 @@ export default function TechLayoutDemo() {
     { key: 'dash', label: 'Dashboard', icon: 'dashboard', href: '/tech-layout' },
     { key: 'docs', label: 'Docs', icon: 'book', href: '/docs' },
     { key: 'about', label: 'About', icon: 'info', href: '/about' },
+  ];
+
+  // 用户中心菜单项
+  const userCenterItems: TechUserCenterItem[] = [
+    {
+      key: 'profile',
+      label: '个人资料',
+      icon: 'profile',
+      onClick: () => alert('跳转到个人资料页面'),
+    },
+    {
+      key: 'settings',
+      label: '账户设置',
+      icon: 'settings',
+      onClick: () => alert('跳转到账户设置页面'),
+    },
+    {
+      key: 'help',
+      label: '帮助中心',
+      icon: 'help',
+      onClick: () => alert('跳转到帮助中心'),
+    },
+    {
+      key: 'logout',
+      label: '退出登录',
+      icon: 'logout',
+      danger: true,
+      onClick: () => {
+        if (confirm('确定要退出登录吗？')) {
+          alert('已退出登录');
+        }
+      },
+    },
   ];
 
   // 侧边栏菜单项
@@ -100,6 +135,15 @@ export default function TechLayoutDemo() {
       selectedHeaderKey={selectedHeaderKey}
       onHeaderMenuSelect={handleMenuSelect}
       onSearch={handleSearch}
+      headerExtra={
+        <TechUserCenter
+          username="张三"
+          userInfo="zhangsan@example.com"
+          items={userCenterItems}
+          showUsername={false}
+          onAvatarClick={() => console.log('Avatar clicked')}
+        />
+      }
       version="v0.1.0"
 
       // Sidebar配置
@@ -117,7 +161,7 @@ export default function TechLayoutDemo() {
 
       // 页面头部
       breadcrumb={breadcrumbItems}
-      title="科技风应用布局"
+      title="YGG Admin - 科技风组件库演示"
       pageActions={
         <>
           <TechButton variant="secondary">New</TechButton>
@@ -125,22 +169,32 @@ export default function TechLayoutDemo() {
         </>
       }
     >
-      {/* 页面内容 - 使用新的TechCard组件 */}
+      {/* 页面内容 - 组件演示 */}
       <div className="tech-cards">
         <TechCard
-          title="默认卡片"
-          subtitle="展示基础的卡片样式"
-          icon="dashboard"
+          title="用户中心组件"
+          subtitle="右上角的用户头像和下拉菜单"
+          icon="user"
           variant="default"
           hoverable
         >
-          这是一个科技风格的卡片组件，具有渐变背景和发光效果。
-          悬停时会显示发光边框效果，提供良好的交互反馈。
+          <div style={{ padding: '16px 0' }}>
+            <p style={{ color: 'var(--tech-text-muted)', margin: '0 0 16px 0', fontSize: '14px' }}>
+              点击右上角的用户头像查看下拉菜单效果：
+            </p>
+            <ul style={{ color: 'var(--tech-text-muted)', fontSize: '14px', margin: 0, paddingLeft: '20px' }}>
+              <li>支持自定义头像和用户信息</li>
+              <li>可配置的下拉菜单项</li>
+              <li>键盘导航支持（Tab、Enter、Escape）</li>
+              <li>点击外部自动关闭</li>
+              <li>危险操作的红色警告样式</li>
+            </ul>
+          </div>
         </TechCard>
 
         <TechCard
-          title="玻璃卡片"
-          subtitle="毛玻璃效果的卡片"
+          title="科技风卡片"
+          subtitle="多种样式的卡片组件"
           icon="api"
           variant="glass"
           hoverable
@@ -151,150 +205,153 @@ export default function TechLayoutDemo() {
             </>
           }
         >
-          这是一个玻璃效果的卡片，具有毛玻璃背景和模糊效果。
-          卡片底部包含操作按钮区域。
+          支持多种变体：default、glass、gradient、filled、outlined。
+          可以添加图标、操作按钮、加载状态等。
         </TechCard>
 
         <TechCard
-          title="渐变卡片"
-          subtitle="带有渐变背景的卡片"
+          title="科技风按钮"
+          subtitle="多种样式的按钮组件"
           icon="deploy"
           variant="gradient"
-          clickable
-          onClick={() => alert('卡片被点击了！')}
-          extra={<TechButton variant="ghost" size="small" icon="settings" iconOnly />}
+          hoverable
         >
-          这是一个可点击的渐变卡片，右上角有额外的操作按钮。
-          点击卡片会触发相应的事件处理。
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', padding: '16px 0' }}>
+            <TechButton variant="primary">Primary</TechButton>
+            <TechButton variant="secondary">Secondary</TechButton>
+            <TechButton variant="ghost">Ghost</TechButton>
+            <TechButton variant="primary" icon="settings" iconOnly />
+          </div>
+          <p style={{ color: 'var(--tech-text-muted)', margin: 0, fontSize: '14px' }}>
+            支持多种变体、尺寸和图标配置。
+          </p>
         </TechCard>
 
         <TechCard
-          title="加载状态"
-          subtitle="展示加载中的卡片"
+          title="面包屑导航"
+          subtitle="页面导航路径指示"
           icon="guide"
           variant="filled"
-          loading
+          hoverable
         >
-          这个卡片正在加载中，会显示加载遮罩和旋转动画。
+          <p style={{ color: 'var(--tech-text-muted)', margin: 0, fontSize: '14px' }}>
+            查看页面顶部的面包屑导航，支持链接跳转和当前页面标识。
+            使用 createBreadcrumb() 构建器模式创建。
+          </p>
         </TechCard>
 
         <TechCard
-          title="小尺寸卡片"
-          icon="home"
+          title="搜索功能"
+          subtitle="头部集成的搜索组件"
+          icon="search"
           variant="outlined"
-          size="small"
           hoverable
         >
-          这是一个小尺寸的卡片，适合在空间有限的地方使用。
-        </TechCard>
-
-        <TechCard
-          title="大尺寸卡片"
-          subtitle="更大的卡片适合展示更多内容"
-          icon="book"
-          variant="default"
-          size="large"
-          hoverable
-        >
-          这是一个大尺寸的卡片，可以容纳更多的内容和信息。
-          大卡片通常用于重要信息的展示或者作为主要的内容区域。
+          <p style={{ color: 'var(--tech-text-muted)', margin: 0, fontSize: '14px' }}>
+            头部导航栏集成了搜索功能，支持实时搜索和回调处理。
+            尝试在头部搜索框中输入内容。
+          </p>
         </TechCard>
       </div>
 
-      {/* 额外的演示内容 */}
+      {/* 组件特性说明 */}
       <div style={{ marginTop: '32px' }}>
         <h2 style={{ color: 'var(--tech-text)', marginBottom: '16px' }}>
-          组件特性
-        </h2>
-        
-        <div style={{ 
-          background: 'rgba(255,255,255,.02)', 
-          border: '1px solid var(--tech-border)',
-          borderRadius: '8px',
-          padding: '20px',
-          marginBottom: '16px'
-        }}>
-          <h4 style={{ color: 'var(--tech-accent)', margin: '0 0 12px 0' }}>
-            ✨ 简化的API
-          </h4>
-          <p style={{ color: 'var(--tech-text-muted)', margin: 0, lineHeight: 1.5 }}>
-            使用TechLayout组件，只需要几行代码就能创建完整的科技风应用布局，
-            包括头部导航、侧边栏、搜索功能和主题样式。
-          </p>
-        </div>
-
-        <div style={{ 
-          background: 'rgba(255,255,255,.02)', 
-          border: '1px solid var(--tech-border)',
-          borderRadius: '8px',
-          padding: '20px',
-          marginBottom: '16px'
-        }}>
-          <h4 style={{ color: 'var(--tech-accent)', margin: '0 0 12px 0' }}>
-            🎨 内置主题
-          </h4>
-          <p style={{ color: 'var(--tech-text-muted)', margin: 0, lineHeight: 1.5 }}>
-            所有颜色、渐变、阴影效果都通过CSS变量管理，
-            可以轻松自定义主题色彩。
-          </p>
-        </div>
-
-        <div style={{ 
-          background: 'rgba(255,255,255,.02)', 
-          border: '1px solid var(--tech-border)',
-          borderRadius: '8px',
-          padding: '20px'
-        }}>
-          <h4 style={{ color: 'var(--tech-accent)', margin: '0 0 12px 0' }}>
-            📱 响应式设计
-          </h4>
-          <p style={{ color: 'var(--tech-text-muted)', margin: 0, lineHeight: 1.5 }}>
-            支持侧边栏折叠，适配不同屏幕尺寸，
-            提供流畅的用户体验。
-          </p>
-        </div>
-      </div>
-
-      {/* 添加更多内容来演示滚动功能 */}
-      <div style={{ marginTop: '48px' }}>
-        <h2 style={{ color: 'var(--tech-text)', marginBottom: '24px' }}>
-          滚动演示区域
+          YGG Admin 科技风组件库特性
         </h2>
 
-        {/* 生成多个卡片来演示垂直滚动 */}
-        {Array.from({ length: 12 }, (_, i) => (
-          <div key={i} style={{
+        <div style={{ display: 'grid', gap: '16px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+          <div style={{
             background: 'rgba(255,255,255,.02)',
             border: '1px solid var(--tech-border)',
             borderRadius: '8px',
-            padding: '20px',
-            marginBottom: '16px'
+            padding: '20px'
           }}>
             <h4 style={{ color: 'var(--tech-accent)', margin: '0 0 12px 0' }}>
-              演示卡片 #{i + 1}
+              🚀 完整的布局解决方案
             </h4>
-            <p style={{ color: 'var(--tech-text-muted)', margin: 0, lineHeight: 1.5 }}>
-              这是第 {i + 1} 个演示卡片。当内容超过视口高度时，页面会自动显示滚动条。
-              滚动条采用了科技风样式设计，与整体主题保持一致。
-              水平方向的内容不会溢出，确保良好的用户体验。
+            <p style={{ color: 'var(--tech-text-muted)', margin: 0, lineHeight: 1.5, fontSize: '14px' }}>
+              TechLayout 提供头部导航、侧边栏、面包屑、搜索、用户中心等完整功能，
+              一个组件搞定整个应用布局。
             </p>
-
-            {/* 演示水平不溢出 */}
-            <div style={{
-              marginTop: '12px',
-              padding: '12px',
-              background: 'rgba(39, 224, 255, 0.1)',
-              borderRadius: '6px',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap'
-            }}>
-              <span style={{ color: 'var(--tech-accent)', fontSize: '12px' }}>
-                超长文本演示：这是一段很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长的文本，用来演示水平方向不会溢出的效果
-              </span>
-            </div>
           </div>
-        ))}
+
+          <div style={{
+            background: 'rgba(255,255,255,.02)',
+            border: '1px solid var(--tech-border)',
+            borderRadius: '8px',
+            padding: '20px'
+          }}>
+            <h4 style={{ color: 'var(--tech-accent)', margin: '0 0 12px 0' }}>
+              🎨 科技风视觉设计
+            </h4>
+            <p style={{ color: 'var(--tech-text-muted)', margin: 0, lineHeight: 1.5, fontSize: '14px' }}>
+              渐变背景、发光效果、毛玻璃质感，
+              所有样式通过 CSS 变量统一管理，易于定制。
+            </p>
+          </div>
+
+          <div style={{
+            background: 'rgba(255,255,255,.02)',
+            border: '1px solid var(--tech-border)',
+            borderRadius: '8px',
+            padding: '20px'
+          }}>
+            <h4 style={{ color: 'var(--tech-accent)', margin: '0 0 12px 0' }}>
+              📱 响应式 & 交互
+            </h4>
+            <p style={{ color: 'var(--tech-text-muted)', margin: 0, lineHeight: 1.5, fontSize: '14px' }}>
+              支持侧边栏折叠、键盘导航、无障碍访问，
+              在不同设备上都有良好的用户体验。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* 使用说明 */}
+      <div style={{ marginTop: '48px' }}>
+        <TechCard
+          title="使用说明"
+          subtitle="如何在项目中使用 YGG Admin 组件库"
+          icon="book"
+          variant="outlined"
+          hoverable
+        >
+          <div style={{ padding: '16px 0' }}>
+            <h4 style={{ color: 'var(--tech-accent)', margin: '0 0 12px 0', fontSize: '16px' }}>
+              快速开始
+            </h4>
+            <pre style={{
+              background: 'rgba(0,0,0,0.3)',
+              padding: '16px',
+              borderRadius: '8px',
+              color: 'var(--tech-text)',
+              fontSize: '13px',
+              lineHeight: 1.5,
+              overflow: 'auto',
+              margin: '0 0 16px 0'
+            }}>
+{`import { TechLayout, TechUserCenter } from 'yggjs_rlayout';
+
+function App() {
+  return (
+    <TechLayout
+      brand="Your App"
+      headerMenuItems={menuItems}
+      sidebarItems={sidebarItems}
+      headerExtra={<TechUserCenter username="用户名" />}
+    >
+      {/* 你的页面内容 */}
+    </TechLayout>
+  );
+}`}
+            </pre>
+            <p style={{ color: 'var(--tech-text-muted)', margin: 0, fontSize: '14px', lineHeight: 1.5 }}>
+              这个演示页面展示了 YGG Admin 科技风组件库的主要功能。
+              尝试点击右上角的用户头像、使用搜索功能、折叠侧边栏等交互操作。
+            </p>
+          </div>
+        </TechCard>
       </div>
     </TechLayout>
   );

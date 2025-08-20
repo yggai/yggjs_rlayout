@@ -14,6 +14,7 @@ export interface TechHeaderProps {
   onSearch?: (value: string) => void;
   searchPlaceholder?: string;
   actions?: React.ReactNode;
+  extra?: React.ReactNode;
   version?: string;
   className?: string;
   style?: React.CSSProperties;
@@ -28,6 +29,7 @@ export function TechHeader({
   onSearch,
   searchPlaceholder,
   actions,
+  extra,
   version,
   className = '',
   style = {}
@@ -110,6 +112,7 @@ export function TechHeader({
                 />
               )}
               {actions}
+              {extra}
               {version && <span className="tech-version">{version}</span>}
             </div>
           </div>

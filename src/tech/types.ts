@@ -24,7 +24,7 @@ export interface TechTheme {
   };
 }
 
-export type TechIconName = 
+export type TechIconName =
   | 'menu'
   | 'dashboard'
   | 'book'
@@ -38,8 +38,11 @@ export type TechIconName =
   | 'logout'
   | 'chevron-left'
   | 'chevron-right'
+  | 'chevron-down'
   | 'plus'
-  | 'deploy';
+  | 'deploy'
+  | 'profile'
+  | 'help';
 
 export interface TechIconProps {
   name: TechIconName;

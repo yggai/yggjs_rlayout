@@ -19,6 +19,7 @@ export interface TechLayoutProps {
   onSearch?: (value: string) => void;
   searchPlaceholder?: string;
   headerActions?: React.ReactNode;
+  headerExtra?: React.ReactNode;
   version?: string;
 
   // Sidebar props
@@ -64,6 +65,7 @@ export function TechLayout({
   onSearch,
   searchPlaceholder,
   headerActions,
+  headerExtra,
   version,
 
   // Sidebar
@@ -237,6 +239,7 @@ export function TechLayout({
           onSearch={onSearch}
           searchPlaceholder={searchPlaceholder}
           actions={headerActions}
+          extra={headerExtra}
           version={version}
         />
 
