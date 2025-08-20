@@ -12,6 +12,7 @@ export default function App() {
         <a className="card" href="https://react.dev" target="_blank" rel="noopener noreferrer">React 文档</a>
         <a className="card" href="/layout" target="_blank" rel="noopener noreferrer">Layout 组件演示</a>
         <a className="card" href="/grid" target="_blank" rel="noopener noreferrer">栅格系统演示</a>
+        <a className="card" href="/grid-config" target="_blank" rel="noopener noreferrer">Grid 配置演示</a>
         <a className="card" href="/flex" target="_blank" rel="noopener noreferrer">Flex 布局演示</a>
         <a className="card" href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">Vite</a>
         <a className="card" href="https://vitest.dev" target="_blank" rel="noopener noreferrer">Vitest</a>

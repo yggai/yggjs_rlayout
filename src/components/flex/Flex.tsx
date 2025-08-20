@@ -81,21 +81,18 @@ Flex.Item = function FlexItem({ order, grow, shrink, basis, as='div', className,
 };
 
 
-// Preset aliases for common layouts
-Flex.Center = function FlexCenter({ as='div', className, style, children, 'data-testid': dataTestId, ...rest }: Omit<FlexProps, 'align' | 'justify'> & { 'data-testid'?: string }) {
-  const El = as as any;
-  const s: React.CSSProperties = { display:'flex', justifyContent:'center', alignItems:'center', ...style };
-  return <El className={className} style={s} data-testid={dataTestId}>{children}</El>;
+// Preset aliases for common layouts (wrapping Flex, fully forwarding props)
+Flex.Center = function FlexCenter(props: FlexProps) {
+  const { align, justify, ...rest } = props;
+  return <Flex align={align ?? 'center'} justify={justify ?? 'center'} {...rest} />;
 };
 
-Flex.Between = function FlexBetween({ as='div', className, style, children, 'data-testid': dataTestId, ...rest }: Omit<FlexProps, 'justify'> & { 'data-testid'?: string }) {
-  const El = as as any;
-  const s: React.CSSProperties = { display:'flex', justifyContent:'space-between', alignItems:'center', ...style };
-  return <El className={className} style={s} data-testid={dataTestId}>{children}</El>;
+Flex.Between = function FlexBetween(props: FlexProps) {
+  const { align, justify, ...rest } = props;
+  return <Flex align={align ?? 'center'} justify={justify ?? 'space-between'} {...rest} />;
 };
 
-Flex.Around = function FlexAround({ as='div', className, style, children, 'data-testid': dataTestId, ...rest }: Omit<FlexProps, 'justify'> & { 'data-testid'?: string }) {
-  const El = as as any;
-  const s: React.CSSProperties = { display:'flex', justifyContent:'space-around', alignItems:'center', ...style };
-  return <El className={className} style={s} data-testid={dataTestId}>{children}</El>;
+Flex.Around = function FlexAround(props: FlexProps) {
+  const { align, justify, ...rest } = props;
+  return <Flex align={align ?? 'center'} justify={justify ?? 'space-around'} {...rest} />;
 };

@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './pages/App';
 import LayoutDemo from './pages/LayoutDemo';
 import GridDemo from './pages/GridDemo';
+import GridConfigDemo from './pages/GridConfigDemo';
 import FlexDemo from './pages/FlexDemo';
 import './styles.css';
 
@@ -15,6 +16,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/layout" element={<LayoutDemo />} />
         <Route path="/grid" element={<GridDemo />} />
+        <Route path="/grid-config" element={<GridConfigDemo />} />
         <Route path="/flex" element={<FlexDemo />} />
       </Routes>
     </BrowserRouter>

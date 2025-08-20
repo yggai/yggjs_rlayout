@@ -9,10 +9,18 @@
 
 Row
 - gutter?: number  水平间距（px），将平均分配到列左右 padding，并在行上设置负 margin
+- gutterX?: number 水平间距（px），优先级高于 gutter
+- gutterY?: number 垂直间距（px），会在 Row 上设置上下负 margin，在 Column 上分配上下 padding
 
 Column
 - span?: number    取值 1..12，默认 12
 - offset?: number  取值 0..11，左侧空出 offset 列
+- spanSm/spanMd/spanLg/spanXl?: number 响应式列宽覆盖
+- offsetSm/offsetMd/offsetLg/offsetXl?: number 响应式偏移覆盖
+
+GridConfigProvider（可选）
+- totalColumns?: number 默认 12，可切换到 24 等
+- breakpoints?: { sm, md, lg, xl } 断点表覆盖（xs 固定为 0）
 
 ## 用法
 ```tsx

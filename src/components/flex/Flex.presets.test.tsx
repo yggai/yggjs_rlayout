@@ -27,5 +27,15 @@ describe('Flex presets', () => {
     const el = getByTestId('fx');
     expect(el).toHaveStyle({ justifyContent: 'space-around', alignItems: 'center' });
   });
+
+  it('presets should forward props and support direction/gap/wrap', () => {
+    const { getByTestId } = render(
+      <Flex.Between data-testid="fx" direction="column" gap={10} wrap>
+        <div>A</div><div>B</div>
+      </Flex.Between>
+    );
+    const el = getByTestId('fx');
+    expect(el).toHaveStyle({ flexDirection: 'column', gap: '10px', flexWrap: 'wrap' });
+  });
 });
 
