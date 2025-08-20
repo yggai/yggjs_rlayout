@@ -23,3 +23,6 @@ body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-s
 
 .box{padding:12px 14px;border-radius:10px;background:var(--box);border:1px solid #1b2550}
 
+.chip{padding:6px 10px;border-radius:999px;border:1px solid #2a3a7a;background:#0e1630;color:var(--text);cursor:pointer}
+.chip.active{background:linear-gradient(135deg,rgba(47,215,255,.18),rgba(124,77,255,.18));border-color:#3a54b6}
+

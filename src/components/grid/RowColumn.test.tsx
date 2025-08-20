@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import React from 'react';
 import { Row, Column } from './';
+import { BreakpointProvider } from './breakpoints';
 
 describe('Grid Row/Column', () => {
   it('Column span=6 should be 50% width', () => {
@@ -30,6 +31,27 @@ describe('Grid Row/Column', () => {
       </Row>
     );
     expect(getByTestId('col')).toHaveStyle({ marginLeft: '25%' });
+  });
+
+  it('Responsive spanMd overrides base span when bp=md', () => {
+    const { getByTestId } = render(
+      <BreakpointProvider value="md">
+        <Row>
+          <Column span={12} spanMd={4} data-testid="col">A</Column>
+        </Row>
+      </BreakpointProvider>
+    );
+    expect(getByTestId('col')).toHaveStyle({ width: '33.3333%' });
+  });
+
+  it('Row gutterX/gutterY apply paddings and negative margins', () => {
+    const { getByTestId } = render(
+      <Row gutterX={20} gutterY={10} data-testid="row">
+        <Column span={6} data-testid="col">A</Column>
+      </Row>
+    );
+    expect(getByTestId('row')).toHaveStyle({ marginLeft: '-10px', marginRight: '-10px', marginTop: '-5px', marginBottom: '-5px' });
+    expect(getByTestId('col')).toHaveStyle({ paddingLeft: '10px', paddingRight: '10px', paddingTop: '5px', paddingBottom: '5px' });
   });
 });
 
