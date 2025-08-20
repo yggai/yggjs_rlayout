@@ -9,14 +9,14 @@ export default function App() {
       </header>
 
       <section className="nav-grid">
-        <a className="card" href="/demo" target="_blank" rel="noopener noreferrer">
-          🚀 YGG Admin 科技风组件库演示
+        <a className="card" href="/">
+          🚀 YGG Admin SPA 导航演示
         </a>
-        <a className="card" href="https://react.dev" target="_blank" rel="noopener noreferrer">
-          📚 React 官方文档
+        <a className="card" href="/docs">
+          📚 文档中心
         </a>
-        <a className="card" href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
-          ⚡ Vite 构建工具
+        <a className="card" href="/about">
+          ℹ️ 关于项目
         </a>
         <a className="card" href="https://github.com" target="_blank" rel="noopener noreferrer">
           🐙 GitHub 代码仓库
@@ -24,7 +24,7 @@ export default function App() {
       </section>
 
       <footer style={{opacity:.7,marginTop:16}}>
-        点击上方卡片查看 YGG Admin 科技风组件库的完整演示。
+        点击上方卡片查看 YGG Admin 科技风组件库的 SPA 导航演示。
       </footer>
     </div>
   );

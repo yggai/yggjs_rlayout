@@ -1,11 +1,13 @@
 import React from 'react';
 import { Sidebar } from '../components/sidebar';
-import { TechMenu, type TechMenuItem } from './TechMenu';
+import { TechMenu, type TechMenuItem, type LinkLikeComponent } from './TechMenu';
 
 export interface TechSidebarProps {
   items: TechMenuItem[];
   selectedKey?: string;
   onSelect?: (key: string) => void;
+  onSelectItem?: (item: TechMenuItem) => void;
+  linkComponent?: LinkLikeComponent;
   collapsed?: boolean;
   width?: number;
   collapsedWidth?: number;
@@ -18,6 +20,8 @@ export function TechSidebar({
   items,
   selectedKey,
   onSelect,
+  onSelectItem,
+  linkComponent,
   collapsed = false,
   width = 240,
   collapsedWidth = 72,
@@ -42,12 +46,12 @@ export function TechSidebar({
           left: 0;
           z-index: 100;
         }
-        
+
         .tech-sidebar .ygg-menu {
           padding: 8px;
         }
       `}</style>
-      
+
       <div
         className={`tech-sidebar tech-scrollbar-thin ${collapsed ? 'collapsed' : ''} ${className}`}
         style={{
@@ -60,6 +64,8 @@ export function TechSidebar({
             items={items}
             selectedKeys={selectedKey ? [selectedKey] : []}
             onSelect={onSelect ? (info) => onSelect(info.key) : undefined}
+            onSelectItem={onSelectItem}
+            linkComponent={linkComponent}
             collapsed={collapsed}
           />
         </div>

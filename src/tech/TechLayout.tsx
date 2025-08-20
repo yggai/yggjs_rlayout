@@ -7,6 +7,7 @@ import { TechSidebar, type TechSidebarProps } from './TechSidebar';
 import { TechFooter, type TechFooterProps } from './TechFooter';
 import { TechBreadcrumb, type TechBreadcrumbItem } from './TechBreadcrumb';
 import { TechButton } from './TechButton';
+import type { TechMenuItem } from './TechMenu';
 
 export interface TechLayoutProps {
   children: React.ReactNode;
@@ -16,6 +17,8 @@ export interface TechLayoutProps {
   headerMenuItems?: TechHeaderProps['menuItems'];
   selectedHeaderKey?: string;
   onHeaderMenuSelect?: (key: string) => void;
+  onHeaderMenuSelectItem?: (item: TechMenuItem) => void;
+  headerMenuLinkComponent?: React.ComponentProps<typeof TechHeader>['menuLinkComponent'];
   onSearch?: (value: string) => void;
   searchPlaceholder?: string;
   headerActions?: React.ReactNode;
@@ -26,6 +29,8 @@ export interface TechLayoutProps {
   sidebarItems: TechSidebarProps['items'];
   selectedSidebarKey?: string;
   onSidebarSelect?: (key: string) => void;
+  onSidebarSelectItem?: (item: TechMenuItem) => void;
+  sidebarLinkComponent?: React.ComponentProps<typeof TechSidebar>['linkComponent'];
 
   // Footer props
   footerProps?: TechFooterProps;
@@ -62,6 +67,8 @@ export function TechLayout({
   headerMenuItems,
   selectedHeaderKey,
   onHeaderMenuSelect,
+  onHeaderMenuSelectItem,
+  headerMenuLinkComponent,
   onSearch,
   searchPlaceholder,
   headerActions,
@@ -72,6 +79,8 @@ export function TechLayout({
   sidebarItems,
   selectedSidebarKey,
   onSidebarSelect,
+  onSidebarSelectItem,
+  sidebarLinkComponent,
 
   // Footer
   footerProps,
@@ -140,7 +149,7 @@ export function TechLayout({
             overflow-y: auto;
             overflow-x: hidden;
           }
-          
+
           .tech-page-header {
             display: flex;
             align-items: end;
@@ -171,13 +180,13 @@ export function TechLayout({
             flex: 1;
             min-height: 0;
           }
-          
+
           .tech-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 16px;
           }
-          
+
           .tech-card {
             background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
             border: 1px solid var(--tech-border);
@@ -186,7 +195,7 @@ export function TechLayout({
             box-shadow: 0 2px 30px rgba(16,19,40,.35) inset;
             transition: all 0.2s ease;
           }
-          
+
           .tech-card:hover {
             box-shadow: var(--tech-glow);
           }
@@ -235,6 +244,8 @@ export function TechLayout({
           menuItems={headerMenuItems}
           selectedMenuKey={selectedHeaderKey}
           onMenuSelect={onHeaderMenuSelect}
+          onMenuSelectItem={onHeaderMenuSelectItem}
+          menuLinkComponent={headerMenuLinkComponent}
           onToggleSidebar={() => setCollapsed(!collapsed)}
           onSearch={onSearch}
           searchPlaceholder={searchPlaceholder}
@@ -250,6 +261,8 @@ export function TechLayout({
             items={sidebarItems}
             selectedKey={selectedSidebarKey}
             onSelect={onSidebarSelect}
+            onSelectItem={onSidebarSelectItem}
+            linkComponent={sidebarLinkComponent}
             collapsed={collapsed}
             width={sidebarWidth}
             collapsedWidth={collapsedWidth}

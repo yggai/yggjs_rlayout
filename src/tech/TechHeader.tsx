@@ -1,7 +1,7 @@
 import React from 'react';
 import { Header } from '../components/header';
 import { Container } from '../components/container';
-import { TechMenu, type TechMenuItem } from './TechMenu';
+import { TechMenu, type TechMenuItem, type LinkLikeComponent } from './TechMenu';
 import { TechSearch } from './TechSearch';
 import { TechButton } from './TechButton';
 
@@ -10,6 +10,8 @@ export interface TechHeaderProps {
   menuItems?: TechMenuItem[];
   selectedMenuKey?: string;
   onMenuSelect?: (key: string) => void;
+  onMenuSelectItem?: (item: TechMenuItem) => void;
+  menuLinkComponent?: LinkLikeComponent;
   onToggleSidebar?: () => void;
   onSearch?: (value: string) => void;
   searchPlaceholder?: string;
@@ -25,6 +27,8 @@ export function TechHeader({
   menuItems = [],
   selectedMenuKey,
   onMenuSelect,
+  onMenuSelectItem,
+  menuLinkComponent,
   onToggleSidebar,
   onSearch,
   searchPlaceholder,
@@ -43,36 +47,36 @@ export function TechHeader({
           background: rgba(13, 18, 40, 0.8);
           z-index: 1000;
         }
-        
+
         .tech-header .tech-brand {
           color: var(--tech-accent);
           font-weight: 700;
           letter-spacing: 0.6px;
           font-size: 16px;
         }
-        
+
         .tech-header .ygg-menu-horizontal {
           gap: 18px;
         }
-        
+
         .tech-actions {
           display: flex;
           align-items: center;
           gap: 12px;
           margin-left: auto;
         }
-        
+
         .tech-version {
           opacity: 0.7;
           font-size: 12px;
           color: var(--tech-text-muted);
         }
       `}</style>
-      
-      <Header 
-        fixed 
-        top={0} 
-        height={56} 
+
+      <Header
+        fixed
+        top={0}
+        height={56}
         className={`tech-header ${className}`}
         style={style}
       >
@@ -100,6 +104,8 @@ export function TechHeader({
                   items={menuItems}
                   selectedKeys={selectedMenuKey ? [selectedMenuKey] : []}
                   onSelect={onMenuSelect ? (info) => onMenuSelect(info.key) : undefined}
+                  onSelectItem={onMenuSelectItem}
+                  linkComponent={menuLinkComponent}
                 />
               </div>
             )}

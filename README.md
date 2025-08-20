@@ -2,6 +2,8 @@
 
 一个专为 React 项目打造的页面布局组件库。提供一致、可复用、可测试的布局原子能力，帮助你快速搭建复杂页面布局。
 
+**🚀 新增科技风组件库**：包含完整的管理后台布局解决方案，支持 SPA 导航、科技感 UI 设计。
+
 - 作者: 源滚滚
 - 邮箱: 1156956636@qq.com
 - 许可证: PolyForm Noncommercial License 1.0.0（学习与研究免费，商业使用需联系作者取得书面授权）
@@ -18,18 +20,29 @@
 
 ---
 
-### 特性与路线图（规划中）
+### 特性与路线图
+
+#### 基础布局组件
 - Layout 组件：水平/垂直、分栏/栅格、吸顶/固定、响应式断点
 - 统一的间距系统与令牌化样式（Design Tokens）
 - SSR/CSR 兼容，良好的 TypeScript 类型提示
 - 完整的单元测试与可视化示例
 
+#### 科技风组件库 ✨
+- **TechLayout** - 完整的管理后台布局解决方案
+- **SPA 导航支持** - 原生支持 react-router-dom 的 Link 组件
+- **科技感 UI** - 渐变背景、发光效果、毛玻璃质感
+- **响应式设计** - 支持桌面端和移动端
+- **主题定制** - 通过 CSS 变量轻松定制主题
+
 Roadmap（优先级从上到下）：
-1) Layout 基础能力（direction/gap/align/justify/wrap）
-2) Item 弹性能力（flex/grow/shrink/order）
-3) 栅格/分栏（span、gutter、响应式断点）
-4) 固定/吸顶/Sticky 能力
-5) 无障碍与键盘导航细节
+1) ✅ Layout 基础能力（direction/gap/align/justify/wrap）
+2) ✅ Item 弹性能力（flex/grow/shrink/order）
+3) ✅ 栅格/分栏（span、gutter、响应式断点）
+4) ✅ 科技风组件库（TechLayout、TechCard、TechButton 等）
+5) ✅ SPA 导航支持（Link/to 导航）
+6) 固定/吸顶/Sticky 能力
+7) 无障碍与键盘导航细节
 
 ---
 
@@ -49,7 +62,9 @@ pnpm add yggjs_rlayout
 
 Peer 依赖（建议）：React 18+，TypeScript 5+
 
-3) 基本用法（API 尚在设计中，以下为预期用法草案）：
+3) 基本用法：
+
+#### 基础布局组件
 
 ```tsx
 import { Layout } from 'yggjs_rlayout';
@@ -60,6 +75,42 @@ export default function Demo() {
       <Layout.Item flex={1}>Left</Layout.Item>
       <Layout.Item width={240}>Right</Layout.Item>
     </Layout>
+  );
+}
+```
+
+#### 科技风组件库
+
+```tsx
+import { TechLayout, TechCard, TechButton } from 'yggjs_rlayout';
+import { Link } from 'react-router-dom';
+
+// 创建 Link 适配器
+const LinkAdapter = ({ to, className, children }) => (
+  <Link to={to} className={className}>{children}</Link>
+);
+
+const menuItems = [
+  { key: 'home', label: 'Home', icon: 'home', to: '/' },
+  { key: 'docs', label: 'Docs', icon: 'book', to: '/docs' },
+];
+
+export default function App() {
+  return (
+    <TechLayout
+      brand="Your App"
+      headerMenuItems={menuItems}
+      sidebarItems={menuItems}
+      headerMenuLinkComponent={LinkAdapter}  // SPA 导航
+      sidebarLinkComponent={LinkAdapter}     // SPA 导航
+    >
+      <TechCard title="Welcome" variant="glass" hoverable>
+        <p>现代化的科技风管理后台</p>
+        <TechButton variant="primary" icon="deploy">
+          开始使用
+        </TechButton>
+      </TechCard>
+    </TechLayout>
   );
 }
 ```
@@ -115,6 +166,30 @@ yggjs_rlayout/
 - 安装依赖：pnpm install --registry=https://registry.npmmirror.com
 - 运行测试：pnpm test 或 pnpm test:watch
 - 构建产物：pnpm build（产出 ESM/CJS 与 d.ts）
+- 运行演示：cd example && pnpm dev
+
+---
+
+### 演示与文档
+
+#### 在线演示
+运行演示项目查看完整功能：
+
+```bash
+cd example
+pnpm install
+pnpm dev
+```
+
+访问 http://localhost:5173 查看：
+- 科技风组件库完整演示
+- SPA 导航功能演示
+- 响应式布局演示
+
+#### 文档
+- [SPA 导航使用指南](./docs/使用教程/v0.1.0/SPA导航.md)
+- [组件使用教程](./docs/使用教程/v0.1.0/)
+- [开发笔记](./docs/开发笔记/)
 
 ---
 
