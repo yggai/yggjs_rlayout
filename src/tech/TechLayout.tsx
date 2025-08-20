@@ -5,6 +5,7 @@ import { TechGlobalStyles } from './TechGlobalStyles';
 import { TechHeader, type TechHeaderProps } from './TechHeader';
 import { TechSidebar, type TechSidebarProps } from './TechSidebar';
 import { TechFooter, type TechFooterProps } from './TechFooter';
+import { TechBreadcrumb, type TechBreadcrumbItem } from './TechBreadcrumb';
 import { TechButton } from './TechButton';
 
 export interface TechLayoutProps {
@@ -43,7 +44,8 @@ export interface TechLayoutProps {
   enableScrollbarStyling?: boolean;
 
   // Page header
-  breadcrumb?: string;
+  breadcrumb?: string | TechBreadcrumbItem[];
+  breadcrumbProps?: Omit<React.ComponentProps<typeof TechBreadcrumb>, 'items'>;
   title?: string;
   pageActions?: React.ReactNode;
 
@@ -88,6 +90,7 @@ export function TechLayout({
 
   // Page header
   breadcrumb,
+  breadcrumbProps,
   title,
   pageActions,
 
@@ -145,10 +148,8 @@ export function TechLayout({
             flex-shrink: 0;
           }
 
-          .tech-breadcrumb {
-            color: var(--tech-muted);
-            font-size: 12px;
-            margin-bottom: 6px;
+          .tech-page-breadcrumb {
+            margin-bottom: 8px;
           }
 
           .tech-title {
@@ -261,7 +262,21 @@ export function TechLayout({
                 {(breadcrumb || title || pageActions) && (
                   <div className="tech-page-header">
                     <div>
-                      {breadcrumb && <div className="tech-breadcrumb">{breadcrumb}</div>}
+                      {breadcrumb && (
+                        <div className="tech-page-breadcrumb">
+                          {typeof breadcrumb === 'string' ? (
+                            <div style={{ color: 'var(--tech-muted)', fontSize: '12px' }}>
+                              {breadcrumb}
+                            </div>
+                          ) : (
+                            <TechBreadcrumb
+                              items={breadcrumb}
+                              variant="simple"
+                              {...breadcrumbProps}
+                            />
+                          )}
+                        </div>
+                      )}
                       {title && <h1 className="tech-title">{title}</h1>}
                     </div>
                     {pageActions && (

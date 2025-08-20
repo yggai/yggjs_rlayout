@@ -22,6 +22,7 @@ export default function App() {
         <a className="card" href="/search" target="_blank" rel="noopener noreferrer">🔍 Search 搜索组件</a>
         <a className="card" href="/app-layout" target="_blank" rel="noopener noreferrer">App Layout（科技风）</a>
         <a className="card" href="/tech-layout" target="_blank" rel="noopener noreferrer">🚀 Tech Layout（简化版）</a>
+        <a className="card" href="/tech-components" target="_blank" rel="noopener noreferrer">🃏 卡片与面包屑组件</a>
         <a className="card" href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">Vite</a>
         <a className="card" href="https://vitest.dev" target="_blank" rel="noopener noreferrer">Vitest</a>
         <a className="card" href="https://testing-library.com/docs/react-testing-library/intro/" target="_blank" rel="noopener noreferrer">RTL</a>

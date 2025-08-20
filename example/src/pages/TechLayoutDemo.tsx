@@ -1,9 +1,11 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { 
-  TechLayout, 
+import {
+  TechLayout,
   TechButton,
-  type TechMenuItem 
+  TechCard,
+  createBreadcrumb,
+  type TechMenuItem
 } from 'yggjs_rlayout';
 
 export default function TechLayoutDemo() {
@@ -84,6 +86,12 @@ export default function TechLayoutDemo() {
     { label: 'Discord', href: '#discord', icon: 'guide' as const },
   ];
 
+  // 创建面包屑导航（简约版不需要图标）
+  const breadcrumbItems = createBreadcrumb()
+    .add('Dashboard', '/tech-layout')
+    .add('应用布局')
+    .build();
+
   return (
     <TechLayout
       // Header配置
@@ -108,7 +116,7 @@ export default function TechLayoutDemo() {
       }}
 
       // 页面头部
-      breadcrumb="Home / Dashboard"
+      breadcrumb={breadcrumbItems}
       title="科技风应用布局"
       pageActions={
         <>
@@ -117,34 +125,80 @@ export default function TechLayoutDemo() {
         </>
       }
     >
-      {/* 页面内容 */}
+      {/* 页面内容 - 使用新的TechCard组件 */}
       <div className="tech-cards">
-        <div className="tech-card">
-          <h3 style={{ margin: '0 0 12px 0', color: 'var(--tech-accent)' }}>
-            卡片 A
-          </h3>
-          <p style={{ margin: 0, color: 'var(--tech-text-muted)', lineHeight: 1.5 }}>
-            这是一个科技风格的卡片组件，具有渐变背景和发光效果。
-          </p>
-        </div>
-        
-        <div className="tech-card">
-          <h3 style={{ margin: '0 0 12px 0', color: 'var(--tech-accent)' }}>
-            卡片 B
-          </h3>
-          <p style={{ margin: 0, color: 'var(--tech-text-muted)', lineHeight: 1.5 }}>
-            悬停时会显示发光边框效果，提供良好的交互反馈。
-          </p>
-        </div>
-        
-        <div className="tech-card">
-          <h3 style={{ margin: '0 0 12px 0', color: 'var(--tech-accent)' }}>
-            卡片 C
-          </h3>
-          <p style={{ margin: 0, color: 'var(--tech-text-muted)', lineHeight: 1.5 }}>
-            所有样式都已经内置在TechLayout组件中，无需额外配置。
-          </p>
-        </div>
+        <TechCard
+          title="默认卡片"
+          subtitle="展示基础的卡片样式"
+          icon="dashboard"
+          variant="default"
+          hoverable
+        >
+          这是一个科技风格的卡片组件，具有渐变背景和发光效果。
+          悬停时会显示发光边框效果，提供良好的交互反馈。
+        </TechCard>
+
+        <TechCard
+          title="玻璃卡片"
+          subtitle="毛玻璃效果的卡片"
+          icon="api"
+          variant="glass"
+          hoverable
+          actions={
+            <>
+              <TechButton variant="ghost" size="small">取消</TechButton>
+              <TechButton variant="primary" size="small">确认</TechButton>
+            </>
+          }
+        >
+          这是一个玻璃效果的卡片，具有毛玻璃背景和模糊效果。
+          卡片底部包含操作按钮区域。
+        </TechCard>
+
+        <TechCard
+          title="渐变卡片"
+          subtitle="带有渐变背景的卡片"
+          icon="deploy"
+          variant="gradient"
+          clickable
+          onClick={() => alert('卡片被点击了！')}
+          extra={<TechButton variant="ghost" size="small" icon="settings" iconOnly />}
+        >
+          这是一个可点击的渐变卡片，右上角有额外的操作按钮。
+          点击卡片会触发相应的事件处理。
+        </TechCard>
+
+        <TechCard
+          title="加载状态"
+          subtitle="展示加载中的卡片"
+          icon="guide"
+          variant="filled"
+          loading
+        >
+          这个卡片正在加载中，会显示加载遮罩和旋转动画。
+        </TechCard>
+
+        <TechCard
+          title="小尺寸卡片"
+          icon="home"
+          variant="outlined"
+          size="small"
+          hoverable
+        >
+          这是一个小尺寸的卡片，适合在空间有限的地方使用。
+        </TechCard>
+
+        <TechCard
+          title="大尺寸卡片"
+          subtitle="更大的卡片适合展示更多内容"
+          icon="book"
+          variant="default"
+          size="large"
+          hoverable
+        >
+          这是一个大尺寸的卡片，可以容纳更多的内容和信息。
+          大卡片通常用于重要信息的展示或者作为主要的内容区域。
+        </TechCard>
       </div>
 
       {/* 额外的演示内容 */}

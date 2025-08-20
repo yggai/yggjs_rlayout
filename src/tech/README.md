@@ -102,9 +102,43 @@ function App() {
 | `headerMenuItems` | `TechMenuItem[]` | `[]` | 头部菜单项 |
 | `sidebarItems` | `TechMenuItem[]` | - | 侧边栏菜单项 |
 | `onSearch` | `(value: string) => void` | - | 搜索回调 |
-| `breadcrumb` | `string` | - | 面包屑导航 |
+| `breadcrumb` | `string \| TechBreadcrumbItem[]` | - | 面包屑导航 |
 | `title` | `string` | - | 页面标题 |
 | `pageActions` | `ReactNode` | - | 页面操作按钮 |
+| `footerProps` | `TechFooterProps` | - | Footer配置 |
+
+### TechCard
+
+科技风卡片组件。
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `title` | `string` | - | 卡片标题 |
+| `subtitle` | `string` | - | 卡片副标题 |
+| `icon` | `TechIconName` | - | 卡片图标 |
+| `variant` | `'default' \| 'outlined' \| 'filled' \| 'glass' \| 'gradient'` | `'default'` | 卡片样式 |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | 卡片尺寸 |
+| `hoverable` | `boolean` | `true` | 是否可悬停 |
+| `clickable` | `boolean` | `false` | 是否可点击 |
+| `loading` | `boolean` | `false` | 加载状态 |
+| `disabled` | `boolean` | `false` | 禁用状态 |
+| `actions` | `ReactNode` | - | 操作按钮区域 |
+| `extra` | `ReactNode` | - | 额外内容（右上角） |
+| `onClick` | `() => void` | - | 点击回调 |
+
+### TechBreadcrumb
+
+科技风面包屑导航组件，支持简约文字版和图标版两种样式。
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `items` | `TechBreadcrumbItem[]` | - | 面包屑项目 |
+| `variant` | `'simple' \| 'icon'` | `'simple'` | 样式变体 |
+| `separator` | `ReactNode` | `'/'` (简约版) / `<ChevronRight />` (图标版) | 分隔符 |
+| `maxItems` | `number` | - | 最大显示项目数 |
+| `showHome` | `boolean` | `false` (简约版) / `true` (图标版) | 是否显示Home链接 |
+| `homeIcon` | `TechIconName` | `'home'` | Home图标 |
+| `onHomeClick` | `() => void` | - | Home点击回调 |
 
 ### TechButton
 
@@ -165,6 +199,15 @@ function App() {
 - 回到顶部功能
 - 响应式设计
 
+### 🍞 面包屑导航变体
+- **简约版（默认）**：纯文字，使用 `/` 分隔符，更简洁
+- **图标版**：支持图标，使用箭头分隔符，更丰富
+
+### 🃏 卡片组件变体
+- **5种样式**：default、outlined、filled、glass、gradient
+- **3种尺寸**：small、medium、large
+- **多种状态**：正常、加载、禁用、可点击
+
 ### 📱 改进的布局系统
 - 垂直滚动支持，内容超出时自动显示滚动条
 - 水平方向防溢出，确保不会出现横向滚动
@@ -190,18 +233,95 @@ function App() {
 
 支持的图标名称：`menu`, `dashboard`, `book`, `info`, `home`, `guide`, `api`, `search`, `user`, `settings`, `logout`, `chevron-left`, `chevron-right`, `plus`, `deploy`
 
-## 完整示例
+## 使用示例
+
+### 基础卡片
 
 ```tsx
-import { TechLayout } from 'yggjs_rlayout';
+import { TechCard, TechButton } from 'yggjs_rlayout';
+
+function CardExample() {
+  return (
+    <TechCard
+      title="用户设置"
+      subtitle="管理用户账户和偏好"
+      icon="user"
+      variant="default"
+      hoverable
+      actions={
+        <>
+          <TechButton variant="ghost" size="small">取消</TechButton>
+          <TechButton variant="primary" size="small">保存</TechButton>
+        </>
+      }
+    >
+      这是卡片的内容区域，可以放置任何React元素。
+    </TechCard>
+  );
+}
+```
+
+### 面包屑导航
+
+```tsx
+import { TechBreadcrumb, createBreadcrumb } from 'yggjs_rlayout';
+
+function BreadcrumbExample() {
+  // 简约版面包屑（默认）
+  const simpleItems = createBreadcrumb()
+    .add('Dashboard', '/dashboard')
+    .add('Settings', '/settings')
+    .add('Profile')
+    .build();
+
+  // 图标版面包屑
+  const iconItems = createBreadcrumb()
+    .add('Dashboard', '/dashboard', 'dashboard')
+    .add('Settings', '/settings', 'settings')
+    .add('Profile')
+    .build();
+
+  return (
+    <div>
+      {/* 简约文字版（默认） */}
+      <TechBreadcrumb
+        variant="simple"
+        items={simpleItems}
+        maxItems={3}
+      />
+
+      {/* 图标版 */}
+      <TechBreadcrumb
+        variant="icon"
+        items={iconItems}
+        showHome={true}
+        onHomeClick={() => console.log('回到首页')}
+      />
+    </div>
+  );
+}
+```
+
+### 完整布局示例
+
+```tsx
+import { TechLayout, TechCard, createBreadcrumb } from 'yggjs_rlayout';
 
 function App() {
+  // 简约版面包屑（默认）
+  const breadcrumbItems = createBreadcrumb()
+    .add('Dashboard', '/dashboard')
+    .add('Components')
+    .build();
+
   return (
     <TechLayout
       brand="My App"
       sidebarItems={[
         { key: 'home', label: 'Home', icon: 'home' }
       ]}
+      breadcrumb={breadcrumbItems}
+      title="组件演示"
       footerProps={{
         description: "现代化的科技风管理后台框架",
         sections: [
@@ -212,18 +332,20 @@ function App() {
               { label: 'Documentation', href: '#docs', icon: 'book' }
             ]
           }
-        ],
-        socialLinks: [
-          { label: 'GitHub', href: '#github', icon: 'api' }
         ]
       }}
       onSearch={(value) => console.log('搜索:', value)}
     >
       <div className="tech-cards">
-        <div className="tech-card">
-          <h3>卡片标题</h3>
-          <p>卡片内容</p>
-        </div>
+        <TechCard
+          title="卡片标题"
+          subtitle="卡片副标题"
+          icon="dashboard"
+          variant="default"
+          hoverable
+        >
+          卡片内容
+        </TechCard>
       </div>
     </TechLayout>
   );

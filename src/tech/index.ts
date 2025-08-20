@@ -7,6 +7,8 @@ export { TechFooter } from './TechFooter';
 export { TechSearch } from './TechSearch';
 export { TechMenu } from './TechMenu';
 export { TechButton } from './TechButton';
+export { TechCard } from './TechCard';
+export { TechBreadcrumb, TechBreadcrumbBuilder, createBreadcrumb } from './TechBreadcrumb';
 export { TechIcon } from './TechIcon';
 export { TechLayout } from './TechLayout';
 
@@ -14,3 +16,5 @@ export { TechLayout } from './TechLayout';
 export type { TechTheme, TechIconName } from './types';
 export type { TechFooterProps, TechFooterLink, TechFooterSection } from './TechFooter';
 export type { TechGlobalStylesProps } from './TechGlobalStyles';
+export type { TechCardProps } from './TechCard';
+export type { TechBreadcrumbProps, TechBreadcrumbItem } from './TechBreadcrumb';

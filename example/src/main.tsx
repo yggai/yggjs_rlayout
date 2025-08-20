@@ -14,6 +14,7 @@ import SidebarDemo from './pages/SidebarDemo';
 import SearchDemo from './pages/SearchDemo';
 import AppLayoutDemo from './pages/AppLayoutDemo';
 import TechLayoutDemo from './pages/TechLayoutDemo';
+import TechComponentsDemo from './pages/TechComponentsDemo';
 import './styles.css';
 
 const root = createRoot(document.getElementById('root')!);
@@ -34,6 +35,7 @@ root.render(
         <Route path="/search" element={<SearchDemo />} />
         <Route path="/app-layout" element={<AppLayoutDemo />} />
         <Route path="/tech-layout" element={<TechLayoutDemo />} />
+        <Route path="/tech-components" element={<TechComponentsDemo />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
