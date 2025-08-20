@@ -3,4 +3,5 @@ export { Row, Column, BreakpointProvider, useBreakpoint, GridConfigProvider, use
 export type { Breakpoint } from './components/grid';
 export { Flex } from './components/flex';
 export { Grid } from './components/cssgrid';
+export { Container } from './components/container';
 

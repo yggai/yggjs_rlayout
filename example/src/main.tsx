@@ -7,6 +7,7 @@ import GridDemo from './pages/GridDemo';
 import GridConfigDemo from './pages/GridConfigDemo';
 import FlexDemo from './pages/FlexDemo';
 import CssGridDemo from './pages/CssGridDemo';
+import ContainerDemo from './pages/ContainerDemo';
 import './styles.css';
 
 const root = createRoot(document.getElementById('root')!);
@@ -20,6 +21,7 @@ root.render(
         <Route path="/grid-config" element={<GridConfigDemo />} />
         <Route path="/flex" element={<FlexDemo />} />
         <Route path="/css-grid" element={<CssGridDemo />} />
+        <Route path="/container" element={<ContainerDemo />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
