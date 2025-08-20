@@ -22,6 +22,33 @@ export default function FlexDemo(){
           <Flex.Item shrink={0}><div className="box">C (shrink=0)</div></Flex.Item>
         </Flex>
       </div>
+
+      <div className="panel">
+        <h3>预设组件：Center / Between / Around</h3>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12}}>
+          <div>
+            <div style={{opacity:.7,marginBottom:6}}>Center</div>
+            <Flex.Center style={{height:80,border:'1px dashed #2b3c7a',borderRadius:8}}>
+              <div className="box">centered</div>
+            </Flex.Center>
+          </div>
+          <div>
+            <div style={{opacity:.7,marginBottom:6}}>Between</div>
+            <Flex.Between style={{border:'1px dashed #2b3c7a',borderRadius:8,padding:8}}>
+              <div className="box">A</div>
+              <div className="box">B</div>
+            </Flex.Between>
+          </div>
+          <div>
+            <div style={{opacity:.7,marginBottom:6}}>Around</div>
+            <Flex.Around style={{border:'1px dashed #2b3c7a',borderRadius:8,padding:8}}>
+              <div className="box">A</div>
+              <div className="box">B</div>
+              <div className="box">C</div>
+            </Flex.Around>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

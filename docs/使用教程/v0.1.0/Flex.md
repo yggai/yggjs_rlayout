@@ -15,6 +15,11 @@ Flex.Item
 - order?: number; grow?: number; shrink?: number; basis?: number | string（如 100 或 '10rem'）
 - as?: keyof JSX.IntrinsicElements, className?: string, style?: React.CSSProperties
 
+预设组件
+- Flex.Center：水平垂直居中
+- Flex.Between：两端对齐（默认 align=center）
+- Flex.Around：平均分布（默认 align=center）
+
 ## 用法示例
 ```tsx
 import { Flex } from 'yggjs_rlayout';
