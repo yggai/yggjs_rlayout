@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Header, Sidebar, Container, Menu, type MenuItem } from 'yggjs_rlayout';
+import { Header, Sidebar, Container, Menu, Search, type MenuItem } from 'yggjs_rlayout';
 
 const Icon = ({ d, size=18 }: { d: string; size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -63,7 +63,7 @@ export default function AppLayoutDemo(){
         .tech-header .ygg-menu-horizontal{ gap:18px; }
         .tech-header .ygg-menu-item-selected{ color:var(--accent); border-bottom:2px solid var(--accent); }
         .tech-actions{ display:flex; align-items:center; gap:12px; }
-        .tech-search{ background:#0b1430; border:1px solid var(--border); color:#cfe1ff; padding:6px 10px; border-radius:8px; width:220px; }
+
 
         .tech-sidebar.ygg-sidebar{ height: calc(100vh - 56px); border-right:1px solid var(--border); box-shadow: inset -1px 0 0 var(--border); overflow:auto; }
         .tech-sidebar .ygg-menu{ padding:8px; }
@@ -99,10 +99,26 @@ export default function AppLayoutDemo(){
             </div>
 
             <div className="tech-actions" style={{ marginLeft:'auto' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                <Icon d={paths.search} />
-                <input className="tech-search" placeholder="Search…" />
-              </div>
+              <Search
+                size="medium"
+                variant="ghost"
+                showSearchIcon={true}
+                allowClear={true}
+                style={{
+                  background: 'rgba(11, 20, 48, 0.8)',
+                  border: '1px solid var(--border)',
+                  color: '#cfe1ff',
+                  width: '280px'
+                }}
+                inputStyle={{ color: '#cfe1ff' }}
+                onSearch={(value: string) => {
+                  console.log('Search:', value);
+                  // 这里可以添加实际的搜索逻辑
+                  if (value.trim()) {
+                    alert(`正在搜索: "${value}"`);
+                  }
+                }}
+              />
               <span style={{ opacity:.7 }}>v0.1.0</span>
             </div>
           </div>

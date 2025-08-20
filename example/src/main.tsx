@@ -11,6 +11,7 @@ import ContainerDemo from './pages/ContainerDemo';
 import MenuDemo from './pages/MenuDemo';
 import HeaderDemo from './pages/HeaderDemo';
 import SidebarDemo from './pages/SidebarDemo';
+import SearchDemo from './pages/SearchDemo';
 import AppLayoutDemo from './pages/AppLayoutDemo';
 import './styles.css';
 
@@ -29,6 +30,7 @@ root.render(
         <Route path="/menu" element={<MenuDemo />} />
         <Route path="/header" element={<HeaderDemo />} />
         <Route path="/sidebar" element={<SidebarDemo />} />
+        <Route path="/search" element={<SearchDemo />} />
         <Route path="/app-layout" element={<AppLayoutDemo />} />
       </Routes>
     </BrowserRouter>

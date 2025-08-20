@@ -8,4 +8,6 @@ export { Menu } from './components/menu';
 export type { MenuItem, MenuMode, MenuProps } from './components/menu';
 export { Header } from './components/header';
 export { Sidebar } from './components/sidebar';
+export { Search } from './components/search';
+export type { SearchProps, SearchSize, SearchVariant } from './components/search';
 
