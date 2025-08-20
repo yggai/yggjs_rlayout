@@ -13,6 +13,7 @@ import HeaderDemo from './pages/HeaderDemo';
 import SidebarDemo from './pages/SidebarDemo';
 import SearchDemo from './pages/SearchDemo';
 import AppLayoutDemo from './pages/AppLayoutDemo';
+import TechLayoutDemo from './pages/TechLayoutDemo';
 import './styles.css';
 
 const root = createRoot(document.getElementById('root')!);
@@ -32,6 +33,7 @@ root.render(
         <Route path="/sidebar" element={<SidebarDemo />} />
         <Route path="/search" element={<SearchDemo />} />
         <Route path="/app-layout" element={<AppLayoutDemo />} />
+        <Route path="/tech-layout" element={<TechLayoutDemo />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

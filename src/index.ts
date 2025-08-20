@@ -11,3 +11,6 @@ export { Sidebar } from './components/sidebar';
 export { Search } from './components/search';
 export type { SearchProps, SearchSize, SearchVariant } from './components/search';
 
+// Export tech theme components
+export * from './tech';
+
