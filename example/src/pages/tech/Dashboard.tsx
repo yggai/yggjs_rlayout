@@ -1,5 +1,5 @@
 import React from 'react';
-import { TechCard, TechButton } from 'yggjs_rlayout';
+import { TechCard, TechButton } from 'yggjs_rlayout/tech';
 
 export default function Dashboard() {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TechCard, TechButton } from 'yggjs_rlayout';
+import { TechCard, TechButton } from 'yggjs_rlayout/tech';
 
 export default function About() {
   return (
@@ -123,7 +123,7 @@ export default function About() {
 npm install yggjs_rlayout
 
 # 使用
-import { TechLayout } from 'yggjs_rlayout';
+import { TechLayout } from 'yggjs_rlayout/tech';
 
 function App() {
   return (

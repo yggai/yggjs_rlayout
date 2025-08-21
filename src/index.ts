@@ -1,3 +1,4 @@
+// 基础布局组件库
 export { Layout } from './components/layout';
 export { Row, Column, BreakpointProvider, useBreakpoint, GridConfigProvider, useGridConfig } from './components/grid';
 export type { Breakpoint } from './components/grid';
@@ -11,6 +12,6 @@ export { Sidebar } from './components/sidebar';
 export { Search } from './components/search';
 export type { SearchProps, SearchSize, SearchVariant } from './components/search';
 
-// Export tech theme components
-export * from './tech';
+// 注意：科技风主题组件已移至独立子包 'yggjs_rlayout/tech'
+// 请使用: import { TechLayout } from 'yggjs_rlayout/tech';
 

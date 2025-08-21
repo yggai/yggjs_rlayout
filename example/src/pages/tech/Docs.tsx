@@ -1,5 +1,5 @@
 import React from 'react';
-import { TechCard, TechButton } from 'yggjs_rlayout';
+import { TechCard, TechButton } from 'yggjs_rlayout/tech';
 
 export default function Docs() {
   return (
@@ -103,7 +103,7 @@ export default function Docs() {
               margin: '0 0 16px 0'
             }}>
 {`import { Link } from 'react-router-dom';
-import { TechLayout } from 'yggjs_rlayout';
+import { TechLayout } from 'yggjs_rlayout/tech';
 
 const menuItems = [
   { key: 'dashboard', label: 'Dashboard', icon: 'dashboard', to: '/' },

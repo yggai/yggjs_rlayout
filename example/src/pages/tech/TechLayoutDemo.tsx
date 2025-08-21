@@ -7,7 +7,7 @@ import {
   createBreadcrumb,
   type TechMenuItem,
   type TechUserCenterItem
-} from 'yggjs_rlayout';
+} from 'yggjs_rlayout/tech';
 
 // 创建 Link 适配器组件，匹配 LinkLikeComponent 接口
 const LinkAdapter: React.FC<{ to: string; className?: string; children?: React.ReactNode }> = ({ to, className, children }) => {
