@@ -7,6 +7,10 @@ export default defineConfig({
     setupFiles: ['./tests/setup.ts'],
     coverage: {
       enabled: false
+    },
+    typecheck: {
+      enabled: true,
+      tsconfig: './tsconfig.json'
     }
   },
   resolve: {

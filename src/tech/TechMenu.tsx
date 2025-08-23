@@ -151,11 +151,26 @@ export const TechMenu = memo<TechMenuProps>(function TechMenu({
     };
   }, [mode]);
 
+  // 计算默认展开的子菜单：为包含子项的节点自动展开，确保多级菜单可见
+  const autoDefaultOpenKeys = useMemo(() => {
+    const keys: string[] = [];
+    const walk = (arr: TechMenuItem[]) => {
+      arr.forEach(it => {
+        if (it.children && it.children.length) {
+          keys.push(it.key);
+          walk(it.children);
+        }
+      });
+    };
+    walk(items);
+    return keys;
+  }, [items]);
+
   // 使用useCallback优化选中事件处理函数
   const handleSelect = useCallback((info: Parameters<NonNullable<MenuProps['onSelect']>>[0]) => {
     // 先执行基础选中事件
     onSelect?.(info);
-    
+
     // 再执行高级选中事件（传入完整菜单项数据）
     const item = key2item.get(info.key);
     if (item && onSelectItem) {
@@ -176,6 +191,7 @@ export const TechMenu = memo<TechMenuProps>(function TechMenu({
       items={processedItems}
       vars={techVars}
       onSelect={handleSelect}
+      defaultOpenKeys={(props as any).defaultOpenKeys ?? (props as any).openKeys ?? autoDefaultOpenKeys}
       {...props}
       className={menuClassName}
     />

@@ -14,7 +14,7 @@ describe('Search', () => {
   it('handles controlled value', () => {
     const onChange = vi.fn();
     render(<Search value="test" onChange={onChange} data-testid="search" />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('searchbox');
     expect(input).toHaveValue('test');
     
     fireEvent.change(input, { target: { value: 'new value' } });
@@ -23,7 +23,7 @@ describe('Search', () => {
 
   it('handles uncontrolled value', () => {
     render(<Search defaultValue="initial" data-testid="search" />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('searchbox');
     expect(input).toHaveValue('initial');
     
     fireEvent.change(input, { target: { value: 'changed' } });
@@ -33,7 +33,7 @@ describe('Search', () => {
   it('calls onSearch when Enter is pressed', () => {
     const onSearch = vi.fn();
     render(<Search onSearch={onSearch} data-testid="search" />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('searchbox');
 
     fireEvent.change(input, { target: { value: 'search term' } });
     fireEvent.keyDown(input, { key: 'Enter' });
@@ -44,7 +44,7 @@ describe('Search', () => {
   it('calls onSearch when search button is clicked', () => {
     const onSearch = vi.fn();
     render(<Search onSearch={onSearch} searchButton={true} showSearchIcon={false} data-testid="search" />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('searchbox');
     const searchButton = screen.getByRole('button');
 
     fireEvent.change(input, { target: { value: 'search term' } });
@@ -92,7 +92,7 @@ describe('Search', () => {
 
   it('handles disabled state', () => {
     render(<Search disabled data-testid="search" />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('searchbox');
     const container = screen.getByTestId('search');
 
     expect(input).toBeDisabled();
@@ -114,7 +114,7 @@ describe('Search', () => {
   it('calls onSearch when search icon is clicked with content', () => {
     const onSearch = vi.fn();
     render(<Search onSearch={onSearch} showSearchIcon={true} data-testid="search" />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('searchbox');
     const searchIcon = screen.getByTestId('search').querySelector('.ygg-search-icon');
 
     fireEvent.change(input, { target: { value: 'search term' } });

@@ -10,7 +10,9 @@ export type SearchVariant = 'outlined' | 'filled' | 'ghost';
  * Search 组件的属性类型定义
  * @description 定义了搜索框组件所有可配置的属性
  */
-export type SearchProps = {
+export type SearchProps = Omit<React.InputHTMLAttributes<HTMLInputElement>,
+  'onChange' | 'onKeyDown' | 'onFocus' | 'onBlur' | 'value' | 'defaultValue' | 'disabled' | 'size' | 'className' | 'style'
+> & {
   /** 搜索框的值（受控模式） */
   value?: string;
   /** 搜索框的默认值（非受控模式） */
@@ -69,7 +71,19 @@ export type SearchProps = {
  * @returns React.JSX.Element
  */
 const SearchIcon = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    role="img"
+    aria-hidden="true"
+    data-testid="tech-icon-search"
+  >
     <circle cx="11" cy="11" r="8" />
     <path d="m21 21-4.35-4.35" />
   </svg>
@@ -154,7 +168,8 @@ export function Search({
   style,
   inputStyle,
   prefixCls = 'ygg',
-  'data-testid': dataTestId
+  'data-testid': dataTestId,
+  ...rest
 }: SearchProps) {
   // 内部管理的输入值（非受控模式）
   const [innerValue, setInnerValue] = useState(defaultValue);
@@ -487,7 +502,7 @@ export function Search({
 
   return (
     <div className={containerClass} style={style} data-testid={dataTestId}>
-      <div className={`${prefixCls}-search-input-wrapper`}>
+      <div className={`${prefixCls}-search-input-wrapper`} style={style}>
         {prefix && (
           <div className={`${prefixCls}-search-prefix`}>
             {prefix}
@@ -497,7 +512,8 @@ export function Search({
         <input
           ref={inputRef}
           className={`${prefixCls}-search-input`}
-          type="text"
+          type="search"
+          role="searchbox"
           value={currentValue}
           placeholder={placeholder}
           disabled={disabled}
@@ -506,6 +522,7 @@ export function Search({
           onFocus={handleFocus}
           onBlur={handleBlur}
           style={inputStyle}
+          {...rest}
         />
 
         <div className={`${prefixCls}-search-actions`}>

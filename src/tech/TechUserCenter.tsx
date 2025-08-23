@@ -49,7 +49,7 @@ export function TechUserCenter({
 }: TechUserCenterProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -83,6 +83,11 @@ export function TechUserCenter({
     setIsOpen(!isOpen);
   };
 
+  // 当菜单项发生变化时，关闭下拉，避免状态与内容不一致
+  useEffect(() => {
+    setIsOpen(false);
+  }, [items]);
+
   const handleItemClick = (item: TechUserCenterItem) => {
     item.onClick?.();
     if (item.href) window.location.href = item.href;
@@ -104,12 +109,12 @@ export function TechUserCenter({
 
   return (
     <div className={[styles.userCenter, className].filter(Boolean).join(' ')}>
-      <div
+      <button
         ref={triggerRef}
+        type="button"
+        tabIndex={0}
         className={`${styles.trigger} ${isOpen ? styles.active : ''}`}
         onClick={handleTriggerClick}
-        role="button"
-        tabIndex={0}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -127,28 +132,36 @@ export function TechUserCenter({
           </div>
         )}
         <TechIcon name="chevron-down" size={currentSize.icon} className={styles.chevronIcon} />
-      </div>
+      </button>
 
-      <div ref={dropdownRef} className={`${styles.dropdown} ${isOpen ? styles.open : ''}`}>
-        <div className={styles.dropdownHeader}>
-          <div className={styles.dropdownAvatar}>
-            {avatar ? <img src={avatar} alt={username} /> : username.charAt(0).toUpperCase()}
-          </div>
-          <div className={styles.dropdownName}>{username}</div>
-          {userInfo && <div className={styles.dropdownInfo}>{userInfo}</div>}
-        </div>
-        <div className={styles.dropdownMenu}>
-          {items.map((item) => (
-            <button
-              key={item.key}
-              className={`${styles.dropdownItem} ${item.danger ? styles.danger : ''}`}
-              onClick={() => handleItemClick(item)}
-            >
-              {item.icon && <TechIcon name={item.icon} size={16} className={styles.itemIcon} />}
-              <span>{item.label}</span>
-            </button>
-          ))}
-        </div>
+      <div
+        ref={dropdownRef}
+        className={`${styles.dropdown} ${isOpen ? styles.open : ''}`}
+        aria-hidden={!isOpen}
+      >
+        {isOpen && (
+          <>
+            <div className={styles.dropdownHeader}>
+              <div className={styles.dropdownAvatar}>
+                {avatar ? <img src={avatar} alt={username} /> : username.charAt(0).toUpperCase()}
+              </div>
+              <div className={styles.dropdownName}>{username}</div>
+              {userInfo && <div className={styles.dropdownInfo}>{userInfo}</div>}
+            </div>
+            <div className={styles.dropdownMenu}>
+              {items.map((item) => (
+                <button
+                  key={item.key}
+                  className={`${styles.dropdownItem} ${item.danger ? styles.danger : ''}`}
+                  onClick={() => handleItemClick(item)}
+                >
+                  {item.icon && <TechIcon name={item.icon} size={16} className={styles.itemIcon} />}
+                  <span>{item.label}</span>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

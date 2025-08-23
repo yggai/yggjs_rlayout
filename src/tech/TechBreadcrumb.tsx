@@ -45,7 +45,11 @@ export function TechBreadcrumb({
     if (!maxItems || items.length <= maxItems) return items;
     const firstItem = items[0];
     const lastItems = items.slice(-(maxItems - 1));
-    return [firstItem, { key: 'ellipsis', label: '...' }, ...lastItems];
+    return [
+      firstItem, 
+      { key: `ellipsis-${items.length}-${maxItems}`, label: '...' }, 
+      ...lastItems
+    ];
   }, [items, maxItems]);
 
   const defaultSeparator = variant === 'simple' ? <span>/</span> : <TechIcon name="chevron-right" size={12} />;
@@ -84,7 +88,7 @@ export function TechBreadcrumb({
       )}
       {processedItems.map((item, index) => {
         const isLast = index === processedItems.length - 1;
-        const isEllipsis = item.key === 'ellipsis';
+        const isEllipsis = item.key.startsWith('ellipsis-');
 
         const itemClasses = [
           styles.item,

@@ -63,7 +63,7 @@ const defaultTheme: TechTheme = {
 };
 
 /** 科技主题上下文 */
-const TechThemeContext = createContext<TechTheme>(defaultTheme);
+const TechThemeContext = createContext<TechTheme | undefined>(undefined);
 
 /**
  * 获取当前科技主题的Hook

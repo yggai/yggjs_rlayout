@@ -37,50 +37,21 @@ const TestComponentWithoutProvider = () => {
 };
 
 describe('TechThemeProvider', () => {
-  // Mock DOM方法
-  const mockSetProperty = vi.fn();
-  const mockRemoveProperty = vi.fn();
-  let originalBody: typeof document.body;
-  let originalDocumentElement: typeof document.documentElement;
+  // 监控 DOM 样式方法而不替换整个节点，避免破坏渲染
+  let setPropertySpy: ReturnType<typeof vi.spyOn>;
+  let removePropertySpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
-    // 保存原始DOM对象
-    originalBody = document.body;
-    originalDocumentElement = document.documentElement;
-
-    // Mock document.body.style
-    Object.defineProperty(document, 'body', {
-      value: {
-        style: {
-          background: ''
-        }
-      },
-      configurable: true
-    });
-
-    // Mock document.documentElement.style
-    Object.defineProperty(document, 'documentElement', {
-      value: {
-        style: {
-          setProperty: mockSetProperty,
-          removeProperty: mockRemoveProperty
-        }
-      },
-      configurable: true
-    });
+    // 重置背景值
+    document.body.style.background = '';
+    // 监听样式方法
+    setPropertySpy = vi.spyOn(document.documentElement.style, 'setProperty');
+    removePropertySpy = vi.spyOn(document.documentElement.style, 'removeProperty');
   });
 
   afterEach(() => {
-    // 恢复原始DOM对象
-    Object.defineProperty(document, 'body', {
-      value: originalBody,
-      configurable: true
-    });
-    Object.defineProperty(document, 'documentElement', {
-      value: originalDocumentElement,
-      configurable: true
-    });
-    
+    setPropertySpy.mockRestore();
+    removePropertySpy.mockRestore();
     vi.clearAllMocks();
   });
 
@@ -137,11 +108,11 @@ describe('TechThemeProvider', () => {
       );
 
       // 验证所有CSS变量都被设置
-      expect(mockSetProperty).toHaveBeenCalledWith('--tech-bg', '#0a0f1e');
-      expect(mockSetProperty).toHaveBeenCalledWith('--tech-panel', '#0e1630');
-      expect(mockSetProperty).toHaveBeenCalledWith('--tech-primary', '#5aa2ff');
-      expect(mockSetProperty).toHaveBeenCalledWith('--tech-accent', '#27e0ff');
-      expect(mockSetProperty).toHaveBeenCalledWith('--tech-text', '#cfe1ff');
+      expect(setPropertySpy).toHaveBeenCalledWith('--tech-bg', '#0a0f1e');
+      expect(setPropertySpy).toHaveBeenCalledWith('--tech-panel', '#0e1630');
+      expect(setPropertySpy).toHaveBeenCalledWith('--tech-primary', '#5aa2ff');
+      expect(setPropertySpy).toHaveBeenCalledWith('--tech-accent', '#27e0ff');
+      expect(setPropertySpy).toHaveBeenCalledWith('--tech-text', '#cfe1ff');
     });
 
     it('应该设置效果相关的CSS变量', () => {
@@ -151,11 +122,11 @@ describe('TechThemeProvider', () => {
         </TechThemeProvider>
       );
 
-      expect(mockSetProperty).toHaveBeenCalledWith(
+      expect(setPropertySpy).toHaveBeenCalledWith(
         '--tech-glow',
         expect.stringContaining('rgba(39,224,255,.16)')
       );
-      expect(mockSetProperty).toHaveBeenCalledWith(
+      expect(setPropertySpy).toHaveBeenCalledWith(
         '--tech-backdrop',
         'saturate(140%) blur(10px)'
       );
@@ -187,7 +158,7 @@ describe('TechThemeProvider', () => {
         </TechThemeProvider>
       );
 
-      expect(mockSetProperty).toHaveBeenCalledWith('--tech-primary', '#custom-primary');
+      expect(setPropertySpy).toHaveBeenCalledWith('--tech-primary', '#custom-primary');
     });
   });
 
@@ -202,12 +173,12 @@ describe('TechThemeProvider', () => {
       unmount();
 
       // 验证所有CSS变量都被清理
-      expect(mockRemoveProperty).toHaveBeenCalledWith('--tech-bg');
-      expect(mockRemoveProperty).toHaveBeenCalledWith('--tech-panel');
-      expect(mockRemoveProperty).toHaveBeenCalledWith('--tech-primary');
-      expect(mockRemoveProperty).toHaveBeenCalledWith('--tech-accent');
-      expect(mockRemoveProperty).toHaveBeenCalledWith('--tech-glow');
-      expect(mockRemoveProperty).toHaveBeenCalledWith('--tech-backdrop');
+      expect(removePropertySpy).toHaveBeenCalledWith('--tech-bg');
+      expect(removePropertySpy).toHaveBeenCalledWith('--tech-panel');
+      expect(removePropertySpy).toHaveBeenCalledWith('--tech-primary');
+      expect(removePropertySpy).toHaveBeenCalledWith('--tech-accent');
+      expect(removePropertySpy).toHaveBeenCalledWith('--tech-glow');
+      expect(removePropertySpy).toHaveBeenCalledWith('--tech-backdrop');
     });
 
     it('应该清理所有预期的CSS变量', () => {
@@ -226,7 +197,7 @@ describe('TechThemeProvider', () => {
       ];
 
       expectedProperties.forEach(property => {
-        expect(mockRemoveProperty).toHaveBeenCalledWith(property);
+        expect(removePropertySpy).toHaveBeenCalledWith(property);
       });
     });
   });
@@ -239,7 +210,7 @@ describe('TechThemeProvider', () => {
         </TechThemeProvider>
       );
 
-      mockSetProperty.mockClear();
+      setPropertySpy.mockClear();
 
       rerender(
         <TechThemeProvider theme={{ colors: { primary: '#new-color' } as Partial<TechTheme['colors']> }}>
@@ -247,7 +218,7 @@ describe('TechThemeProvider', () => {
         </TechThemeProvider>
       );
 
-      expect(mockSetProperty).toHaveBeenCalledWith('--tech-primary', '#new-color');
+      expect(setPropertySpy).toHaveBeenCalledWith('--tech-primary', '#new-color');
     });
 
     it('应该在相同主题时避免重复设置', () => {
@@ -259,7 +230,7 @@ describe('TechThemeProvider', () => {
         </TechThemeProvider>
       );
 
-      const initialCallCount = mockSetProperty.mock.calls.length;
+      const initialCallCount = setPropertySpy.mock.calls.length;
 
       rerender(
         <TechThemeProvider theme={theme}>
@@ -268,14 +239,19 @@ describe('TechThemeProvider', () => {
       );
 
       // CSS变量设置调用次数不应该增加
-      expect(mockSetProperty.mock.calls.length).toBe(initialCallCount);
+      expect(setPropertySpy.mock.calls.length).toBe(initialCallCount);
     });
   });
 
   describe('useTechTheme Hook测试', () => {
     it('应该在Provider外部使用时抛出错误', () => {
+      const ThrowingComponent = () => {
+        useTechTheme();
+        return <div>Should not render</div>;
+      };
+
       expect(() => {
-        render(<TestComponentWithoutProvider />);
+        render(<ThrowingComponent />);
       }).toThrow('useTechTheme必须在TechThemeProvider内部使用');
     });
 

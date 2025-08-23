@@ -17,7 +17,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["src", "vitest.config.ts", "src/css.d.ts"],
+  "include": ["src", "vitest.config.ts", "src/css.d.ts", "src/test.d.ts", "tests"],
   "exclude": ["dist", "node_modules"]
 }
 

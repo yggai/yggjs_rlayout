@@ -4,7 +4,7 @@
  * 提供可折叠的垂直导航侧边栏，支持多级菜单和科技风格视觉效果
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TechMenu, type TechMenuItem, type LinkLikeComponent } from './TechMenu';
 import styles from './TechSidebar.module.css';
 
@@ -38,13 +38,15 @@ export function TechSidebar({
   const sidebarWidth = collapsed ? collapsedWidth : width;
 
   const sidebarStyle = {
-    width: sidebarWidth,
-    '--header-height': `${headerHeight}px`,
     ...style,
+    '--header-height': `${headerHeight}px`,
+    width: sidebarWidth,
   } as React.CSSProperties;
 
   return (
     <div
+      role="navigation"
+      aria-label="Tech sidebar"
       className={[
         styles.sidebar,
         'tech-scrollbar-thin',
