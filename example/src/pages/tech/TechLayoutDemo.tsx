@@ -2,16 +2,25 @@ import React from 'react';
 import { useLocation, Link, Outlet } from 'react-router-dom';
 import {
   TechLayout,
+  TechFooter,
   TechButton,
   TechUserCenter,
   createBreadcrumb,
   type TechMenuItem,
-  type TechUserCenterItem
+  type TechUserCenterItem,
 } from 'yggjs_rlayout/tech';
 
 // 创建 Link 适配器组件，匹配 LinkLikeComponent 接口
-const LinkAdapter: React.FC<{ to: string; className?: string; children?: React.ReactNode }> = ({ to, className, children }) => {
-  return <Link to={to} className={className}>{children}</Link>;
+const LinkAdapter: React.FC<{ to: string; className?: string; children?: React.ReactNode }> = ({
+  to,
+  className,
+  children,
+}) => {
+  return (
+    <Link to={to} className={className}>
+      {children}
+    </Link>
+  );
 };
 
 export default function TechLayoutDemo() {
@@ -66,12 +75,19 @@ export default function TechLayoutDemo() {
   ];
 
   // 根据当前路径确定选中的菜单项
-  const selectedHeaderKey = location.pathname.startsWith('/docs') ? 'docs'
-    : location.pathname.startsWith('/about') ? 'about' : 'dash';
-    
-  const selectedSidebarKey = location.pathname.startsWith('/docs/api') ? 'api'
-    : location.pathname.startsWith('/docs') ? 'guide'
-    : location.pathname.startsWith('/about') ? 'about' : 'home';
+  const selectedHeaderKey = location.pathname.startsWith('/docs')
+    ? 'docs'
+    : location.pathname.startsWith('/about')
+      ? 'about'
+      : 'dash';
+
+  const selectedSidebarKey = location.pathname.startsWith('/docs/api')
+    ? 'api'
+    : location.pathname.startsWith('/docs')
+      ? 'guide'
+      : location.pathname.startsWith('/about')
+        ? 'about'
+        : 'home';
 
   const handleSearch = (value: string) => {
     console.log('Search:', value);
@@ -97,7 +113,7 @@ export default function TechLayoutDemo() {
         { label: 'Pricing', href: '#pricing' },
         { label: 'Documentation', href: '#docs', icon: 'book' as const },
         { label: 'API Reference', href: '#api', icon: 'api' as const },
-      ]
+      ],
     },
     {
       title: 'Company',
@@ -106,7 +122,7 @@ export default function TechLayoutDemo() {
         { label: 'Contact', href: '#contact' },
         { label: 'Careers', href: '#careers' },
         { label: 'Blog', href: '#blog' },
-      ]
+      ],
     },
     {
       title: 'Support',
@@ -115,8 +131,8 @@ export default function TechLayoutDemo() {
         { label: 'Community', href: '#community' },
         { label: 'Status', href: '#status' },
         { label: 'Feedback', href: '#feedback' },
-      ]
-    }
+      ],
+    },
   ];
 
   const socialLinks = [
@@ -126,59 +142,59 @@ export default function TechLayoutDemo() {
   ];
 
   // 创建面包屑导航（简约版不需要图标）
-  const breadcrumbItems = createBreadcrumb()
-    .add('Dashboard', '/')
-    .add('SPA 导航演示')
-    .build();
+  const breadcrumbItems = createBreadcrumb().add('Dashboard', '/').add('SPA 导航演示').build();
 
   return (
-    <TechLayout
-      // Header配置
-      brand="YGG Admin"
-      headerMenuItems={headerMenuItems}
-      selectedHeaderKey={selectedHeaderKey}
-      onHeaderMenuSelect={handleMenuSelect}
-      onSearch={handleSearch}
-      headerExtra={
-        <TechUserCenter
-          username="张三"
-          userInfo="zhangsan@example.com"
-          items={userCenterItems}
-          showUsername={false}
-          onAvatarClick={() => console.log('Avatar clicked')}
+    <>
+      <TechLayout
+        // Header配置
+        brand="YGG Admin"
+        headerMenuItems={headerMenuItems}
+        selectedHeaderKey={selectedHeaderKey}
+        onHeaderMenuSelect={handleMenuSelect}
+        onSearch={handleSearch}
+        headerExtra={
+          <TechUserCenter
+            username="张三"
+            userInfo="zhangsan@example.com"
+            items={userCenterItems}
+            showUsername={false}
+            onAvatarClick={() => console.log('Avatar clicked')}
+          />
+        }
+        version="v0.1.0"
+        // Sidebar配置
+        sidebarItems={sidebarItems}
+        selectedSidebarKey={selectedSidebarKey}
+        onSidebarSelect={handleSidebarSelect}
+        // SPA 导航配置 - 关键配置
+        headerMenuLinkComponent={LinkAdapter}
+        sidebarLinkComponent={LinkAdapter}
+        // 页面头部
+        breadcrumb={breadcrumbItems}
+        title="YGG Admin - SPA 导航演示"
+        pageActions={
+          <>
+            <TechButton variant="secondary">New</TechButton>
+            <TechButton variant="primary" icon="deploy">
+              Deploy
+            </TechButton>
+          </>
+        }
+      >
+        {/* 渲染子路由内容 */}
+        <Outlet />
+
+        {/* 独立使用的 Footer 组件 */}
+        <TechFooter
+          brand="YGG Admin"
+          version="v0.1.0"
+          description="YGG Admin 是一个现代化的科技风管理后台框架，提供完整的布局解决方案和组件库。"
+          sections={footerSections}
+          socialLinks={socialLinks}
+          copyright="© 2024 YGG Admin. All rights reserved."
         />
-      }
-      version="v0.1.0"
-
-      // Sidebar配置
-      sidebarItems={sidebarItems}
-      selectedSidebarKey={selectedSidebarKey}
-      onSidebarSelect={handleSidebarSelect}
-      
-      // SPA 导航配置 - 关键配置
-      headerMenuLinkComponent={LinkAdapter}
-      sidebarLinkComponent={LinkAdapter}
-
-      // Footer配置
-      footerProps={{
-        description: "YGG Admin 是一个现代化的科技风管理后台框架，提供完整的布局解决方案和组件库。",
-        sections: footerSections,
-        socialLinks: socialLinks,
-        copyright: "© 2024 YGG Admin. All rights reserved."
-      }}
-
-      // 页面头部
-      breadcrumb={breadcrumbItems}
-      title="YGG Admin - SPA 导航演示"
-      pageActions={
-        <>
-          <TechButton variant="secondary">New</TechButton>
-          <TechButton variant="primary" icon="deploy">Deploy</TechButton>
-        </>
-      }
-    >
-      {/* 渲染子路由内容 */}
-      <Outlet />
-    </TechLayout>
+      </TechLayout>
+    </>
   );
 }

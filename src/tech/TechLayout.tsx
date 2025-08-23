@@ -4,9 +4,7 @@ import { TechThemeProvider } from './TechThemeProvider';
 import { TechGlobalStyles } from './TechGlobalStyles';
 import { TechHeader, type TechHeaderProps } from './TechHeader';
 import { TechSidebar, type TechSidebarProps } from './TechSidebar';
-import { TechFooter, type TechFooterProps } from './TechFooter';
 import { TechBreadcrumb, type TechBreadcrumbItem } from './TechBreadcrumb';
-import { TechButton } from './TechButton';
 import type { TechMenuItem } from './TechMenu';
 
 export interface TechLayoutProps {
@@ -32,16 +30,13 @@ export interface TechLayoutProps {
   onSidebarSelectItem?: (item: TechMenuItem) => void;
   sidebarLinkComponent?: React.ComponentProps<typeof TechSidebar>['linkComponent'];
 
-  // Footer props
-  footerProps?: TechFooterProps;
-  showFooter?: boolean;
+
 
   // Layout props
   defaultCollapsed?: boolean;
   sidebarWidth?: number;
   collapsedWidth?: number;
   headerHeight?: number;
-  footerHeight?: number;
 
   // Content props
   contentMaxWidth?: number;
@@ -82,16 +77,13 @@ export function TechLayout({
   onSidebarSelectItem,
   sidebarLinkComponent,
 
-  // Footer
-  footerProps,
-  showFooter = true,
+
 
   // Layout
   defaultCollapsed = false,
   sidebarWidth = 240,
   collapsedWidth = 72,
   headerHeight = 56,
-  footerHeight = 200,
 
   // Content
   contentMaxWidth = 1280,
@@ -310,14 +302,6 @@ export function TechLayout({
               </Container>
             </div>
 
-            {/* Footer */}
-            {showFooter && (
-              <TechFooter
-                brand={brand}
-                version={version}
-                {...footerProps}
-              />
-            )}
           </div>
         </div>
       </div>
