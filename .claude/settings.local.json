@@ -5,7 +5,14 @@
       "Bash(npm run dev:*)",
       "Bash(rm:*)",
       "Bash(pnpm install:*)",
-      "Bash(pnpm config set:*)"
+      "Bash(pnpm config set:*)",
+      "Bash(pnpm config get:*)",
+      "Bash(pnpm:*)",
+      "Bash(npm install)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm test)",
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)"
     ],
     "deny": [],
     "ask": []
