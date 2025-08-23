@@ -1,3 +1,10 @@
+/**
+ * 科技风格菜单组件
+ * 
+ * 基于基础菜单组件的科技风格封装，支持图标和折叠状态
+ * 提供水平和垂直两种布局模式
+ */
+
 import React from 'react';
 import { Menu, type MenuProps } from '../components/menu';
 import type { MenuItem as BaseMenuItem } from '../components/menu';

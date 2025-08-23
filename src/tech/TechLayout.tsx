@@ -1,3 +1,20 @@
+/**
+ * 科技风格布局组件
+ * 
+ * 提供完整的科技风格应用布局，集成了：
+ * - 主题提供器和全局样式
+ * - 响应式头部导航
+ * - 可折叠侧边栏
+ * - 内容区域容器
+ * - 统一的布局管理
+ * 
+ * 布局特色：
+ * - 深色科技主题的整体视觉风格
+ * - 响应式设计，支持移动端适配
+ * - 平滑的侧边栏折叠动画
+ * - 灵活的内容区域配置
+ */
+
 import React, { useState } from 'react';
 import { Container } from '../components/container';
 import { TechThemeProvider } from './TechThemeProvider';
@@ -7,6 +24,10 @@ import { TechSidebar, type TechSidebarProps } from './TechSidebar';
 import type { TechMenuItem } from './TechMenu';
 import styles from './TechLayout.module.css';
 
+/**
+ * 科技风格布局组件的属性接口
+ * 整合了头部、侧边栏、内容区域的所有配置选项
+ */
 export interface TechLayoutProps {
   children: React.ReactNode;
 
@@ -46,6 +67,23 @@ export interface TechLayoutProps {
   style?: React.CSSProperties;
 }
 
+/**
+ * 科技风格布局组件
+ * 
+ * 提供完整的应用布局解决方案，包括主题、导航、侧边栏和内容区域
+ * 
+ * @example
+ * ```tsx
+ * <TechLayout
+ *   brand="我的应用"
+ *   sidebarItems={menuItems}
+ *   selectedSidebarKey="dashboard"
+ *   onSidebarSelect={handleMenuSelect}
+ * >
+ *   <div>主要内容区域</div>
+ * </TechLayout>
+ * ```
+ */
 export function TechLayout({
   children,
 

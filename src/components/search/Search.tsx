@@ -1,35 +1,73 @@
 import React, { useState, useRef, useEffect } from 'react';
 
+/** 搜索框尺寸类型 */
 export type SearchSize = 'small' | 'medium' | 'large';
+
+/** 搜索框外观变体类型 */
 export type SearchVariant = 'outlined' | 'filled' | 'ghost';
 
+/**
+ * Search 组件的属性类型定义
+ * @description 定义了搜索框组件所有可配置的属性
+ */
 export type SearchProps = {
+  /** 搜索框的值（受控模式） */
   value?: string;
+  /** 搜索框的默认值（非受控模式） */
   defaultValue?: string;
+  /** 占位符文本，默认为 '搜索...' */
   placeholder?: string;
+  /** 搜索框尺寸，默认为 'medium' */
   size?: SearchSize;
+  /** 搜索框外观变体，默认为 'outlined' */
   variant?: SearchVariant;
+  /** 是否禁用搜索框 */
   disabled?: boolean;
+  /** 是否显示加载状态 */
   loading?: boolean;
+  /** 是否显示清除按钮，默认为 true */
   allowClear?: boolean;
-  searchButton?: boolean; // 是否显示搜索按钮（已废弃，保留兼容性）
-  searchButtonText?: string; // 搜索按钮文本（已废弃，保留兼容性）
-  showSearchIcon?: boolean; // 是否显示搜索图标
+  /** 是否显示搜索按钮（已废弃，保留兼容性） */
+  searchButton?: boolean;
+  /** 搜索按钮文本（已废弃，保留兼容性） */
+  searchButtonText?: string;
+  /** 是否显示搜索图标，默认为 true */
+  showSearchIcon?: boolean;
+  /** 前缀元素，显示在输入框左侧 */
   prefix?: React.ReactNode;
+  /** 后缀元素，显示在输入框右侧 */
   suffix?: React.ReactNode;
+  /** 搜索触发时的回调函数 */
   onSearch?: (value: string) => void;
+  /** 输入值改变时的回调函数 */
   onChange?: (value: string) => void;
+  /** 清除输入时的回调函数 */
   onClear?: () => void;
+  /** 输入框获得焦点时的回调函数 */
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  /** 输入框失去焦点时的回调函数 */
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  /** 按键按下时的回调函数 */
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  /** 自定义 CSS 类名 */
   className?: string;
+  /** 自定义样式对象 */
   style?: React.CSSProperties;
+  /** 输入框的自定义样式对象 */
   inputStyle?: React.CSSProperties;
+  /** CSS 类名前缀，默认为 'ygg' */
   prefixCls?: string;
+  /** 测试标识符 */
   'data-testid'?: string;
 };
 
+/**
+ * 搜索图标组件
+ * @description 渲染一个放大镜样式的搜索图标
+ * @param props - 图标属性
+ * @param props.size - 图标尺寸，默认为 16
+ * @returns React.JSX.Element
+ */
 const SearchIcon = ({ size = 16 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="11" cy="11" r="8" />
@@ -37,6 +75,13 @@ const SearchIcon = ({ size = 16 }: { size?: number }) => (
   </svg>
 );
 
+/**
+ * 清除图标组件
+ * @description 渲染一个X形状的清除图标
+ * @param props - 图标属性
+ * @param props.size - 图标尺寸，默认为 14
+ * @returns React.JSX.Element
+ */
 const ClearIcon = ({ size = 14 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="18" y1="6" x2="6" y2="18" />
@@ -44,12 +89,47 @@ const ClearIcon = ({ size = 14 }: { size?: number }) => (
   </svg>
 );
 
+/**
+ * 加载图标组件
+ * @description 渲染一个旋转的加载图标
+ * @param props - 图标属性
+ * @param props.size - 图标尺寸，默认为 14
+ * @returns React.JSX.Element
+ */
 const LoadingIcon = ({ size = 14 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
     <path d="M21 12a9 9 0 11-6.219-8.56" />
   </svg>
 );
 
+/**
+ * Search 搜索框组件
+ * @description 一个功能完整的搜索输入框组件，支持多种尺寸、外观变体和交互功能
+ * @param props - Search组件的属性
+ * @returns React.JSX.Element
+ * 
+ * @example
+ * ```tsx
+ * // 基础搜索框
+ * <Search placeholder="请输入搜索关键词" onSearch={(value) => console.log(value)} />
+ * 
+ * // 受控搜索框
+ * const [searchValue, setSearchValue] = useState('');
+ * <Search 
+ *   value={searchValue} 
+ *   onChange={setSearchValue}
+ *   onSearch={(value) => handleSearch(value)}
+ * />
+ * 
+ * // 大尺寸带前缀的搜索框
+ * <Search 
+ *   size="large"
+ *   prefix={<UserIcon />}
+ *   variant="filled"
+ *   allowClear
+ * />
+ * ```
+ */
 export function Search({
   value,
   defaultValue = '',
@@ -76,17 +156,22 @@ export function Search({
   prefixCls = 'ygg',
   'data-testid': dataTestId
 }: SearchProps) {
+  // 内部管理的输入值（非受控模式）
   const [innerValue, setInnerValue] = useState(defaultValue);
+  // 焦点状态
   const [focused, setFocused] = useState(false);
+  // 输入框引用
   const inputRef = useRef<HTMLInputElement>(null);
+  // 判断是否为受控组件
   const isControlled = value !== undefined;
+  // 获取当前实际值
   const currentValue = isControlled ? value : innerValue;
 
-  // Inject base styles
+  // 注入基础样式到页面
   useEffect(() => {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined') return; // SSR环境下跳过
     const id = `${prefixCls}-search-base-style`;
-    if (document.getElementById(id)) return;
+    if (document.getElementById(id)) return; // 样式已存在则跳过
     
     const css = `
       @keyframes spin {
@@ -306,52 +391,67 @@ export function Search({
     document.head.appendChild(styleEl);
   }, [prefixCls]);
 
+  // 处理输入值变化
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
+    // 非受控模式下更新内部状态
     if (!isControlled) {
       setInnerValue(newValue);
     }
+    // 触发外部onChange回调
     onChange?.(newValue);
   };
 
+  // 处理键盘按键事件
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 按下Enter键时执行搜索
     if (e.key === 'Enter') {
       handleSearch();
     }
+    // 触发外部onKeyDown回调
     onKeyDown?.(e);
   };
 
+  // 执行搜索操作
   const handleSearch = () => {
     if (!disabled && !loading) {
       onSearch?.(currentValue);
     }
   };
 
+  // 处理清除输入内容
   const handleClear = () => {
     const newValue = '';
+    // 非受控模式下更新内部状态
     if (!isControlled) {
       setInnerValue(newValue);
     }
+    // 触发相关回调
     onChange?.(newValue);
     onClear?.();
+    // 清除后重新聚焦输入框
     inputRef.current?.focus();
   };
 
+  // 处理输入框获得焦点
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     setFocused(true);
     onFocus?.(e);
   };
 
+  // 处理输入框失去焦点
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setFocused(false);
     onBlur?.(e);
   };
 
-  const sizeClass = `${prefixCls}-search-${size}`;
-  const variantClass = `${prefixCls}-search-${variant}`;
-  const focusedClass = focused ? `${prefixCls}-search-focused` : '';
-  const disabledClass = disabled ? `${prefixCls}-search-disabled` : '';
+  // 构建各种CSS类名
+  const sizeClass = `${prefixCls}-search-${size}`; // 尺寸类名
+  const variantClass = `${prefixCls}-search-${variant}`; // 变体类名
+  const focusedClass = focused ? `${prefixCls}-search-focused` : ''; // 焦点状态类名
+  const disabledClass = disabled ? `${prefixCls}-search-disabled` : ''; // 禁用状态类名
 
+  // 组合最终的容器类名
   const containerClass = [
     `${prefixCls}-search`,
     sizeClass,
@@ -361,14 +461,18 @@ export function Search({
     className
   ].filter(Boolean).join(' ');
 
+  // 根据尺寸确定图标大小
   const iconSize = size === 'small' ? 16 : size === 'large' ? 20 : 18;
+  // 判断是否显示清除按钮
   const showClear = allowClear && currentValue && !disabled && !loading;
 
+  // 搜索按钮的类名（兼容旧版本）
   const buttonClass = [
     `${prefixCls}-search-button`,
     `${prefixCls}-search-button-${size}`
   ].filter(Boolean).join(' ');
 
+  // 处理搜索图标点击事件
   const handleSearchIconClick = () => {
     if (!disabled && !loading) {
       if (currentValue.trim()) {

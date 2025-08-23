@@ -1,11 +1,16 @@
+/**
+ * 科技风格搜索框组件
+ * 
+ * 基于基础搜索组件的科技风格封装，提供一致的视觉效果和交互体验
+ */
+
 import React from 'react';
 import { Search, type SearchProps } from '../components/search';
+import styles from './TechSearch.module.css';
 
 export interface TechSearchProps extends Omit<SearchProps, 'variant' | 'showSearchIcon' | 'searchButton'> {
   width?: number | string;
 }
-
-import styles from './TechSearch.module.css';
 
 export function TechSearch({
   width = 280,

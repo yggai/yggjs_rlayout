@@ -1,3 +1,10 @@
+/**
+ * 科技风格用户中心组件
+ * 
+ * 提供用户头像、信息展示和下拉菜单功能
+ * 支持多种尺寸和自定义菜单项，具有科技风格的视觉效果
+ */
+
 import React, { useState, useRef, useEffect } from 'react';
 import { TechIcon } from './TechIcon';
 import type { TechIconName } from './types';

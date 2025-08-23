@@ -1,3 +1,9 @@
+/**
+ * 科技风格页脚组件
+ * 
+ * 提供科技风格的页面页脚，包含品牌信息、链接分组、社交链接和版权信息
+ */
+
 import React from 'react';
 import { Container } from '../components/container';
 import { TechIcon } from './TechIcon';

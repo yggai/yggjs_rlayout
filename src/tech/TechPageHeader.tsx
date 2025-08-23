@@ -1,3 +1,9 @@
+/**
+ * 科技风格页面头部组件
+ * 
+ * 提供页面级别的头部区域，包含面包屑导航、页面标题和操作按钮
+ */
+
 import React from 'react';
 import { TechBreadcrumb, type TechBreadcrumbItem, type TechBreadcrumbProps } from './TechBreadcrumb';
 import styles from './TechPageHeader.module.css';

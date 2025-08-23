@@ -1,3 +1,9 @@
+/**
+ * 科技风格侧边栏组件
+ * 
+ * 提供可折叠的垂直导航侧边栏，支持多级菜单和科技风格视觉效果
+ */
+
 import React from 'react';
 import { TechMenu, type TechMenuItem, type LinkLikeComponent } from './TechMenu';
 import styles from './TechSidebar.module.css';

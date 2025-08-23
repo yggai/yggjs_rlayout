@@ -1,3 +1,10 @@
+/**
+ * 科技风格面包屑导航组件
+ * 
+ * 提供科技风格的面包屑导航，支持图标、省略显示和多种视觉风格
+ * 包含便捷的构建器类用于快速创建面包屑
+ */
+
 import React from 'react';
 import { TechIcon } from './TechIcon';
 import type { TechIconName } from './types';

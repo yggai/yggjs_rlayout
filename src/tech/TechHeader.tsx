@@ -1,3 +1,10 @@
+/**
+ * 科技风格头部导航组件
+ * 
+ * 提供科技风格的应用头部导航，包含品牌logo、水平菜单、搜索框和操作按钮
+ * 具有响应式设计和科技感的视觉效果
+ */
+
 import React from 'react';
 import { Header } from '../components/header';
 import { Container } from '../components/container';
