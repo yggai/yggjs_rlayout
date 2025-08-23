@@ -12,6 +12,7 @@ export { TechBreadcrumb, TechBreadcrumbBuilder, createBreadcrumb } from './TechB
 export { TechIcon } from './TechIcon';
 export { TechLayout } from './TechLayout';
 export { TechUserCenter } from './TechUserCenter';
+export { TechPageHeader } from './TechPageHeader';
 
 // 类型导出
 export type { TechTheme, TechIconName } from './types';

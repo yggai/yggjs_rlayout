@@ -3,6 +3,7 @@ import { useLocation, Link, Outlet } from 'react-router-dom';
 import {
   TechLayout,
   TechFooter,
+  TechPageHeader,
   TechButton,
   TechUserCenter,
   createBreadcrumb,
@@ -170,18 +171,20 @@ export default function TechLayoutDemo() {
         // SPA 导航配置 - 关键配置
         headerMenuLinkComponent={LinkAdapter}
         sidebarLinkComponent={LinkAdapter}
-        // 页面头部
-        breadcrumb={breadcrumbItems}
-        title="YGG Admin - SPA 导航演示"
-        pageActions={
-          <>
-            <TechButton variant="secondary">New</TechButton>
-            <TechButton variant="primary" icon="deploy">
-              Deploy
-            </TechButton>
-          </>
-        }
+
       >
+        {/* 页面头部组件（按需使用） */}
+        <TechPageHeader
+          breadcrumb={breadcrumbItems}
+          title="YGG Admin - SPA 导航演示"
+          actions={
+            <>
+              <TechButton variant="secondary">New</TechButton>
+              <TechButton variant="primary" icon="deploy">Deploy</TechButton>
+            </>
+          }
+        />
+
         {/* 渲染子路由内容 */}
         <Outlet />
 

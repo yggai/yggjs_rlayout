@@ -4,7 +4,6 @@ import { TechThemeProvider } from './TechThemeProvider';
 import { TechGlobalStyles } from './TechGlobalStyles';
 import { TechHeader, type TechHeaderProps } from './TechHeader';
 import { TechSidebar, type TechSidebarProps } from './TechSidebar';
-import { TechBreadcrumb, type TechBreadcrumbItem } from './TechBreadcrumb';
 import type { TechMenuItem } from './TechMenu';
 
 export interface TechLayoutProps {
@@ -43,12 +42,6 @@ export interface TechLayoutProps {
   contentPadding?: number;
   enableGlobalStyles?: boolean;
   enableScrollbarStyling?: boolean;
-
-  // Page header
-  breadcrumb?: string | TechBreadcrumbItem[];
-  breadcrumbProps?: Omit<React.ComponentProps<typeof TechBreadcrumb>, 'items'>;
-  title?: string;
-  pageActions?: React.ReactNode;
 
   className?: string;
   style?: React.CSSProperties;
@@ -91,11 +84,7 @@ export function TechLayout({
   enableGlobalStyles = true,
   enableScrollbarStyling = true,
 
-  // Page header
-  breadcrumb,
-  breadcrumbProps,
-  title,
-  pageActions,
+
 
   className = '',
   style = {}
@@ -142,32 +131,6 @@ export function TechLayout({
             overflow-x: hidden;
           }
 
-          .tech-page-header {
-            display: flex;
-            align-items: end;
-            justify-content: space-between;
-            padding: 16px 0 10px;
-            margin-bottom: 24px;
-            flex-shrink: 0;
-          }
-
-          .tech-page-breadcrumb {
-            margin-bottom: 8px;
-          }
-
-          .tech-title {
-            margin: 0;
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--tech-text);
-          }
-
-          .tech-page-actions {
-            display: flex;
-            gap: 10px;
-            flex-shrink: 0;
-          }
-
           .tech-content-inner {
             flex: 1;
             min-height: 0;
@@ -196,17 +159,6 @@ export function TechLayout({
           @media (max-width: 768px) {
             .tech-content-wrapper {
               margin-left: ${collapsed ? collapsedWidth : sidebarWidth}px;
-            }
-
-            .tech-page-header {
-              flex-direction: column;
-              align-items: flex-start;
-              gap: 16px;
-            }
-
-            .tech-page-actions {
-              width: 100%;
-              justify-content: flex-end;
             }
 
             .tech-cards {
@@ -266,35 +218,6 @@ export function TechLayout({
             {/* Scrollable Content */}
             <div className="tech-content">
               <Container variant="fixed" maxWidth={contentMaxWidth} paddingX={contentPadding}>
-                {/* Page Header */}
-                {(breadcrumb || title || pageActions) && (
-                  <div className="tech-page-header">
-                    <div>
-                      {breadcrumb && (
-                        <div className="tech-page-breadcrumb">
-                          {typeof breadcrumb === 'string' ? (
-                            <div style={{ color: 'var(--tech-muted)', fontSize: '12px' }}>
-                              {breadcrumb}
-                            </div>
-                          ) : (
-                            <TechBreadcrumb
-                              items={breadcrumb}
-                              variant="simple"
-                              {...breadcrumbProps}
-                            />
-                          )}
-                        </div>
-                      )}
-                      {title && <h1 className="tech-title">{title}</h1>}
-                    </div>
-                    {pageActions && (
-                      <div className="tech-page-actions">
-                        {pageActions}
-                      </div>
-                    )}
-                  </div>
-                )}
-
                 {/* Main Content */}
                 <div className="tech-content-inner">
                   {children}
