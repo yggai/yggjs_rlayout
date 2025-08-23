@@ -1,0 +1,98 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Variants */
+.primary {
+  background: var(--tech-primary);
+  border: 1px solid var(--tech-primary);
+  color: #0b1020;
+  border-radius: 10px;
+}
+
+.secondary {
+  background: transparent;
+  border: 1px solid var(--tech-border);
+  color: var(--tech-text);
+  border-radius: 10px;
+}
+
+.ghost {
+  background: transparent;
+  border: none;
+  color: var(--tech-text);
+  border-radius: 10px;
+}
+
+.toggle {
+  background: transparent;
+  border: 1px solid var(--tech-border);
+  color: var(--tech-text);
+  border-radius: 8px;
+  padding: 6px;
+}
+
+/* Sizes */
+.small {
+  font-size: 12px;
+  padding: 6px 10px;
+}
+
+.medium {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+.large {
+  font-size: 16px;
+  padding: 10px 16px;
+}
+
+/* Ghost variant sizes need different padding */
+.ghost.small {
+  padding: 4px 8px;
+}
+
+.ghost.medium {
+  padding: 6px 10px;
+}
+
+.ghost.large {
+  padding: 8px 12px;
+}
+
+/* Toggle variant does not change padding with size */
+.toggle.small,
+.toggle.medium,
+.toggle.large {
+    padding: 6px;
+}
+
+/* Loader */
+.loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+

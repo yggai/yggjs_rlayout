@@ -1,6 +1,6 @@
 import React from 'react';
-import { Sidebar } from '../components/sidebar';
 import { TechMenu, type TechMenuItem, type LinkLikeComponent } from './TechMenu';
+import styles from './TechSidebar.module.css';
 
 export interface TechSidebarProps {
   items: TechMenuItem[];
@@ -31,45 +31,29 @@ export function TechSidebar({
 }: TechSidebarProps) {
   const sidebarWidth = collapsed ? collapsedWidth : width;
 
+  const sidebarStyle = {
+    width: sidebarWidth,
+    '--header-height': `${headerHeight}px`,
+    ...style,
+  } as React.CSSProperties;
+
   return (
-    <>
-      <style>{`
-        .tech-sidebar {
-          height: calc(100vh - ${headerHeight}px);
-          border-right: 1px solid var(--tech-border);
-          box-shadow: inset -1px 0 0 var(--tech-border);
-          overflow-y: auto;
-          overflow-x: hidden;
-          background: linear-gradient(180deg, rgba(39,224,255,.06), rgba(90,162,255,.04));
-          position: fixed;
-          top: ${headerHeight}px;
-          left: 0;
-          z-index: 100;
-        }
-
-        .tech-sidebar .ygg-menu {
-          padding: 8px;
-        }
-      `}</style>
-
-      <div
-        className={`tech-sidebar tech-scrollbar-thin ${collapsed ? 'collapsed' : ''} ${className}`}
-        style={{
-          width: sidebarWidth,
-          ...style
-        }}
-      >
-        <div style={{ padding: 8 }}>
-          <TechMenu
-            items={items}
-            selectedKeys={selectedKey ? [selectedKey] : []}
-            onSelect={onSelect ? (info) => onSelect(info.key) : undefined}
-            onSelectItem={onSelectItem}
-            linkComponent={linkComponent}
-            collapsed={collapsed}
-          />
-        </div>
-      </div>
-    </>
+    <div
+      className={[
+        styles.sidebar,
+        'tech-scrollbar-thin',
+        className
+      ].filter(Boolean).join(' ')}
+      style={sidebarStyle}
+    >
+      <TechMenu
+        items={items}
+        selectedKeys={selectedKey ? [selectedKey] : []}
+        onSelect={onSelect ? (info) => onSelect(info.key) : undefined}
+        onSelectItem={onSelectItem}
+        linkComponent={linkComponent}
+        collapsed={collapsed}
+      />
+    </div>
   );
 }

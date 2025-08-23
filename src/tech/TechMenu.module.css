@@ -1,0 +1,58 @@
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--menu-label-gap, 10px);
+  color: var(--tech-text);
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+.nav:hover {
+  opacity: 1;
+}
+
+.navTextCollapsed {
+  display: none;
+}
+
+.menu.collapsed .nav {
+  justify-content: center;
+}
+
+/* Horizontal Menu Styles */
+:global(.ygg-menu-horizontal) :global(.ygg-menu-item-selected) .nav {
+  color: var(--tech-accent);
+}
+
+:global(.ygg-menu-horizontal) :global(.ygg-menu-item-selected) {
+  border-bottom: 2px solid var(--tech-accent);
+}
+
+/* Vertical Menu Styles */
+:global(.ygg-menu-vertical) :global(.ygg-menu-item) {
+  position: relative;
+  padding: 6px 8px;
+  border-radius: 8px;
+  margin-bottom: 2px;
+}
+
+:global(.ygg-menu-vertical) :global(.ygg-menu-item):hover {
+  background: rgba(90, 162, 255, 0.08);
+}
+
+:global(.ygg-menu-vertical) :global(.ygg-menu-item-selected) {
+  background: linear-gradient(180deg, rgba(39,224,255,.10), rgba(90,162,255,.08));
+  box-shadow: var(--tech-glow);
+}
+
+:global(.ygg-menu-vertical) :global(.ygg-menu-item-selected)::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: var(--tech-accent);
+  border-radius: 2px;
+}
+

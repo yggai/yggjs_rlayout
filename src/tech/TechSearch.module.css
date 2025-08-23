@@ -1,0 +1,16 @@
+.search {
+  background: rgba(11, 20, 48, 0.8);
+  border: 1px solid var(--tech-border);
+  color: var(--tech-text);
+
+  --search-icon-color: var(--tech-text);
+  --search-icon-hover-color: var(--tech-accent);
+  --search-icon-hover-bg: rgba(39, 224, 255, 0.15);
+  --search-icon-active-bg: rgba(39, 224, 255, 0.25);
+}
+
+/* Ensure the input inherits the text color */
+.search :global(input) {
+  color: inherit;
+}
+

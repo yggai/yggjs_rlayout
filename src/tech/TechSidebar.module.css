@@ -1,0 +1,15 @@
+.sidebar {
+  height: calc(100vh - var(--header-height));
+  border-right: 1px solid var(--tech-border);
+  box-shadow: inset -1px 0 0 var(--tech-border);
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, rgba(39,224,255,.06), rgba(90,162,255,.04));
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  z-index: 100;
+  padding: 8px;
+  box-sizing: border-box;
+}
+

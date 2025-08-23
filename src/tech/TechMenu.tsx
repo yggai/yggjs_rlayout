@@ -3,6 +3,7 @@ import { Menu, type MenuProps } from '../components/menu';
 import type { MenuItem as BaseMenuItem } from '../components/menu';
 import type { TechIconName } from './types';
 import { TechIcon } from './TechIcon';
+import styles from './TechMenu.module.css';
 
 export type LinkLikeComponent = React.ComponentType<{
   to: string;
@@ -54,7 +55,7 @@ export function TechMenu({
       const inner = (
         <>
           {item.icon && <TechIcon name={item.icon} />}
-          <span className={`tech-nav-text ${collapsed ? 'collapsed' : ''}`}>
+          <span className={collapsed ? styles.navTextCollapsed : styles.navText}>
             {item.label}
           </span>
         </>
@@ -63,22 +64,14 @@ export function TechMenu({
       let labelNode: React.ReactNode;
       if (isLeaf) {
         if (Link && item.to) {
-          labelNode = (
-            <Link to={item.to} className="tech-nav">
-              {inner}
-            </Link>
-          );
+          labelNode = <Link to={item.to} className={styles.nav}>{inner}</Link>;
         } else if (item.href) {
-          labelNode = (
-            <a href={item.href} className="tech-nav">
-              {inner}
-            </a>
-          );
+          labelNode = <a href={item.href} className={styles.nav}>{inner}</a>;
         } else {
-          labelNode = <span className="tech-nav">{inner}</span>;
+          labelNode = <span className={styles.nav}>{inner}</span>;
         }
       } else {
-        labelNode = <span className="tech-nav">{inner}</span>;
+        labelNode = <span className={styles.nav}>{inner}</span>;
       }
 
       return {
@@ -111,71 +104,20 @@ export function TechMenu({
     if (item && onSelectItem) onSelectItem(item);
   };
 
+  const menuClassName = [
+    props.className,
+    styles.menu,
+    collapsed && styles.collapsed
+  ].filter(Boolean).join(' ');
+
   return (
-    <>
-      <style>{`
-        .tech-nav {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          color: var(--tech-text);
-          text-decoration: none;
-          opacity: 0.9;
-        }
-
-        .tech-nav-text.collapsed {
-          display: none;
-        }
-
-        .tech-nav:hover {
-          opacity: 1;
-        }
-
-        /* 水平菜单样式 */
-        .ygg-menu-horizontal .ygg-menu-item-selected {
-          color: var(--tech-accent) !important;
-          border-bottom: 2px solid var(--tech-accent) !important;
-        }
-
-        /* 垂直菜单样式 */
-        .ygg-menu-vertical .ygg-menu-item {
-          position: relative;
-          padding: 6px 8px;
-          border-radius: 8px;
-          margin-bottom: 2px;
-        }
-
-        .ygg-menu-vertical .ygg-menu-item:hover {
-          background: rgba(90, 162, 255, 0.08);
-        }
-
-        .ygg-menu-vertical .ygg-menu-item-selected {
-          background: linear-gradient(180deg, rgba(39,224,255,.10), rgba(90,162,255,.08));
-          box-shadow: var(--tech-glow);
-        }
-
-        .ygg-menu-vertical .ygg-menu-item-selected::before {
-          content: '';
-          position: absolute;
-          left: -8px;
-          top: 8px;
-          bottom: 8px;
-          width: 3px;
-          background: var(--tech-accent);
-          border-radius: 2px;
-        }
-
-        .collapsed .ygg-menu .tech-nav {
-          justify-content: center;
-        }
-      `}</style>
-      <Menu
-        mode={mode}
-        items={processedItems}
-        vars={techVars}
-        onSelect={handleSelect}
-        {...props}
-      />
-    </>
+    <Menu
+      mode={mode}
+      items={processedItems}
+      vars={techVars}
+      onSelect={handleSelect}
+      {...props}
+      className={menuClassName}
+    />
   );
 }

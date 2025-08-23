@@ -1,0 +1,48 @@
+.header {
+  backdrop-filter: var(--tech-backdrop);
+  border-bottom: 1px solid var(--tech-border);
+  background: rgba(13, 18, 40, 0.8);
+  z-index: 1000;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand {
+  color: var(--tech-accent);
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  font-size: 16px;
+}
+
+.menuContainer {
+  flex: 1;
+  min-width: 0;
+}
+
+.menuContainer :global(.ygg-menu-horizontal) {
+  gap: 18px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.version {
+  opacity: 0.7;
+  font-size: 12px;
+  color: var(--tech-text-muted);
+}
+
