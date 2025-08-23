@@ -15,7 +15,7 @@
  * - 平滑的过渡动画
  */
 
-import React from 'react';
+import React, { memo, useMemo, useCallback } from 'react';
 import { TechIcon } from './TechIcon';
 import type { TechIconName } from './types';
 import styles from './TechCard.module.css';
@@ -85,7 +85,7 @@ export interface TechCardProps {
  * </TechCard>
  * ```
  */
-export function TechCard({
+export const TechCard = memo<TechCardProps>(function TechCard({
   children,
   title,
   subtitle,
@@ -103,30 +103,41 @@ export function TechCard({
   style = {},
   bodyStyle = {},
   headerStyle = {}
-}: TechCardProps) {
-  // 检查是否需要显示头部区域
-  const hasHeader = title || subtitle || icon || extra;
-  // 检查是否需要显示操作区域
-  const hasActions = actions;
+}) {
+  // 使用useMemo优化头部和操作区域判断
+  const hasHeader = useMemo(() => 
+    Boolean(title || subtitle || icon || extra), 
+    [title, subtitle, icon, extra]
+  );
+  const hasActions = useMemo(() => Boolean(actions), [actions]);
 
-  // 点击事件处理
-  const handleClick = () => {
+  // 使用useCallback优化点击事件处理
+  const handleClick = useCallback(() => {
     if (clickable && !disabled && !loading && onClick) {
       onClick();
     }
-  };
+  }, [clickable, disabled, loading, onClick]);
 
-  // 构建卡片的CSS类名
-  const cardClasses = [
-    styles.card, // 基础卡片样式
-    styles[variant], // 视觉变体样式
-    styles[size], // 尺寸样式
-    hoverable && styles.hoverable, // 悬停效果
-    clickable && styles.clickable, // 点击样式
-    disabled && styles.disabled, // 禁用状态
-    loading && styles.loading, // 加载状态
-    className // 用户自定义类名
-  ].filter(Boolean).join(' ');
+  // 使用useMemo优化类名计算
+  const cardClasses = useMemo(() => [
+    styles.card,
+    styles[variant],
+    styles[size],
+    hoverable && styles.hoverable,
+    clickable && styles.clickable,
+    disabled && styles.disabled,
+    loading && styles.loading,
+    className
+  ].filter(Boolean).join(' '), [variant, size, hoverable, clickable, disabled, loading, className]);
+
+  // 使用useMemo优化图标尺寸计算
+  const iconSize = useMemo(() => {
+    switch (size) {
+      case 'small': return 16;
+      case 'large': return 20;
+      default: return 18;
+    }
+  }, [size]);
 
   return (
     <div
@@ -140,7 +151,7 @@ export function TechCard({
             {/* 标题图标 */}
             {icon && (
               <div className={styles.icon}>
-                <TechIcon name={icon} size={size === 'small' ? 16 : size === 'large' ? 20 : 18} />
+                <TechIcon name={icon} size={iconSize} />
               </div>
             )}
             {/* 标题和副标题 */}
@@ -169,4 +180,4 @@ export function TechCard({
       )}
     </div>
   );
-}
+});

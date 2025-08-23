@@ -2,25 +2,29 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 16px 0 10px;
-  margin-bottom: 24px;
+  padding: 24px 0 16px;
+  margin-bottom: 32px;
   flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  position: relative;
 }
 
 .breadcrumb {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .title {
   margin: 0;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 600;
   color: var(--tech-text);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .actions {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-shrink: 0;
 }
 
@@ -28,12 +32,19 @@
   .header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 20px;
+    padding: 20px 0 16px;
+    margin-bottom: 24px;
+  }
+  
+  .title {
+    font-size: 24px;
   }
 
   .actions {
     width: 100%;
     justify-content: flex-end;
+    gap: 8px;
   }
 }
 

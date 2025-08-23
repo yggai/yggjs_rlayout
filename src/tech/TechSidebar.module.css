@@ -1,7 +1,9 @@
 .sidebar {
   height: calc(100vh - var(--header-height));
   border-right: 1px solid var(--tech-border);
-  box-shadow: inset -1px 0 0 var(--tech-border);
+  box-shadow: 
+    inset -1px 0 0 var(--tech-border),
+    4px 0 12px rgba(0,0,0,.1);
   overflow-y: auto;
   overflow-x: hidden;
   background: linear-gradient(180deg, rgba(39,224,255,.06), rgba(90,162,255,.04));
@@ -9,7 +11,9 @@
   top: var(--header-height);
   left: 0;
   z-index: 100;
-  padding: 8px;
+  padding: 16px 12px;
   box-sizing: border-box;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 

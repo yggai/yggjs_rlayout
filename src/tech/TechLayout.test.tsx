@@ -90,7 +90,7 @@ describe('TechLayout', () => {
       const layout = document.querySelector('[class*="layout"]');
       expect(layout).toBeInTheDocument();
       expect(layout?.className).toContain('custom-layout');
-      expect(layout?.style.backgroundColor).toBe('red');
+      expect((layout as HTMLElement)?.style.backgroundColor).toBe('red');
     });
   });
 
@@ -284,7 +284,7 @@ describe('TechLayout', () => {
       
       // 验证宽度通过CSS变量设置
       const layout = document.querySelector('[class*="layout"]');
-      expect(layout?.style.getPropertyValue('--sidebar-width')).toBe('300px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--sidebar-width')).toBe('300px');
     });
 
     it('应该支持自定义头部高度', () => {
@@ -298,8 +298,8 @@ describe('TechLayout', () => {
       );
       
       const layout = document.querySelector('[class*="layout"]');
-      expect(layout?.style.getPropertyValue('--header-height')).toBe('70px');
-      expect(layout?.style.getPropertyValue('--header-height-mobile')).toBe('78px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--header-height')).toBe('70px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--header-height-mobile')).toBe('78px');
     });
 
     it('应该在折叠状态下使用折叠宽度', () => {
@@ -315,7 +315,7 @@ describe('TechLayout', () => {
       );
       
       const layout = document.querySelector('[class*="layout"]');
-      expect(layout?.style.getPropertyValue('--sidebar-width')).toBe('60px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--sidebar-width')).toBe('60px');
     });
   });
 
@@ -404,9 +404,9 @@ describe('TechLayout', () => {
       
       // 验证CSS变量设置
       const layout = document.querySelector('[class*="layout"]');
-      expect(layout?.style.getPropertyValue('--sidebar-width')).toBe('260px');
-      expect(layout?.style.getPropertyValue('--header-height')).toBe('60px');
-      expect(layout?.style.getPropertyValue('--header-height-mobile')).toBe('68px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--sidebar-width')).toBe('260px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--header-height')).toBe('60px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--header-height-mobile')).toBe('68px');
     });
 
     it('应该正确处理所有交互事件', () => {
@@ -457,18 +457,18 @@ describe('TechLayout', () => {
       
       // 初始状态应该是展开的
       const layout = document.querySelector('[class*="layout"]');
-      expect(layout?.style.getPropertyValue('--sidebar-width')).toBe('240px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--sidebar-width')).toBe('240px');
       
       // 点击切换按钮
       const toggleButton = screen.getByLabelText('toggle sidebar');
       fireEvent.click(toggleButton);
       
       // 应该切换到折叠状态
-      expect(layout?.style.getPropertyValue('--sidebar-width')).toBe('72px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--sidebar-width')).toBe('72px');
       
       // 再次点击应该切换回展开状态
       fireEvent.click(toggleButton);
-      expect(layout?.style.getPropertyValue('--sidebar-width')).toBe('240px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--sidebar-width')).toBe('240px');
     });
 
     it('应该从默认折叠状态开始', () => {
@@ -484,7 +484,7 @@ describe('TechLayout', () => {
       );
       
       const layout = document.querySelector('[class*="layout"]');
-      expect(layout?.style.getPropertyValue('--sidebar-width')).toBe('72px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--sidebar-width')).toBe('72px');
     });
   });
 
@@ -509,7 +509,7 @@ describe('TechLayout', () => {
       expect(screen.getByTestId('mobile-content')).toBeInTheDocument();
       
       const layout = document.querySelector('[class*="layout"]');
-      expect(layout?.style.getPropertyValue('--header-height-mobile')).toBe('72px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--header-height-mobile')).toBe('72px');
     });
   });
 
@@ -569,8 +569,8 @@ describe('TechLayout', () => {
         </TechLayout>
       );
       
-      let layout = document.querySelector('[class*="layout"]');
-      const initialWidth = layout?.style.getPropertyValue('--sidebar-width');
+      let layout = document.querySelector('[class*="layout"]') as HTMLElement;
+      const initialWidth = (layout as HTMLElement)?.style.getPropertyValue('--sidebar-width');
       
       // 使用相同props重新渲染
       rerender(
@@ -584,8 +584,8 @@ describe('TechLayout', () => {
         </TechLayout>
       );
       
-      layout = document.querySelector('[class*="layout"]');
-      expect(layout?.style.getPropertyValue('--sidebar-width')).toBe(initialWidth);
+      layout = document.querySelector('[class*="layout"]') as HTMLElement;
+      expect((layout as HTMLElement)?.style.getPropertyValue('--sidebar-width')).toBe(initialWidth);
     });
 
     it('应该避免不必要的样式重新计算', () => {
@@ -599,8 +599,8 @@ describe('TechLayout', () => {
         </TechLayout>
       );
       
-      const layout = document.querySelector('[class*="layout"]');
-      const initialStyle = layout?.style.cssText;
+      const layout = document.querySelector('[class*="layout"]') as HTMLElement;
+      const initialStyle = (layout as HTMLElement)?.style.cssText;
       
       // 只改变children，其他props不变
       rerender(
@@ -614,7 +614,7 @@ describe('TechLayout', () => {
       );
       
       // 样式应该保持不变
-      expect(layout?.style.cssText).toBe(initialStyle);
+      expect((layout as HTMLElement)?.style.cssText).toBe(initialStyle);
     });
   });
 
@@ -646,8 +646,8 @@ describe('TechLayout', () => {
       expect(screen.getByTestId('extreme-content')).toBeInTheDocument();
       
       const layout = document.querySelector('[class*="layout"]');
-      expect(layout?.style.getPropertyValue('--sidebar-width')).toBe('1px');
-      expect(layout?.style.getPropertyValue('--header-height')).toBe('1px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--sidebar-width')).toBe('1px');
+      expect((layout as HTMLElement)?.style.getPropertyValue('--header-height')).toBe('1px');
     });
 
     it('应该处理所有可选props为默认值', () => {
@@ -661,8 +661,8 @@ describe('TechLayout', () => {
       expect(screen.getByText('YGG Admin')).toBeInTheDocument(); // 默认品牌
       
       const layout = document.querySelector('[class*="layout"]');
-      expect(layout?.style.getPropertyValue('--sidebar-width')).toBe('240px'); // 默认宽度
-      expect(layout?.style.getPropertyValue('--header-height')).toBe('56px'); // 默认高度
+      expect((layout as HTMLElement)?.style.getPropertyValue('--sidebar-width')).toBe('240px'); // 默认宽度
+      expect((layout as HTMLElement)?.style.getPropertyValue('--header-height')).toBe('56px'); // 默认高度
     });
   });
 

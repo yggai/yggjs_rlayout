@@ -16,7 +16,10 @@
       "Bash(timeout 10 npm run dev)",
       "Bash(npm test:*)",
       "Bash(grep:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run test:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []

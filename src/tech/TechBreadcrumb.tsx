@@ -42,12 +42,18 @@ export function TechBreadcrumb({
   style = {}
 }: TechBreadcrumbProps) {
   const processedItems = React.useMemo(() => {
-    if (!maxItems || items.length <= maxItems) return items;
-    const firstItem = items[0];
-    const lastItems = items.slice(-(maxItems - 1));
+    // 确保每个项目都有key属性
+    const itemsWithKeys = items.map((item, index) => ({
+      ...item,
+      key: item.key || `item-${index}`
+    }));
+    
+    if (!maxItems || itemsWithKeys.length <= maxItems) return itemsWithKeys;
+    const firstItem = itemsWithKeys[0];
+    const lastItems = itemsWithKeys.slice(-(maxItems - 1));
     return [
       firstItem, 
-      { key: `ellipsis-${items.length}-${maxItems}`, label: '...' }, 
+      { key: `ellipsis-${itemsWithKeys.length}-${maxItems}`, label: '...' }, 
       ...lastItems
     ];
   }, [items, maxItems]);
@@ -88,7 +94,7 @@ export function TechBreadcrumb({
       )}
       {processedItems.map((item, index) => {
         const isLast = index === processedItems.length - 1;
-        const isEllipsis = item.key.startsWith('ellipsis-');
+        const isEllipsis = item.key && item.key.startsWith('ellipsis-');
 
         const itemClasses = [
           styles.item,

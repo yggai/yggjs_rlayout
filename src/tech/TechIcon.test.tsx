@@ -74,7 +74,7 @@ describe('TechIcon', () => {
       render(<TechIcon name="book" style={customStyle} />);
       
       const icon = screen.getByTestId('tech-icon-book');
-      expect(icon).toHaveStyle(customStyle);
+      expect(icon).toHaveStyle({ color: 'rgb(255, 0, 0)', opacity: '0.8' });
     });
 
     it('应该在没有额外类名时只应用tech-icon', () => {
@@ -125,11 +125,10 @@ describe('TechIcon', () => {
 
     it('应该在开发环境输出警告', () => {
       // 模拟开发环境
-      const originalEnv = process.env.NODE_ENV;
       const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
       
       // 设置为开发环境
-      Object.defineProperty(process.env, 'NODE_ENV', { value: 'development', configurable: true });
+      vi.stubEnv('NODE_ENV', 'development');
 
       // @ts-expect-error - 测试错误处理
       render(<TechIcon name="invalid" />);
@@ -139,16 +138,15 @@ describe('TechIcon', () => {
       );
       
       // 恢复环境
-      Object.defineProperty(process.env, 'NODE_ENV', { value: originalEnv, configurable: true });
+      vi.unstubAllEnvs();
       consoleSpy.mockRestore();
     });
 
     it('应该在生产环境不输出警告', () => {
-      const originalEnv = process.env.NODE_ENV;
       const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
       
       // 设置为生产环境
-      Object.defineProperty(process.env, 'NODE_ENV', { value: 'production', configurable: true });
+      vi.stubEnv('NODE_ENV', 'production');
 
       // @ts-expect-error - 测试错误处理
       render(<TechIcon name="invalid" />);
@@ -156,7 +154,7 @@ describe('TechIcon', () => {
       expect(consoleSpy).not.toHaveBeenCalled();
       
       // 恢复环境
-      Object.defineProperty(process.env, 'NODE_ENV', { value: originalEnv, configurable: true });
+      vi.unstubAllEnvs();
       consoleSpy.mockRestore();
     });
   });

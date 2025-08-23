@@ -206,13 +206,13 @@ describe('TechSearch', () => {
     });
 
     it('应该保持宽度样式优先级', () => {
-      const { container } = renderSearch({
+      renderSearch({
         width: 350,
         style: { width: '200px' } // 这个应该被width prop覆盖
       });
       
-      const searchWrapper = container.querySelector('[class*="search"]');
-      expect(searchWrapper?.style.width).toBe('350px');
+      const searchContainer = screen.getByRole('searchbox').closest('div');
+      expect(searchContainer?.style.width).toBe('350px');
     });
   });
 
@@ -365,10 +365,10 @@ describe('TechSearch', () => {
     });
 
     it('应该处理负数宽度', () => {
-      const { container } = renderSearch({ width: -100 });
+      renderSearch({ width: -100 });
       
-      const searchWrapper = container.querySelector('[class*="search"]');
-      expect(searchWrapper?.style.width).toBe('-100px');
+      const searchContainer = screen.getByRole('searchbox').closest('div');
+      expect(searchContainer?.style.width).toBe('-100px');
     });
 
     it('应该处理空字符串宽度', () => {

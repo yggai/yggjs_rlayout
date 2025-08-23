@@ -15,7 +15,7 @@
  * - 灵活的内容区域配置
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Container } from '../components/container';
 import { TechThemeProvider } from './TechThemeProvider';
 import { TechGlobalStyles } from './TechGlobalStyles';
@@ -123,14 +123,25 @@ export function TechLayout({
   style = {}
 }: TechLayoutProps) {
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
-  const currentSidebarWidth = collapsed ? collapsedWidth : sidebarWidth;
+  
+  // 使用useMemo优化侧边栏宽度计算
+  const currentSidebarWidth = useMemo(() => 
+    collapsed ? collapsedWidth : sidebarWidth, 
+    [collapsed, collapsedWidth, sidebarWidth]
+  );
 
-  const layoutStyle = {
+  // 使用useMemo优化样式对象计算
+  const layoutStyle = useMemo((): React.CSSProperties => ({
     ...style,
     '--sidebar-width': `${currentSidebarWidth}px`,
     '--header-height': `${headerHeight}px`,
     '--header-height-mobile': `${headerHeight + 8}px`,
-  } as React.CSSProperties;
+  }), [style, currentSidebarWidth, headerHeight]);
+
+  // 使用useCallback优化侧边栏切换函数
+  const handleToggleSidebar = useCallback(() => {
+    setCollapsed(prev => !prev);
+  }, []);
 
   return (
     <TechThemeProvider>
@@ -147,7 +158,7 @@ export function TechLayout({
           onMenuSelect={onHeaderMenuSelect}
           onMenuSelectItem={onHeaderMenuSelectItem}
           menuLinkComponent={headerMenuLinkComponent}
-          onToggleSidebar={() => setCollapsed(!collapsed)}
+          onToggleSidebar={handleToggleSidebar}
           onSearch={onSearch}
           searchPlaceholder={searchPlaceholder}
           actions={headerActions}

@@ -32,9 +32,9 @@ describe('TechCard', () => {
     });
 
     it('应该应用正确的默认CSS类名', () => {
-      renderCard();
+      const { container } = renderCard();
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       expect(card?.className).toMatch(/_card_/);
       expect(card?.className).toMatch(/_default_/);
       expect(card?.className).toMatch(/_medium_/);
@@ -42,12 +42,12 @@ describe('TechCard', () => {
     });
 
     it('应该正确应用自定义类名和样式', () => {
-      renderCard({
+      const { container } = renderCard({
         className: 'custom-card',
         style: { backgroundColor: 'red' }
       });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       expect(card?.className).toContain('custom-card');
       expect(card?.style.backgroundColor).toBe('red');
     });
@@ -91,28 +91,28 @@ describe('TechCard', () => {
     });
 
     it('应该在没有头部内容时隐藏头部区域', () => {
-      renderCard({
+      const { container } = renderCard({
         title: undefined,
         subtitle: undefined,
         icon: undefined,
         extra: undefined
       });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       const header = card?.querySelector('[class*="header"]');
       expect(header).not.toBeInTheDocument();
     });
 
     it('应该支持自定义头部样式', () => {
-      renderCard({
+      const { container } = renderCard({
         title: '自定义头部',
         headerStyle: { backgroundColor: 'blue', padding: '20px' }
       });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
-      const header = card?.querySelector('[class*="header"]');
-      expect(header?.style.backgroundColor).toBe('blue');
-      expect(header?.style.padding).toBe('20px');
+      const card = container.firstChild as HTMLElement;
+      const header = card?.querySelector('[class*="header"]') as HTMLElement;
+      expect(header.style.backgroundColor).toBe('blue');
+      expect(header.style.padding).toBe('20px');
     });
   });
 
@@ -123,17 +123,17 @@ describe('TechCard', () => {
 
     variants.forEach(variant => {
       it(`应该正确应用${variant}变体样式`, () => {
-        renderCard({ variant });
+        const { container } = renderCard({ variant });
         
-        const card = screen.getByText('默认卡片内容').closest('div');
+        const card = container.firstChild as HTMLElement;
         expect(card?.className).toMatch(new RegExp(`_${variant}_`));
       });
     });
 
     it('应该在未指定变体时使用default', () => {
-      renderCard({ variant: undefined });
+      const { container } = renderCard({ variant: undefined });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       expect(card?.className).toMatch(/_default_/);
     });
   });
@@ -143,9 +143,9 @@ describe('TechCard', () => {
 
     sizes.forEach(size => {
       it(`应该正确应用${size}尺寸样式`, () => {
-        renderCard({ size });
+        const { container } = renderCard({ size });
         
-        const card = screen.getByText('默认卡片内容').closest('div');
+        const card = container.firstChild as HTMLElement;
         expect(card?.className).toMatch(new RegExp(`_${size}_`));
       });
 
@@ -167,12 +167,12 @@ describe('TechCard', () => {
   describe('交互功能测试', () => {
     it('应该支持点击功能', () => {
       const mockClick = vi.fn();
-      renderCard({ 
+      const { container } = renderCard({ 
         clickable: true,
         onClick: mockClick
       });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       expect(card?.className).toMatch(/_clickable_/);
       
       fireEvent.click(card!);
@@ -181,12 +181,12 @@ describe('TechCard', () => {
 
     it('应该在非可点击状态下不响应点击', () => {
       const mockClick = vi.fn();
-      renderCard({ 
+      const { container } = renderCard({ 
         clickable: false,
         onClick: mockClick
       });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       fireEvent.click(card!);
       
       expect(mockClick).not.toHaveBeenCalled();
@@ -194,13 +194,13 @@ describe('TechCard', () => {
 
     it('应该在禁用状态下阻止点击', () => {
       const mockClick = vi.fn();
-      renderCard({ 
+      const { container } = renderCard({ 
         clickable: true,
         disabled: true,
         onClick: mockClick
       });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       expect(card?.className).toMatch(/_disabled_/);
       
       fireEvent.click(card!);
@@ -209,13 +209,13 @@ describe('TechCard', () => {
 
     it('应该在加载状态下阻止点击', () => {
       const mockClick = vi.fn();
-      renderCard({ 
+      const { container } = renderCard({ 
         clickable: true,
         loading: true,
         onClick: mockClick
       });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       expect(card?.className).toMatch(/_loading_/);
       
       fireEvent.click(card!);
@@ -223,9 +223,9 @@ describe('TechCard', () => {
     });
 
     it('应该支持悬停效果配置', () => {
-      const { rerender } = renderCard({ hoverable: true });
+      const { container, rerender } = renderCard({ hoverable: true });
       
-      let card = screen.getByText('默认卡片内容').closest('div');
+      let card = container.firstChild as HTMLElement;
       expect(card?.className).toMatch(/_hoverable_/);
       
       rerender(
@@ -236,14 +236,14 @@ describe('TechCard', () => {
         </TechThemeProvider>
       );
       
-      card = screen.getByText('默认卡片内容').closest('div');
+      card = container.firstChild as HTMLElement;
       expect(card?.className).not.toMatch(/_hoverable_/);
     });
   });
 
   describe('操作区域测试', () => {
     it('应该在有操作内容时显示操作区域', () => {
-      renderCard({
+      const { container } = renderCard({
         actions: (
           <>
             <button data-testid="action-1">操作1</button>
@@ -255,15 +255,15 @@ describe('TechCard', () => {
       expect(screen.getByTestId('action-1')).toBeInTheDocument();
       expect(screen.getByTestId('action-2')).toBeInTheDocument();
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       const actionsArea = card?.querySelector('[class*="actions"]');
       expect(actionsArea).toBeInTheDocument();
     });
 
     it('应该在没有操作内容时隐藏操作区域', () => {
-      renderCard({ actions: undefined });
+      const { container } = renderCard({ actions: undefined });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       const actionsArea = card?.querySelector('[class*="actions"]');
       expect(actionsArea).not.toBeInTheDocument();
     });
@@ -308,7 +308,7 @@ describe('TechCard', () => {
     });
 
     it('应该支持自定义主体样式', () => {
-      renderCard({
+      const { container } = renderCard({
         bodyStyle: { 
           backgroundColor: 'green',
           padding: '30px',
@@ -316,11 +316,11 @@ describe('TechCard', () => {
         }
       });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
-      const body = card?.querySelector('[class*="body"]');
-      expect(body?.style.backgroundColor).toBe('green');
-      expect(body?.style.padding).toBe('30px');
-      expect(body?.style.minHeight).toBe('200px');
+      const card = container.firstChild as HTMLElement;
+      const body = card?.querySelector('[class*="body"]') as HTMLElement;
+      expect(body.style.backgroundColor).toBe('green');
+      expect(body.style.padding).toBe('30px');
+      expect(body.style.minHeight).toBe('200px');
     });
 
     it('应该保持主体内容的可访问性', () => {
@@ -379,7 +379,8 @@ describe('TechCard', () => {
       expect(screen.getByText('删除')).toBeInTheDocument();
       
       // 验证样式类名
-      const card = screen.getByText('完整测试卡片').closest('div');
+      const headerElement = screen.getByText('完整测试卡片');
+      const card = headerElement.closest('[class*="card"]') as HTMLElement;
       expect(card?.className).toMatch(/_glass_/);
       expect(card?.className).toMatch(/_large_/);
       expect(card?.className).toMatch(/_hoverable_/);
@@ -394,7 +395,8 @@ describe('TechCard', () => {
         onClick: mockClick
       });
       
-      const card = screen.getByText('可点击卡片').closest('div');
+      const titleElement = screen.getByText('可点击卡片');
+      const card = titleElement.closest('[class*="card"]') as HTMLElement;
       fireEvent.click(card!);
       
       expect(mockClick).toHaveBeenCalledTimes(1);
@@ -408,7 +410,8 @@ describe('TechCard', () => {
         loading: true
       });
       
-      const card = screen.getByText('加载状态卡片').closest('div');
+      const titleElement = screen.getByText('加载状态卡片');
+      const card = titleElement.closest('[class*="card"]') as HTMLElement;
       expect(card?.className).toMatch(/_loading_/);
     });
 
@@ -418,7 +421,8 @@ describe('TechCard', () => {
         disabled: true
       });
       
-      const card = screen.getByText('禁用状态卡片').closest('div');
+      const titleElement = screen.getByText('禁用状态卡片');
+      const card = titleElement.closest('[class*="card"]') as HTMLElement;
       expect(card?.className).toMatch(/_disabled_/);
     });
 
@@ -431,7 +435,8 @@ describe('TechCard', () => {
         hoverable: false
       });
       
-      const card = screen.getByText('多状态卡片').closest('div');
+      const titleElement = screen.getByText('多状态卡片');
+      const card = titleElement.closest('[class*="card"]') as HTMLElement;
       expect(card?.className).toMatch(/_loading_/);
       expect(card?.className).toMatch(/_disabled_/);
       expect(card?.className).toMatch(/_clickable_/);
@@ -446,7 +451,8 @@ describe('TechCard', () => {
         icon: 'user'
       });
       
-      const card = screen.getByText('布局测试').closest('div');
+      const titleElement = screen.getByText('布局测试');
+      const card = titleElement.closest('[class*="card"]') as HTMLElement;
       const headerContent = card?.querySelector('[class*="headerContent"]');
       const iconDiv = card?.querySelector('[class*="icon"]');
       const titleWrapper = card?.querySelector('[class*="titleWrapper"]');
@@ -459,7 +465,8 @@ describe('TechCard', () => {
     it('应该在只有标题时正确布局', () => {
       renderCard({ title: '仅标题卡片' });
       
-      const card = screen.getByText('仅标题卡片').closest('div');
+      const titleElement = screen.getByText('仅标题卡片');
+      const card = titleElement.closest('[class*="card"]') as HTMLElement;
       const titleWrapper = card?.querySelector('[class*="titleWrapper"]');
       const iconDiv = card?.querySelector('[class*="icon"]');
       
@@ -470,7 +477,9 @@ describe('TechCard', () => {
     it('应该在只有图标时正确布局', () => {
       renderCard({ icon: 'settings' });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const { container } = renderCard({ icon: 'settings' });
+      
+      const card = container.firstChild as HTMLElement;
       const iconDiv = card?.querySelector('[class*="icon"]');
       const titleWrapper = card?.querySelector('[class*="titleWrapper"]');
       
@@ -487,7 +496,8 @@ describe('TechCard', () => {
         size: 'medium'
       });
       
-      const card = screen.getByText('性能测试').closest('div');
+      const titleElement = screen.getByText('性能测试');
+      const card = titleElement.closest('[class*="card"]') as HTMLElement;
       const initialClassName = card?.className;
       
       // 使用相同props重新渲染
@@ -499,7 +509,8 @@ describe('TechCard', () => {
         </TechThemeProvider>
       );
       
-      const newCard = screen.getByText('性能测试').closest('div');
+      const newTitleElement = screen.getByText('性能测试');
+      const newCard = newTitleElement.closest('[class*="card"]') as HTMLElement;
       expect(newCard?.className).toBe(initialClassName);
     });
 
@@ -524,7 +535,8 @@ describe('TechCard', () => {
       );
       
       // 头部应该隐藏
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const bodyElement = screen.getByText('默认卡片内容');
+      const card = bodyElement.closest('[class*="card"]') as HTMLElement;
       const header = card?.querySelector('[class*="header"]');
       expect(header).not.toBeInTheDocument();
     });
@@ -532,12 +544,12 @@ describe('TechCard', () => {
 
   describe('边界情况测试', () => {
     it('应该处理空字符串标题', () => {
-      renderCard({ 
+      const { container } = renderCard({ 
         title: '',
         subtitle: ''
       });
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       const header = card?.querySelector('[class*="header"]');
       expect(header).not.toBeInTheDocument();
     });
@@ -572,9 +584,9 @@ describe('TechCard', () => {
     });
 
     it('应该处理所有可选props为默认值', () => {
-      renderCard({});
+      const { container } = renderCard({});
       
-      const card = screen.getByText('默认卡片内容').closest('div');
+      const card = container.firstChild as HTMLElement;
       expect(card?.className).toMatch(/_default_/);
       expect(card?.className).toMatch(/_medium_/);
       expect(card?.className).toMatch(/_hoverable_/);
@@ -592,7 +604,8 @@ describe('TechCard', () => {
         onClick: vi.fn()
       });
       
-      const card = screen.getByText('可点击卡片').closest('div');
+      const titleElement = screen.getByText('可点击卡片');
+      const card = titleElement.closest('[class*="card"]') as HTMLElement;
       // 可点击卡片应该有适当的cursor样式
       expect(card?.className).toMatch(/_clickable_/);
     });
@@ -625,19 +638,21 @@ describe('TechCard', () => {
         title: '样式级联测试'
       });
       
-      const card = screen.getByText('样式级联测试').closest('div');
-      const header = card?.querySelector('[class*="header"]');
-      const body = card?.querySelector('[class*="body"]');
+      const titleElement = screen.getByText('样式级联测试');
+      const card = titleElement.closest('[class*="card"]') as HTMLElement;
+      const header = card?.querySelector('[class*="header"]') as HTMLElement;
+      const body = card?.querySelector('[class*="body"]') as HTMLElement;
       
-      expect(card?.style.border).toBe('1px solid blue');
-      expect(header?.style.backgroundColor).toBe('gray');
-      expect(body?.style.padding).toBe('20px');
+      expect(card.style.border).toBe('1px solid blue');
+      expect(header.style.backgroundColor).toBe('gray');
+      expect(body.style.padding).toBe('20px');
     });
 
     it('应该保持CSS模块的作用域隔离', () => {
       renderCard({ title: 'CSS模块测试' });
       
-      const card = screen.getByText('CSS模块测试').closest('div');
+      const titleElement = screen.getByText('CSS模块测试');
+      const card = titleElement.closest('[class*="card"]') as HTMLElement;
       const header = card?.querySelector('[class*="header"]');
       const body = card?.querySelector('[class*="body"]');
       

@@ -8,20 +8,23 @@
 .container {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
+  padding: 0 24px;
+  height: 100%;
 }
 
 .left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
 }
 
 .brand {
   color: var(--tech-accent);
   font-weight: 700;
-  letter-spacing: 0.6px;
-  font-size: 16px;
+  letter-spacing: 0.5px;
+  font-size: 18px;
+  text-shadow: 0 0 8px rgba(39, 224, 255, 0.3);
 }
 
 .menuContainer {
@@ -30,13 +33,13 @@
 }
 
 .menuContainer :global(.ygg-menu-horizontal) {
-  gap: 18px;
+  gap: 24px;
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   margin-left: auto;
 }
 

@@ -31,28 +31,38 @@
 /* Vertical Menu Styles */
 :global(.ygg-menu-vertical) :global(.ygg-menu-item) {
   position: relative;
-  padding: 6px 8px;
-  border-radius: 8px;
-  margin-bottom: 2px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  margin-bottom: 6px;
 }
 
-:global(.ygg-menu-vertical) :global(.ygg-menu-item):hover {
-  background: rgba(90, 162, 255, 0.08);
-}
+/* 如果想要这个背景，就把下面的两个样式打开 */
+/* 鼠标移入时的底部背景 */
+/* :global(.ygg-menu-vertical) :global(.ygg-menu-item):hover {
+  background: rgba(90, 162, 255, 0.10);
+  transform: translateX(2px);
+  transition: all 0.2s ease;
+} */
 
-:global(.ygg-menu-vertical) :global(.ygg-menu-item-selected) {
-  background: linear-gradient(180deg, rgba(39,224,255,.10), rgba(90,162,255,.08));
-  box-shadow: var(--tech-glow);
-}
+/* 选中时的底部背景 */
+/* :global(.ygg-menu-vertical) :global(.ygg-menu-item-selected) {
+  background: linear-gradient(180deg, rgba(39,224,255,.12), rgba(90,162,255,.10));
+  box-shadow: 
+    0 0 0 1px rgba(39,224,255,.2),
+    0 2px 8px rgba(39, 224, 255, 0.15);
+} */
 
+/* 菜单前面的小竖线 */
 :global(.ygg-menu-vertical) :global(.ygg-menu-item-selected)::before {
   content: '';
   position: absolute;
-  left: -8px;
-  top: 8px;
-  bottom: 8px;
-  width: 3px;
-  background: var(--tech-accent);
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 24px;
+  background: linear-gradient(180deg, var(--tech-accent), var(--tech-primary));
   border-radius: 2px;
+  box-shadow: 0 0 8px rgba(39, 224, 255, 0.4);
 }
 

@@ -4,7 +4,7 @@
  * 基于基础搜索组件的科技风格封装，提供一致的视觉效果和交互体验
  */
 
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { Search, type SearchProps } from '../components/search';
 import styles from './TechSearch.module.css';
 
@@ -12,16 +12,23 @@ export interface TechSearchProps extends Omit<SearchProps, 'variant' | 'showSear
   width?: number | string;
 }
 
-export function TechSearch({
+export const TechSearch = memo<TechSearchProps>(function TechSearch({
   width = 280,
   className,
   style = {},
   ...props
-}: TechSearchProps) {
-  const combinedStyle: React.CSSProperties = {
-    width,
+}) {
+  // 使用useMemo优化样式计算
+  const combinedStyle = useMemo((): React.CSSProperties => ({
+    width: typeof width === 'number' ? `${width}px` : width,
     ...style
-  };
+  }), [width, style]);
+
+  // 使用useMemo优化类名计算
+  const combinedClassName = useMemo(() => 
+    [styles.search, className].filter(Boolean).join(' '), 
+    [className]
+  );
 
   return (
     <Search
@@ -30,9 +37,9 @@ export function TechSearch({
       showSearchIcon={true}
       searchButton={false}
       allowClear={true}
-      className={[styles.search, className].filter(Boolean).join(' ')}
+      className={combinedClassName}
       style={combinedStyle}
       {...props}
     />
   );
-}
+});

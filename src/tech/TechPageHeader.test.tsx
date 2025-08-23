@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { TechPageHeader } from './TechPageHeader';
 import { TechThemeProvider } from './TechThemeProvider';
@@ -28,7 +28,7 @@ describe('TechPageHeader', () => {
       
       const header = container.firstChild as HTMLElement;
       expect(header).toHaveClass('custom-header');
-      expect(header).toHaveStyle('background-color: blue');
+      expect(header.style.backgroundColor).toBe('blue');
     });
 
     it('应该正确应用CSS模块类名', () => {
@@ -433,9 +433,9 @@ describe('TechPageHeader', () => {
       expect(screen.getByText('权限设置')).toBeInTheDocument();
       
       // 验证样式
-      const header = screen.getByRole('heading', { level: 1 }).closest('div');
+      const header = screen.getByRole('heading', { level: 1 }).closest('[class*="_header_"]');
       expect(header).toHaveClass('full-header');
-      expect(header).toHaveStyle('padding: 20px');
+      expect(header).toHaveStyle({ padding: '20px' });
     });
 
     it('应该支持仅面包屑的配置', () => {
@@ -505,10 +505,10 @@ describe('TechPageHeader', () => {
         actions: <button>可聚焦按钮</button>
       });
       
-      const link = screen.getByText('首页');
+      const link = screen.getByText('首页').closest('a');
       const button = screen.getByText('可聚焦按钮');
       
-      link.focus();
+      link?.focus();
       expect(document.activeElement).toBe(link);
       
       button.focus();

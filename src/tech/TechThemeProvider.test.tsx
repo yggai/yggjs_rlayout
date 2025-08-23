@@ -71,9 +71,17 @@ describe('TechThemeProvider', () => {
     it('应该正确合并自定义主题', () => {
       const customTheme: Partial<TechTheme> = {
         colors: {
+          bg: '#0a0f1e',
+          panel: '#0e1630',
+          panel2: '#172042',
+          muted: '#475569',
           primary: '#ff5733',
-          accent: '#33ff57'
-        } as Partial<TechTheme['colors']>
+          accent: '#33ff57',
+          border: '#475569',
+          ring: '#27e0ff',
+          text: '#cfe1ff',
+          textMuted: '#94a3b8'
+        }
       };
 
       render(
@@ -148,8 +156,17 @@ describe('TechThemeProvider', () => {
     it('应该使用自定义主题更新CSS变量', () => {
       const customTheme: Partial<TechTheme> = {
         colors: {
-          primary: '#custom-primary'
-        } as Partial<TechTheme['colors']>
+          bg: '#0a0f1e',
+          panel: '#0e1630',
+          panel2: '#172042',
+          muted: '#475569',
+          primary: '#custom-primary',
+          accent: '#27e0ff',
+          border: '#475569',
+          ring: '#27e0ff',
+          text: '#cfe1ff',
+          textMuted: '#94a3b8'
+        }
       };
 
       render(
@@ -205,7 +222,7 @@ describe('TechThemeProvider', () => {
   describe('主题更新测试', () => {
     it('应该在主题变化时重新设置CSS变量', () => {
       const { rerender } = render(
-        <TechThemeProvider theme={{ colors: { primary: '#old-color' } as Partial<TechTheme['colors']> }}>
+        <TechThemeProvider theme={{ colors: { bg: '#0a0f1e', panel: '#0e1630', panel2: '#172042', muted: '#475569', primary: '#old-color', accent: '#27e0ff', border: '#475569', ring: '#27e0ff', text: '#cfe1ff', textMuted: '#94a3b8' } }}>
           <TestComponent />
         </TechThemeProvider>
       );
@@ -213,7 +230,7 @@ describe('TechThemeProvider', () => {
       setPropertySpy.mockClear();
 
       rerender(
-        <TechThemeProvider theme={{ colors: { primary: '#new-color' } as Partial<TechTheme['colors']> }}>
+        <TechThemeProvider theme={{ colors: { bg: '#0a0f1e', panel: '#0e1630', panel2: '#172042', muted: '#475569', primary: '#new-color', accent: '#27e0ff', border: '#475569', ring: '#27e0ff', text: '#cfe1ff', textMuted: '#94a3b8' } }}>
           <TestComponent />
         </TechThemeProvider>
       );
@@ -222,7 +239,7 @@ describe('TechThemeProvider', () => {
     });
 
     it('应该在相同主题时避免重复设置', () => {
-      const theme = { colors: { primary: '#same-color' } as Partial<TechTheme['colors']> };
+      const theme = { colors: { bg: '#0a0f1e', panel: '#0e1630', panel2: '#172042', muted: '#475569', primary: '#same-color', accent: '#27e0ff', border: '#475569', ring: '#27e0ff', text: '#cfe1ff', textMuted: '#94a3b8' } };
       
       const { rerender } = render(
         <TechThemeProvider theme={theme}>
@@ -352,11 +369,11 @@ describe('TechThemeProvider', () => {
 
     it('应该处理嵌套的主题提供器', () => {
       const outerTheme: Partial<TechTheme> = {
-        colors: { primary: '#outer-primary' } as Partial<TechTheme['colors']>
+        colors: { bg: '#0a0f1e', panel: '#0e1630', panel2: '#172042', muted: '#475569', primary: '#outer-primary', accent: '#27e0ff', border: '#475569', ring: '#27e0ff', text: '#cfe1ff', textMuted: '#94a3b8' }
       };
       
       const innerTheme: Partial<TechTheme> = {
-        colors: { primary: '#inner-primary' } as Partial<TechTheme['colors']>
+        colors: { bg: '#0a0f1e', panel: '#0e1630', panel2: '#172042', muted: '#475569', primary: '#inner-primary', accent: '#27e0ff', border: '#475569', ring: '#27e0ff', text: '#cfe1ff', textMuted: '#94a3b8' }
       };
 
       render(
@@ -376,9 +393,17 @@ describe('TechThemeProvider', () => {
     it('应该接受符合TechTheme接口的主题对象', () => {
       const validTheme: Partial<TechTheme> = {
         colors: {
+          bg: '#0a0f1e',
+          panel: '#0e1630',
+          panel2: '#172042',
+          muted: '#475569',
           primary: '#valid-color',
-          accent: '#another-valid-color'
-        } as Partial<TechTheme['colors']>,
+          accent: '#another-valid-color',
+          border: '#475569',
+          ring: '#27e0ff',
+          text: '#cfe1ff',
+          textMuted: '#94a3b8'
+        },
         effects: {
           glow: 'valid-glow-effect',
           backdrop: 'valid-backdrop-effect'

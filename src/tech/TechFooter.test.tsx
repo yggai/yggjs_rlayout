@@ -4,6 +4,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { TechFooter } from './TechFooter';
 import { TechThemeProvider } from './TechThemeProvider';
 import type { TechFooterSection, TechFooterLink } from './TechFooter';
+import type { TechIconName } from './types';
 
 const renderFooter = (props: Partial<React.ComponentProps<typeof TechFooter>> = {}) => {
   return render(
@@ -86,7 +87,7 @@ describe('TechFooter', () => {
         title: '产品',
         links: [
           { label: '功能介绍', href: '/features' },
-          { label: '定价', href: '/pricing', icon: 'plus' },
+          { label: '定价', href: '/pricing', icon: 'plus' as TechIconName },
           { label: '文档', onClick: vi.fn() }
         ]
       },
@@ -94,7 +95,7 @@ describe('TechFooter', () => {
         title: '支持',
         links: [
           { label: '帮助中心', href: '/help' },
-          { label: '联系我们', href: '/contact', icon: 'info' }
+          { label: '联系我们', href: '/contact', icon: 'info' as TechIconName }
         ]
       }
     ];
@@ -158,9 +159,9 @@ describe('TechFooter', () => {
 
   describe('社交链接', () => {
     const socialLinks: TechFooterLink[] = [
-      { label: 'GitHub', href: 'https://github.com', icon: 'api' },
-      { label: 'Twitter', href: 'https://twitter.com', icon: 'info' },
-      { label: 'LinkedIn', onClick: vi.fn(), icon: 'help' }
+      { label: 'GitHub', href: 'https://github.com', icon: 'api' as TechIconName },
+      { label: 'Twitter', href: 'https://twitter.com', icon: 'info' as TechIconName },
+      { label: 'LinkedIn', onClick: vi.fn(), icon: 'help' as TechIconName }
     ];
 
     it('应该正确渲染社交链接', () => {
@@ -184,8 +185,8 @@ describe('TechFooter', () => {
     it('应该正确处理社交链接的href和点击事件', () => {
       const mockClick = vi.fn();
       const linksWithClick: TechFooterLink[] = [
-        { label: 'GitHub', href: 'https://github.com', icon: 'api' },
-        { label: 'Custom', onClick: mockClick, icon: 'user' }
+        { label: 'GitHub', href: 'https://github.com', icon: 'api' as TechIconName },
+        { label: 'Custom', onClick: mockClick, icon: 'user' as TechIconName }
       ];
       
       renderFooter({ socialLinks: linksWithClick });
@@ -278,7 +279,7 @@ describe('TechFooter', () => {
           }
         ],
         socialLinks: [
-          { label: 'GitHub', href: 'https://github.com', icon: 'api' }
+          { label: 'GitHub', href: 'https://github.com', icon: 'api' as TechIconName }
         ],
         copyright: '© 2024 测试版权',
         version: '1.0.0'
@@ -417,7 +418,7 @@ describe('TechFooter', () => {
             links: [
               { label: 'href链接', href: '/href-link' },
               { label: '点击链接1', onClick: mockClick1 },
-              { label: '点击链接2', onClick: mockClick2, icon: 'settings' }
+              { label: '点击链接2', onClick: mockClick2, icon: 'settings' as TechIconName }
             ]
           }
         ]
@@ -441,8 +442,8 @@ describe('TechFooter', () => {
       
       renderFooter({
         socialLinks: [
-          { label: 'GitHub', href: 'https://github.com', icon: 'api' },
-          { label: 'Custom', onClick: mockSocialClick, icon: 'user' }
+          { label: 'GitHub', href: 'https://github.com', icon: 'api' as TechIconName },
+          { label: 'Custom', onClick: mockSocialClick, icon: 'user' as TechIconName }
         ]
       });
       
@@ -471,8 +472,8 @@ describe('TechFooter', () => {
     it('应该为社交链接提供正确的title属性', () => {
       renderFooter({
         socialLinks: [
-          { label: 'GitHub', href: 'https://github.com', icon: 'api' },
-          { label: 'Twitter', href: 'https://twitter.com', icon: 'info' }
+          { label: 'GitHub', href: 'https://github.com', icon: 'api' as TechIconName },
+          { label: 'Twitter', href: 'https://twitter.com', icon: 'info' as TechIconName }
         ]
       });
       
@@ -545,7 +546,7 @@ describe('TechFooter', () => {
           }
         ],
         socialLinks: [
-          { label: 'Test', href: 'https://test.com', icon: 'api' }
+          { label: 'Test', href: 'https://test.com', icon: 'api' as TechIconName }
         ],
         version: '1.0.0'
       });
@@ -575,22 +576,22 @@ describe('TechFooter', () => {
           {
             title: '产品',
             links: [
-              { label: '核心功能', href: '/features', icon: 'plus' },
+              { label: '核心功能', href: '/features', icon: 'plus' as TechIconName },
               { label: '高级功能', href: '/advanced' }
             ]
           },
           {
             title: '资源',
             links: [
-              { label: '文档', href: '/docs', icon: 'book' },
+              { label: '文档', href: '/docs', icon: 'book' as TechIconName },
               { label: 'API', href: '/api' },
-              { label: '社区', onClick: vi.fn(), icon: 'user' }
+              { label: '社区', onClick: vi.fn(), icon: 'user' as TechIconName }
             ]
           }
         ],
         socialLinks: [
-          { label: 'GitHub', href: 'https://github.com', icon: 'api' },
-          { label: 'Twitter', href: 'https://twitter.com', icon: 'info' }
+          { label: 'GitHub', href: 'https://github.com', icon: 'api' as TechIconName },
+          { label: 'Twitter', href: 'https://twitter.com', icon: 'info' as TechIconName }
         ],
         copyright: '© 2024 科技公司 保留所有权利',
         version: '3.1.4',

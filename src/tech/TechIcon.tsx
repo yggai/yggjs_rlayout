@@ -129,7 +129,7 @@ export const TechIcon = memo<TechIconProps>(function TechIcon({
     
     if (!path) {
       // 在开发环境下输出警告
-      if (__DEV__) {
+      if (process.env.NODE_ENV !== 'production') {
         console.warn(`TechIcon: Unknown icon name "${name}". Available icons: ${getTechIconNames().join(', ')}`);
       }
       return null;
