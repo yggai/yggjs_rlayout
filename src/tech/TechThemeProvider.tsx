@@ -13,7 +13,7 @@
  * - 动态发光和阴影效果
  */
 
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useCallback } from 'react';
 import type { TechTheme } from './types';
 
 /**
@@ -69,6 +69,7 @@ const TechThemeContext = createContext<TechTheme>(defaultTheme);
  * 获取当前科技主题的Hook
  * 
  * @returns 当前的科技主题配置
+ * @throws {Error} 如果在TechThemeProvider外部调用将抛出错误
  * 
  * @example
  * ```tsx
@@ -82,7 +83,13 @@ const TechThemeContext = createContext<TechTheme>(defaultTheme);
  * }
  * ```
  */
-export const useTechTheme = () => useContext(TechThemeContext);
+export const useTechTheme = (): TechTheme => {
+  const context = useContext(TechThemeContext);
+  if (!context) {
+    throw new Error('useTechTheme必须在TechThemeProvider内部使用');
+  }
+  return context;
+};
 
 /**
  * 科技主题提供器的属性接口
@@ -124,51 +131,77 @@ export interface TechThemeProviderProps {
  * </TechThemeProvider>
  * ```
  */
-export function TechThemeProvider({ children, theme }: TechThemeProviderProps) {
-  // 合并默认主题和自定义主题配置
-  const mergedTheme = React.useMemo(() => ({
-    ...defaultTheme,
-    ...theme,
-    colors: { ...defaultTheme.colors, ...theme?.colors },
-    effects: { ...defaultTheme.effects, ...theme?.effects },
-    gradients: { ...defaultTheme.gradients, ...theme?.gradients }
-  }), [theme]);
-
-  useEffect(() => {
-    // 将主题配置注入为CSS变量，供全局样式使用
-    const root = document.documentElement;
-    const { colors, effects } = mergedTheme;
+export const TechThemeProvider = React.memo<TechThemeProviderProps>(function TechThemeProvider({ children, theme }) {
+  // 使用useMemo优化主题合并计算，只在theme变化时重新计算
+  const mergedTheme = useMemo((): TechTheme => {
+    if (!theme) return defaultTheme;
     
-    root.style.setProperty('--tech-bg', colors.bg);
-    root.style.setProperty('--tech-panel', colors.panel);
-    root.style.setProperty('--tech-panel-2', colors.panel2);
-    root.style.setProperty('--tech-muted', colors.muted);
-    root.style.setProperty('--tech-primary', colors.primary);
-    root.style.setProperty('--tech-accent', colors.accent);
-    root.style.setProperty('--tech-border', colors.border);
-    root.style.setProperty('--tech-ring', colors.ring);
-    root.style.setProperty('--tech-text', colors.text);
-    root.style.setProperty('--tech-text-muted', colors.textMuted);
-    root.style.setProperty('--tech-glow', effects.glow);
-    root.style.setProperty('--tech-backdrop', effects.backdrop);
-
-    // 设置页面背景为科技风格渐变效果
-    document.body.style.background = `${mergedTheme.gradients.background}, ${colors.bg}`;
-
-    return () => {
-      // 组件卸载时清理CSS变量
-      const properties = [
-        '--tech-bg', '--tech-panel', '--tech-panel-2', '--tech-muted',
-        '--tech-primary', '--tech-accent', '--tech-border', '--tech-ring',
-        '--tech-text', '--tech-text-muted', '--tech-glow', '--tech-backdrop'
-      ];
-      properties.forEach(prop => root.style.removeProperty(prop));
+    return {
+      ...defaultTheme,
+      colors: { 
+        ...defaultTheme.colors, 
+        ...theme.colors 
+      },
+      effects: { 
+        ...defaultTheme.effects, 
+        ...theme.effects 
+      },
+      gradients: { 
+        ...defaultTheme.gradients, 
+        ...theme.gradients 
+      }
     };
-  }, [mergedTheme]);
+  }, [theme]);
+
+  // 使用useCallback优化CSS变量设置函数，减少不必要的函数重新创建
+  const applyCssVariables = useCallback((theme: TechTheme) => {
+    const root = document.documentElement;
+    const { colors, effects } = theme;
+    
+    // 批量设置CSS变量，提高性能
+    const cssVariables = {
+      '--tech-bg': colors.bg,
+      '--tech-panel': colors.panel,
+      '--tech-panel-2': colors.panel2,
+      '--tech-muted': colors.muted,
+      '--tech-primary': colors.primary,
+      '--tech-accent': colors.accent,
+      '--tech-border': colors.border,
+      '--tech-ring': colors.ring,
+      '--tech-text': colors.text,
+      '--tech-text-muted': colors.textMuted,
+      '--tech-glow': effects.glow,
+      '--tech-backdrop': effects.backdrop
+    };
+    
+    // 批量应用CSS变量
+    Object.entries(cssVariables).forEach(([property, value]) => {
+      root.style.setProperty(property, value);
+    });
+    
+    // 设置页面背景为科技风格渐变效果
+    document.body.style.background = `${theme.gradients.background}, ${colors.bg}`;
+  }, []);
+  
+  // 使用useCallback优化清理函数，避免每次渲染时重新创建
+  const cleanupCssVariables = useCallback(() => {
+    const root = document.documentElement;
+    const properties = [
+      '--tech-bg', '--tech-panel', '--tech-panel-2', '--tech-muted',
+      '--tech-primary', '--tech-accent', '--tech-border', '--tech-ring',
+      '--tech-text', '--tech-text-muted', '--tech-glow', '--tech-backdrop'
+    ];
+    properties.forEach(prop => root.style.removeProperty(prop));
+  }, []);
+  
+  useEffect(() => {
+    applyCssVariables(mergedTheme);
+    return cleanupCssVariables;
+  }, [mergedTheme, applyCssVariables, cleanupCssVariables]);
 
   return (
     <TechThemeContext.Provider value={mergedTheme}>
       {children}
     </TechThemeContext.Provider>
   );
-}
+});

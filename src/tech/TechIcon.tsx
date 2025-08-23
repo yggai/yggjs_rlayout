@@ -13,14 +13,15 @@
  * - 具有无障碍支持
  */
 
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import type { TechIconProps, TechIconName } from './types';
 
 /**
  * 图标路径数据映射
  * 存储所有可用图标的SVG路径数据
+ * 使用as const确保类型推导和不可变性
  */
-const iconPaths: Record<TechIconName, string> = {
+const iconPaths = {
   /** 菜单图标 - 三条水平线 */
   menu: "M3 6h18M3 12h18M3 18h18",
   /** 仪表盘图标 - 网格布局 */
@@ -57,6 +58,23 @@ const iconPaths: Record<TechIconName, string> = {
   profile: "M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z",
   /** 帮助图标 - 问号 */
   help: "M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"
+} as const satisfies Record<TechIconName, string>;
+
+/**
+ * 获取所有可用的图标名称
+ * @returns 图标名称数组
+ */
+export const getTechIconNames = (): TechIconName[] => {
+  return Object.keys(iconPaths) as TechIconName[];
+};
+
+/**
+ * 检查指定图标是否存在
+ * @param name 图标名称
+ * @returns 是否存在
+ */
+export const isTechIconExists = (name: string): name is TechIconName => {
+  return name in iconPaths;
 };
 
 /**
@@ -93,20 +111,42 @@ const iconPaths: Record<TechIconName, string> = {
  * </button>
  * ```
  */
-export function TechIcon({ 
+/**
+ * 科技风格图标组件
+ * 
+ * 渲染指定名称的SVG图标，支持自定义尺寸和样式
+ * 使用React.memo优化性能，只在props变化时重新渲染
+ */
+export const TechIcon = memo<TechIconProps>(function TechIcon({ 
   name, 
   size = 18, 
   className = '', 
   style = {} 
-}: TechIconProps) {
-  // 获取指定图标的路径数据
-  const path = iconPaths[name];
+}) {
+  // 使用useMemo优化路径查找和错误检查
+  const iconData = useMemo(() => {
+    const path = iconPaths[name];
+    
+    if (!path) {
+      // 在开发环境下输出警告
+      if (__DEV__) {
+        console.warn(`TechIcon: Unknown icon name "${name}". Available icons: ${getTechIconNames().join(', ')}`);
+      }
+      return null;
+    }
+    
+    return path;
+  }, [name]);
   
-  // 如果图标不存在，输出警告并返回null
-  if (!path) {
-    console.warn(`TechIcon: Unknown icon name "${name}"`);
+  // 如果图标不存在，返回null
+  if (!iconData) {
     return null;
   }
+
+  // 使用useMemo优化类名计算
+  const iconClassName = useMemo(() => {
+    return className ? `tech-icon ${className}` : 'tech-icon';
+  }, [className]);
 
   return (
     <svg 
@@ -114,15 +154,17 @@ export function TechIcon({
       height={size} 
       viewBox="0 0 24 24" 
       fill="none" 
-      stroke="currentColor" // 使用当前文本颜色作为描边颜色
-      strokeWidth="1.6" // 统一的描边宽度，保持线条一致性
-      strokeLinecap="round" // 圆角线帽，更加平滑
-      strokeLinejoin="round" // 圆角连接，更加平滑
-      className={`tech-icon ${className}`}
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={iconClassName}
       style={style}
-      aria-hidden="true" // 对屏幕阅读器隐藏，适用于装饰性图标
+      aria-hidden="true"
+      role="img"
+      data-testid={`tech-icon-${name}`}
     >
-      <path d={path} />
+      <path d={iconData} />
     </svg>
   );
-}
+});

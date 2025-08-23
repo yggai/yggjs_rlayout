@@ -33,3 +33,30 @@ declare module '*.module.css' {
   export default classes;
 }
 
+/**
+ * 扩展vitest的expect断言方法，支持@testing-library/jest-dom的自定义匹配器
+ * 解决TypeScript类型检查错误
+ */
+declare namespace Vi {
+  interface Assertion<T = any> {
+    /** 检查元素是否在DOM中存在 */
+    toBeInTheDocument(): void;
+    /** 检查元素是否具有指定的CSS样式 */
+    toHaveStyle(style: string | Record<string, any>): void;
+    /** 检查元素是否具有指定的属性 */
+    toHaveAttribute(attribute: string, value?: string): void;
+    /** 检查表单元素是否具有指定的值 */
+    toHaveValue(value: string | number): void;
+    /** 检查元素是否具有指定的CSS类 */
+    toHaveClass(className: string): void;
+    /** 检查元素是否被禁用 */
+    toBeDisabled(): void;
+  }
+}
+
+/**
+ * 全局开发环境标识符
+ * 用于条件编译和开发调试
+ */
+declare const __DEV__: boolean;
+

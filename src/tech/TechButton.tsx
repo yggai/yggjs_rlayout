@@ -13,7 +13,7 @@
  * - 平滑的过渡动画
  */
 
-import React from 'react';
+import React, { memo, useMemo, useCallback } from 'react';
 import type { TechIconName } from './types';
 import { TechIcon } from './TechIcon';
 import styles from './TechButton.module.css';
@@ -21,7 +21,7 @@ import styles from './TechButton.module.css';
 /**
  * 科技风格按钮组件的属性接口
  */
-export interface TechButtonProps {
+export interface TechButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'disabled' | 'style' | 'className'> {
   /** 按钮内容 */
   children?: React.ReactNode;
   /** 按钮视觉风格，默认为secondary */
@@ -36,14 +36,16 @@ export interface TechButtonProps {
   disabled?: boolean;
   /** 是否显示加载状态 */
   loading?: boolean;
-  /** 点击事件处理函数 */
-  onClick?: () => void;
+  /** 点击事件处理函数，传入原生事件对象 */
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   /** 额外的CSS类名 */
   className?: string;
   /** 自定义内联样式 */
   style?: React.CSSProperties;
   /** 无障碍标签，特别适用于仅图标按钮 */
   'aria-label'?: string;
+  /** 按钮类型，HTML原生属性 */
+  type?: 'button' | 'submit' | 'reset';
 }
 
 /**
@@ -85,7 +87,7 @@ export interface TechButtonProps {
  * </TechButton>
  * ```
  */
-export function TechButton({
+export const TechButton = memo<TechButtonProps>(function TechButton({
   children,
   variant = 'secondary',
   size = 'medium',
@@ -97,37 +99,55 @@ export function TechButton({
   className = '',
   style = {},
   'aria-label': ariaLabel,
+  type = 'button',
   ...props
-}: TechButtonProps) {
+}) {
 
-  // 构建按钮的CSS类名
-  const buttonClasses = [
-    styles.button, // 基础按钮样式
-    styles[variant], // 视觉风格样式
-    styles[size], // 尺寸样式
-    className, // 用户自定义类名
-  ].filter(Boolean).join(' ');
+  // 使用useMemo优化类名计算，只在依赖变化时重新计算
+  const buttonClasses = useMemo(() => [
+    styles.button,
+    styles[variant],
+    styles[size],
+    className,
+  ].filter(Boolean).join(' '), [variant, size, className]);
 
-  // 动态样式：根据图标和文本是否共存设置间距
-  const dynamicStyle: React.CSSProperties = {
-    gap: icon && !iconOnly ? '8px' : '0', // 有图标且非仅图标模式时设置间距
+  // 使用useMemo优化动态样式计算，避免每次渲染时重新创建对象
+  const dynamicStyle = useMemo((): React.CSSProperties => ({
+    gap: icon && !iconOnly ? '8px' : '0',
     ...style,
-  };
-
-  // 点击事件处理：检查按钮状态后执行回调
-  const handleClick = () => {
-    if (!disabled && !loading && onClick) {
-      onClick();
+  }), [icon, iconOnly, style]);
+  
+  // 使用useMemo优化图标尺寸计算
+  const iconSize = useMemo(() => {
+    switch (size) {
+      case 'small': return 14;
+      case 'large': return 18;
+      default: return 16;
     }
-  };
+  }, [size]);
+
+  // 使用useCallback优化点击事件处理函数，避免不必要的重新创建
+  const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    // 只在按钮可用且非加载状态时执行回调
+    if (!disabled && !loading && onClick) {
+      onClick(event);
+    }
+  }, [disabled, loading, onClick]);
+  
+  // 使用useMemo优化无障碍标签计算
+  const computedAriaLabel = useMemo(() => {
+    return ariaLabel || (iconOnly && icon ? `${icon} 按钮` : undefined);
+  }, [ariaLabel, iconOnly, icon]);
 
   return (
     <button
+      type={type}
       className={buttonClasses}
       style={dynamicStyle}
       onClick={handleClick}
-      disabled={disabled || loading} // 加载时也视为禁用
-      aria-label={ariaLabel || (iconOnly && icon ? icon : undefined)} // 仅图标按钮自动设置标签
+      disabled={disabled || loading}
+      aria-label={computedAriaLabel}
+      aria-busy={loading}
       {...props}
     >
       {loading ? (
@@ -135,12 +155,12 @@ export function TechButton({
         <div className={styles.loader} />
       ) : (
         <>
-          {/* 左侧图标：根据按钮尺寸调整图标大小 */}
-          {icon && <TechIcon name={icon} size={size === 'small' ? 14 : size === 'large' ? 18 : 16} />}
+          {/* 左侧图标：使用计算好的尺寸值 */}
+          {icon && <TechIcon name={icon} size={iconSize} />}
           {/* 按钮文本：仅图标模式下不显示 */}
           {!iconOnly && children}
         </>
       )}
     </button>
   );
-}
+});
