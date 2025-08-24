@@ -131,12 +131,12 @@ export function TechLayout({
   );
 
   // 使用useMemo优化样式对象计算
-  const layoutStyle = useMemo((): React.CSSProperties => ({
+  const layoutStyle = useMemo(() => ({
     ...style,
     '--sidebar-width': `${currentSidebarWidth}px`,
     '--header-height': `${headerHeight}px`,
     '--header-height-mobile': `${headerHeight + 8}px`,
-  }), [style, currentSidebarWidth, headerHeight]);
+  } as React.CSSProperties), [style, currentSidebarWidth, headerHeight]);
 
   // 使用useCallback优化侧边栏切换函数
   const handleToggleSidebar = useCallback(() => {

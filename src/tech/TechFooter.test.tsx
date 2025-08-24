@@ -412,7 +412,7 @@ describe('TechFooter', () => {
       expect(footer.textContent).not.toMatch(/v\d/);
       
       // 品牌和描述区域应该为空或不显示
-      expect(footer.querySelector('[class*="brand"]')).not.toHaveTextContent();
+      expect(footer.querySelector('[class*="brand"]')?.textContent || '').toBe('');
     });
   });
 

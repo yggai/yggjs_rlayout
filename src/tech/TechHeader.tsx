@@ -5,7 +5,6 @@
  * 具有响应式设计和科技感的视觉效果
  */
 
-import React from 'react';
 import { Header } from '../components/header';
 import { Container } from '../components/container';
 import { TechMenu, type TechMenuItem, type LinkLikeComponent } from './TechMenu';

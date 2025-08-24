@@ -5,7 +5,7 @@
  * 包含便捷的构建器类用于快速创建面包屑
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TechIcon } from './TechIcon';
 import type { TechIconName } from './types';
 import styles from './TechBreadcrumb.module.css';
@@ -41,7 +41,7 @@ export function TechBreadcrumb({
   className = '',
   style = {}
 }: TechBreadcrumbProps) {
-  const processedItems = React.useMemo(() => {
+  const processedItems = useMemo(() => {
     // 确保每个项目都有key属性
     const itemsWithKeys = items.map((item, index) => ({
       ...item,

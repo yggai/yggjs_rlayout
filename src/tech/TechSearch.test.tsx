@@ -610,7 +610,18 @@ describe('TechSearch', () => {
     it('应该与主题系统正确集成', () => {
       render(
         <TechThemeProvider theme={{
-          colors: { accent: '#custom-accent' }
+          colors: { 
+            bg: '#0a0f1e',
+            panel: '#0e1630',
+            panel2: '#0a1128',
+            muted: '#7c89bf',
+            primary: '#5aa2ff',
+            accent: '#custom-accent',
+            border: '#1b2550',
+            ring: '#2242a8',
+            text: '#cfe1ff',
+            textMuted: '#9ca3af'
+          }
         }}>
           <TechSearch placeholder="主题测试" />
         </TechThemeProvider>

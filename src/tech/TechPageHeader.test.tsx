@@ -247,8 +247,8 @@ describe('TechPageHeader', () => {
     it('应该正确区分字符串和数组类型的面包屑', () => {
       const stringBreadcrumb = '字符串面包屑';
       const arrayBreadcrumb: TechBreadcrumbItem[] = [
-        { label: '数组', href: '/' },
-        { label: '面包屑' }
+        { key: 'array', label: '数组', href: '/' },
+        { key: 'breadcrumb', label: '面包屑' }
       ];
       
       const { rerender } = renderPageHeader({ breadcrumb: stringBreadcrumb });
@@ -267,14 +267,13 @@ describe('TechPageHeader', () => {
     it('应该为数组面包屑传递breadcrumbProps', () => {
       const breadcrumbItems: TechBreadcrumbItem[] = [
         { key: 'home', label: '首页', href: '/' },
-        { label: '测试页' }
+        { key: 'test-page', label: '测试页' }
       ];
       
       renderPageHeader({ 
         breadcrumb: breadcrumbItems,
         breadcrumbProps: { 
-          separator: ' → ',
-          size: 'small'
+          separator: ' → '
         }
       });
       
@@ -364,7 +363,7 @@ describe('TechPageHeader', () => {
   describe('面包屑props传递', () => {
     it('应该正确传递breadcrumbProps到TechBreadcrumb组件', () => {
       const breadcrumbItems: TechBreadcrumbItem[] = [
-        { label: 'Props测试', href: '/' },
+        { key: 'props-test', label: 'Props测试', href: '/' },
         { key: 'current', label: '当前页' }
       ];
       
@@ -372,7 +371,6 @@ describe('TechPageHeader', () => {
         breadcrumb: breadcrumbItems,
         breadcrumbProps: {
           separator: ' | ',
-          size: 'large',
           className: 'custom-breadcrumb'
         }
       });
@@ -383,8 +381,8 @@ describe('TechPageHeader', () => {
 
     it('应该在没有breadcrumbProps时使用默认配置', () => {
       const breadcrumbItems: TechBreadcrumbItem[] = [
-        { label: '默认配置', href: '/' },
-        { label: '测试' }
+        { key: 'default-config', label: '默认配置', href: '/' },
+        { key: 'test', label: '测试' }
       ];
       
       renderPageHeader({ breadcrumb: breadcrumbItems });
@@ -397,9 +395,9 @@ describe('TechPageHeader', () => {
   describe('组合场景', () => {
     it('应该支持完整的页面头部配置', () => {
       const fullBreadcrumb: TechBreadcrumbItem[] = [
-        { label: '首页', href: '/', icon: 'home' },
+        { key: 'home', label: '首页', href: '/', icon: 'home' },
         { key: 'users', label: '用户管理', href: '/users' },
-        { label: '用户详情' }
+        { key: 'user-detail', label: '用户详情' }
       ];
       
       renderPageHeader({
@@ -541,14 +539,15 @@ describe('TechPageHeader', () => {
 
     it('应该优化面包屑渲染', () => {
       const largeBreadcrumb: TechBreadcrumbItem[] = Array.from({ length: 8 }, (_, i) => ({
+        key: `level-${i + 1}`,
         label: `级别${i + 1}`,
         href: i < 7 ? `/level${i + 1}` : undefined
       }));
       
       renderPageHeader({ breadcrumb: largeBreadcrumb });
       
-      largeBreadcrumb.forEach((item, index) => {
-        expect(screen.getByText(item.label)).toBeInTheDocument();
+      largeBreadcrumb.forEach((item) => {
+        expect(screen.getByText(item.label as string)).toBeInTheDocument();
       });
     });
   });
@@ -590,8 +589,8 @@ describe('TechPageHeader', () => {
       expect(screen.getByText('字符串面包屑')).toBeInTheDocument();
       
       const arrayBreadcrumb: TechBreadcrumbItem[] = [
-        { label: '动态', href: '/' },
-        { label: '切换' }
+        { key: 'dynamic', label: '动态', href: '/' },
+        { key: 'switch', label: '切换' }
       ];
       
       rerender(
@@ -636,14 +635,14 @@ describe('TechPageHeader', () => {
   describe('集成测试', () => {
     it('应该与TechBreadcrumb组件正确集成', () => {
       const breadcrumbItems: TechBreadcrumbItem[] = [
-        { label: '首页', href: '/', icon: 'home' },
-        { label: '用户管理', href: '/users', icon: 'user' },
-        { label: '用户详情', icon: 'user' }
+        { key: 'home-icon', label: '首页', href: '/', icon: 'home' },
+        { key: 'users-icon', label: '用户管理', href: '/users', icon: 'user' },
+        { key: 'user-detail-icon', label: '用户详情', icon: 'user' }
       ];
       
       renderPageHeader({ 
         breadcrumb: breadcrumbItems,
-        breadcrumbProps: { showIcons: true }
+        breadcrumbProps: { variant: 'icon' }
       });
       
       expect(screen.getByText('首页')).toBeInTheDocument();
@@ -653,8 +652,8 @@ describe('TechPageHeader', () => {
 
     it('应该正确处理面包屑组件的variant属性', () => {
       const breadcrumbItems: TechBreadcrumbItem[] = [
-        { label: 'Variant测试', href: '/' },
-        { label: '当前' }
+        { key: 'variant-test', label: 'Variant测试', href: '/' },
+        { key: 'current', label: '当前' }
       ];
       
       renderPageHeader({ 
@@ -671,7 +670,7 @@ describe('TechPageHeader', () => {
     it('应该正确传递面包屑的点击事件', () => {
       const mockClick = vi.fn();
       const breadcrumbItems: TechBreadcrumbItem[] = [
-        { label: '首页', onClick: mockClick },
+        { key: 'home', label: '首页', onClick: mockClick },
         { key: 'current', label: '当前页' }
       ];
       

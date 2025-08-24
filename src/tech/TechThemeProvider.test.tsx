@@ -48,9 +48,9 @@ describe('TechThemeProvider', () => {
     document.body.style.background = '';
     // 监听样式方法
     setPropertySpy = vi.spyOn(document.documentElement.style, 'setProperty');
-    removePropertySpy = vi.spyOn(document.documentElement.style, 'removeProperty');
+    removePropertySpy = vi.spyOn(document.documentElement.style, 'removeProperty') as any;
     // 监听body样式设置
-    bodyStyleSetterSpy = vi.spyOn(document.body.style, 'background', 'set');
+    bodyStyleSetterSpy = vi.spyOn(document.body.style, 'background', 'set') as any;
   });
 
   afterEach(() => {

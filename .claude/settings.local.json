@@ -21,9 +21,14 @@
       "Bash(npm run test:*)",
       "Bash(npx tsc:*)",
       "Bash(npx vitest run:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(npm run bundle:size:*)",
+      "Bash(dir:*)"
     ],
     "deny": [],
-    "ask": []
+    "ask": [],
+    "additionalDirectories": [
+      "D:\\d D:\\yggjs"
+    ]
   }
 }
