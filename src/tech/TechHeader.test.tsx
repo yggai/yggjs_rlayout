@@ -176,7 +176,7 @@ describe('TechHeader', () => {
         menuLinkComponent: MockLink
       });
       
-      expect(screen.getAllByTestId('mock-link')).toHaveLength(2); // dashboard和docs是叶子节点
+      expect(screen.getAllByTestId('mock-link')).toHaveLength(3); // dashboard, docs, 和profile(settings的子项)是叶子节点
     });
   });
 

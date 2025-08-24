@@ -368,7 +368,10 @@ describe('TechSearch', () => {
       renderSearch({ width: -100 });
       
       const searchContainer = screen.getByRole('searchbox').closest('div');
-      expect(searchContainer?.style.width).toBe('-100px');
+      
+      // 负数宽度是无效的CSS值，浏览器会忽略并重置为空字符串
+      // 这是正确的行为，我们应该测试这种情况
+      expect(searchContainer?.style.width).toBe('');
     });
 
     it('应该处理空字符串宽度', () => {

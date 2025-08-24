@@ -307,9 +307,14 @@ describe('TechFooter', () => {
     it('应该使用正确的容器配置', () => {
       const { container } = renderFooter();
       
-      // 验证Container组件的使用
-      const containerDiv = container.querySelector('[class*="container"]');
-      expect(containerDiv).toBeInTheDocument();
+      // 验证Container组件渲染出的div存在（Container组件本身不添加特定类名，只有内联样式）
+      const footerElement = container.querySelector('footer');
+      expect(footerElement).toBeInTheDocument();
+      
+      // 验证Container的样式特征（最大宽度和居中）
+      const footerChild = footerElement?.firstElementChild as HTMLElement;
+      expect(footerChild).toBeInTheDocument();
+      expect(footerChild).toHaveStyle({ maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto' });
     });
   });
 
@@ -402,7 +407,12 @@ describe('TechFooter', () => {
       
       // 空字符串应该不显示对应内容
       const footer = screen.getByRole('contentinfo');
-      expect(footer.textContent).not.toContain('v');
+      
+      // 版本信息不应该显示（不包含 "v1" 或类似的版本格式）
+      expect(footer.textContent).not.toMatch(/v\d/);
+      
+      // 品牌和描述区域应该为空或不显示
+      expect(footer.querySelector('[class*="brand"]')).not.toHaveTextContent();
     });
   });
 

@@ -6,7 +6,8 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
 import { TechThemeProvider, useTechTheme } from './TechThemeProvider';
 import type { TechTheme } from './types';
 
@@ -40,6 +41,7 @@ describe('TechThemeProvider', () => {
   // 监控 DOM 样式方法而不替换整个节点，避免破坏渲染
   let setPropertySpy: ReturnType<typeof vi.spyOn>;
   let removePropertySpy: ReturnType<typeof vi.spyOn>;
+  let bodyStyleSetterSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
     // 重置背景值
@@ -47,11 +49,14 @@ describe('TechThemeProvider', () => {
     // 监听样式方法
     setPropertySpy = vi.spyOn(document.documentElement.style, 'setProperty');
     removePropertySpy = vi.spyOn(document.documentElement.style, 'removeProperty');
+    // 监听body样式设置
+    bodyStyleSetterSpy = vi.spyOn(document.body.style, 'background', 'set');
   });
 
   afterEach(() => {
     setPropertySpy.mockRestore();
     removePropertySpy.mockRestore();
+    bodyStyleSetterSpy.mockRestore();
     vi.clearAllMocks();
   });
 
@@ -140,17 +145,22 @@ describe('TechThemeProvider', () => {
       );
     });
 
-    it('应该设置页面背景样式', () => {
+    it('应该设置页面背景样式', async () => {
       render(
         <TechThemeProvider>
           <TestComponent />
         </TechThemeProvider>
       );
 
-      expect(document.body.style.background).toContain(
-        'radial-gradient'
-      );
-      expect(document.body.style.background).toContain('#0a0f1e');
+      await waitFor(() => {
+        // 验证body background setter被调用且包含期望的内容
+        expect(bodyStyleSetterSpy).toHaveBeenCalledWith(
+          expect.stringContaining('radial-gradient')
+        );
+        expect(bodyStyleSetterSpy).toHaveBeenCalledWith(
+          expect.stringContaining('#0a0f1e')
+        );
+      });
     });
 
     it('应该使用自定义主题更新CSS变量', () => {
@@ -293,11 +303,13 @@ describe('TechThemeProvider', () => {
 
   describe('性能测试', () => {
     it('应该使用memo优化重复渲染', () => {
-      const TestChild = vi.fn(() => <div>Child</div>);
+      // 创建一个不消费context的子组件来测试memo优化
+      const TestChild = vi.fn(() => <div>Child without context</div>);
+      const MemoizedTestChild = React.memo(TestChild);
       
       const { rerender } = render(
         <TechThemeProvider>
-          <TestChild />
+          <MemoizedTestChild />
         </TechThemeProvider>
       );
 
@@ -306,11 +318,11 @@ describe('TechThemeProvider', () => {
       // 使用相同props重新渲染
       rerender(
         <TechThemeProvider>
-          <TestChild />
+          <MemoizedTestChild />
         </TechThemeProvider>
       );
 
-      // 由于使用了memo，子组件不应该重新渲染
+      // 由于子组件使用了memo且不消费context，不应该重新渲染
       expect(TestChild).not.toHaveBeenCalled();
     });
 

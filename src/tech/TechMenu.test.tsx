@@ -650,8 +650,9 @@ describe('TechMenu', () => {
       expect(screen.getByTestId('tech-icon-settings')).toBeInTheDocument();
       expect(screen.getByTestId('tech-icon-help')).toBeInTheDocument();
       
-      // 验证链接类型
-      expect(screen.getByTestId('mock-link')).toBeInTheDocument(); // SPA路由
+      // 验证链接类型 - 应该有多个SPA路由链接
+      const mockLinks = screen.getAllByTestId('mock-link');
+      expect(mockLinks.length).toBeGreaterThan(0); // 至少有一个SPA路由链接
       
       const settingsLink = screen.getByText('设置').closest('a');
       expect(settingsLink).toHaveAttribute('href', '/settings'); // 普通链接

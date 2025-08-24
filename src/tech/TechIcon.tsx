@@ -125,6 +125,13 @@ export const TechIcon = memo<TechIconProps>(function TechIcon({
 }) {
   // 使用useMemo优化路径查找和错误检查
   const iconData = useMemo(() => {
+    if (!name) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('TechIcon: Icon name is required');
+      }
+      return null;
+    }
+    
     const path = iconPaths[name];
     
     if (!path) {

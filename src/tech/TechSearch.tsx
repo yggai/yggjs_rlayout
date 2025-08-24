@@ -20,8 +20,8 @@ export const TechSearch = memo<TechSearchProps>(function TechSearch({
 }) {
   // 使用useMemo优化样式计算
   const combinedStyle = useMemo((): React.CSSProperties => ({
-    width: typeof width === 'number' ? `${width}px` : width,
-    ...style
+    ...style,
+    width: typeof width === 'number' ? `${width}px` : width  // width prop 优先级更高
   }), [width, style]);
 
   // 使用useMemo优化类名计算
