@@ -2,7 +2,6 @@ import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
 
 // 懒加载页面组件
-const App = lazy(() => import('../pages/App'));
 const TechLayoutDemo = lazy(() => import('../layouts/TechLayoutDemo'));
 const Dashboard = lazy(() => import('../pages/tech/Dashboard'));
 const Docs = lazy(() => import('../pages/tech/Docs'));

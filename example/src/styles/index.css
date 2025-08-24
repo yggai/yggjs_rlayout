@@ -1,3 +1,8 @@
+/* Import component styles */
+@import './components/app.css';
+@import './components/card.css';
+@import './components/loading.css';
+
 /* Global CSS Variables */
 :root {
   --bg: #0b1020; 
@@ -26,8 +31,3 @@ body {
   background: radial-gradient(70% 70% at 50% 0%, #0e1938 0%, #070b1a 100%);
   color: var(--text);
 }
-
-/* Import component styles */
-@import './components/app.css';
-@import './components/card.css';
-@import './components/loading.css';
