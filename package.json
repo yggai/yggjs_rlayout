@@ -10,54 +10,14 @@
   "types": "./src/index.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "require": "./src/index.ts"
     },
     "./tech": {
-      "types": "./dist/tech/index.d.ts",
-      "import": "./dist/tech/index.js",
-      "require": "./dist/tech/index.cjs"
-    },
-    "./tech/button": {
-      "types": "./dist/tech/button.d.ts",
-      "import": "./dist/tech/button.js",
-      "require": "./dist/tech/button.cjs"
-    },
-    "./tech/card": {
-      "types": "./dist/tech/card.d.ts",
-      "import": "./dist/tech/card.js",
-      "require": "./dist/tech/card.cjs"
-    },
-    "./tech/layout": {
-      "types": "./dist/tech/layout.d.ts",
-      "import": "./dist/tech/layout.js",
-      "require": "./dist/tech/layout.cjs"
-    },
-    "./tech/header": {
-      "types": "./dist/tech/header.d.ts",
-      "import": "./dist/tech/header.js",
-      "require": "./dist/tech/header.cjs"
-    },
-    "./tech/sidebar": {
-      "types": "./dist/tech/sidebar.d.ts",
-      "import": "./dist/tech/sidebar.js",
-      "require": "./dist/tech/sidebar.cjs"
-    },
-    "./tech/menu": {
-      "types": "./dist/tech/menu.d.ts",
-      "import": "./dist/tech/menu.js",
-      "require": "./dist/tech/menu.cjs"
-    },
-    "./tech/search": {
-      "types": "./dist/tech/search.d.ts",
-      "import": "./dist/tech/search.js",
-      "require": "./dist/tech/search.cjs"
-    },
-    "./tech/theme": {
-      "types": "./dist/tech/theme.d.ts",
-      "import": "./dist/tech/theme.js",
-      "require": "./dist/tech/theme.cjs"
+      "types": "./src/tech/index.ts",
+      "import": "./src/tech/index.ts",
+      "require": "./src/tech/index.ts"
     }
   },
   "files": [
