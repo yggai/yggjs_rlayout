@@ -1,0 +1,70 @@
+/* App Page Styles */
+.app {
+  padding: 24px;
+}
+
+.hero {
+  padding: 32px;
+  border: 1px solid #223066;
+  background: linear-gradient(135deg, rgba(47, 215, 255, 0.06), rgba(124, 77, 255, 0.06));
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  color: var(--primary);
+}
+
+.hero p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.routes ul {
+  padding-left: 18px;
+}
+
+.routes a {
+  color: var(--primary);
+}
+
+.page {
+  padding: 24px;
+}
+
+.panel {
+  margin: 16px 0;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid #1b2550;
+}
+
+.box {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--box);
+  border: 1px solid #1b2550;
+}
+
+.chip {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #2a3a7a;
+  background: #0e1630;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.chip.active {
+  background: linear-gradient(135deg, rgba(47, 215, 255, 0.18), rgba(124, 77, 255, 0.18));
+  border-color: #3a54b6;
+}

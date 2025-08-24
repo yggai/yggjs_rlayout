@@ -23,7 +23,8 @@
       "Bash(npx vitest run:*)",
       "Bash(node:*)",
       "Bash(npm run bundle:size:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(del \"D:\\yggjs\\yggjs_rlayout\\example\\src\\pages\\tech\\TechLayoutDemo.tsx\")"
     ],
     "deny": [],
     "ask": [],
